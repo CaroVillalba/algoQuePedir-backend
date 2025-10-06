@@ -1,1 +1,1 @@
-rootProject.name = "algo2_grupo_6"
+rootProject.name = "algo3_grupo_7"
