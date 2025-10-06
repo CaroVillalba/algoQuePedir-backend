@@ -25,7 +25,9 @@ jobs:
       - uses: gradle/actions/setup-gradle@v3
 
       - name: Execute tests with coverage
-        run: ./gradlew runOnGitHub
+        run: |
+          chmod +x gradlew
+          ./gradlew runOnGitHub
 
       - name: Generate JaCoCo Badge
         id: jacoco
