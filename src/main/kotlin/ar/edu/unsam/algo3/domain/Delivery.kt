@@ -1,4 +1,6 @@
-package ar.edu.unsam.algo2
+package ar.edu.unsam.algo3.domain
+import ar.edu.unsam.algo3.exceptions.PedidoInvalidoException
+import ar.edu.unsam.algo3.exceptions.PedidoStateException
 import org.uqbar.geodds.Polygon //Se agrega dependencia
 
 import java.time.LocalDate

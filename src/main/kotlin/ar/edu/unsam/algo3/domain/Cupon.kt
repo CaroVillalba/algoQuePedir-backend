@@ -1,5 +1,6 @@
-package ar.edu.unsam.algo2
+package ar.edu.unsam.algo3.domain
 
+import ar.edu.unsam.algo3.exceptions.CuponNoAplicacionException
 import java.time.DayOfWeek
 import java.time.LocalDate
 

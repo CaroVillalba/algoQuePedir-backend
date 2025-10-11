@@ -1,4 +1,4 @@
-package ar.edu.unsam.algo2
+package ar.edu.unsam.algo3.domain
 
 interface ClienteCommand {
     fun execute(cliente: Cliente)

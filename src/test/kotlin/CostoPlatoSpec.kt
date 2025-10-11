@@ -1,4 +1,9 @@
-import ar.edu.unsam.algo2.*
+import ar.edu.unsam.algo3.domain.Direccion
+import ar.edu.unsam.algo3.domain.GrupoAlimentos
+import ar.edu.unsam.algo3.domain.Ingrediente
+import ar.edu.unsam.algo3.domain.Local
+import ar.edu.unsam.algo3.domain.MedioDePago
+import ar.edu.unsam.algo3.domain.Plato
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import org.uqbar.geodds.Point

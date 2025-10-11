@@ -1,4 +1,10 @@
-import ar.edu.unsam.algo2.*
+import ar.edu.unsam.algo3.domain.AuditoriaMailSender
+import ar.edu.unsam.algo3.domain.DataIngrediente
+import ar.edu.unsam.algo3.domain.GrupoAlimentos
+import ar.edu.unsam.algo3.domain.Ingrediente
+import ar.edu.unsam.algo3.domain.IngredienteRepository
+import ar.edu.unsam.algo3.domain.ServiceIngredientes
+import ar.edu.unsam.algo3.domain.UpdaterIngredientes
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 
@@ -92,11 +98,13 @@ class UpdaterIngredientesSpec : DescribeSpec({
             itemRecienCreado?.id shouldBe 1
 
             // Inflacion de 10000% LOL
-            rIngredientes.update(Ingrediente(
-                nombre = "IngredienteAbstracto UUUUhhhhhh",
-                costo = 20050.0,
-                grupoAlimentos = GrupoAlimentos.PROTEINAS
-            ))
+            rIngredientes.update(
+                Ingrediente(
+                    nombre = "IngredienteAbstracto UUUUhhhhhh",
+                    costo = 20050.0,
+                    grupoAlimentos = GrupoAlimentos.PROTEINAS
+                )
+            )
             equalIngredientes(
                 ingrediente1,
                 rIngredientes.getById(1)!!

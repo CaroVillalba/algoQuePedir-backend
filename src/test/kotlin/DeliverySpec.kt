@@ -1,8 +1,29 @@
 import org.uqbar.geodds.*
-import ar.edu.unsam.algo2.*
+import ar.edu.unsam.algo3.domain.AuditoriaMailSender
+import ar.edu.unsam.algo3.domain.Cliente
+import ar.edu.unsam.algo3.domain.ClienteNormal
+import ar.edu.unsam.algo3.domain.CondicionAny
+import ar.edu.unsam.algo3.domain.CondicionEntrega
+import ar.edu.unsam.algo3.domain.CondicionLocalEspecifico
+import ar.edu.unsam.algo3.domain.CondicionMontoMinimo
+import ar.edu.unsam.algo3.domain.CondicionPedidoCertificado
+import ar.edu.unsam.algo3.domain.CondicionRangoHorario
+import ar.edu.unsam.algo3.domain.CuponBase
+import ar.edu.unsam.algo3.domain.Delivery
+import ar.edu.unsam.algo3.domain.Direccion
+import ar.edu.unsam.algo3.domain.EstadoPedido
+import ar.edu.unsam.algo3.domain.GrupoAlimentos
+import ar.edu.unsam.algo3.domain.Ingrediente
+import ar.edu.unsam.algo3.domain.Local
+import ar.edu.unsam.algo3.domain.MedioDePago
+import ar.edu.unsam.algo3.domain.Pedido
+import ar.edu.unsam.algo3.exceptions.PedidoInvalidoException
+import ar.edu.unsam.algo3.exceptions.PedidoStateException
+import ar.edu.unsam.algo3.domain.Plato
+import ar.edu.unsam.algo3.domain.PlatoRepository
+import ar.edu.unsam.algo3.domain.Valoracion
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldContain
-import io.kotest.matchers.collections.shouldNotContain
 import io.kotest.matchers.shouldBe
 import io.kotest.assertions.throwables.shouldThrow
 import java.time.LocalDate
@@ -38,9 +59,9 @@ class DeliverySpec : DescribeSpec({
             fechaRegistro = LocalDate.of(2020, 1, 1),
             "cliente@mail.com",
             direccion = Direccion(
-                calle="Calle Falsa",
-                altura="123",
-                coordenadas=Point(2,2)
+                calle = "Calle Falsa",
+                altura = "123",
+                coordenadas = Point(2, 2)
             ),
             ingredientesFavoritos = mutableSetOf(),
             ingredientesAEvitar = mutableSetOf(),
@@ -51,52 +72,60 @@ class DeliverySpec : DescribeSpec({
         local = Local(
             nombre = "Comida Rápida",
             direccion = Direccion(
-                calle="Calle",
-                altura="456",
-                coordenadas=Point(-1,-1)
+                calle = "Calle",
+                altura = "456",
+                coordenadas = Point(-1, -1)
             ),
             metodosDePago = mutableSetOf(MedioDePago.EFECTIVO, MedioDePago.CREDITO, MedioDePago.QR),
             valoraciones = mutableSetOf()
         )
 
         local.valoraciones = mutableSetOf(
-            Valoracion(cliente = cliente,
+            Valoracion(
+                cliente = cliente,
                 local = local,
                 puntuacion = 4.5
             ),
-            Valoracion(cliente = cliente,
+            Valoracion(
+                cliente = cliente,
                 local = local,
                 puntuacion = 5.0
             ),
-            Valoracion(cliente = cliente,
+            Valoracion(
+                cliente = cliente,
                 local = local,
                 puntuacion = 4.8
-            ))
+            )
+        )
 
         local2 = Local(
             nombre = "Comida Rápida2",
             direccion = Direccion(
-                calle="Calle2",
-                altura="4562",
-                coordenadas=Point(-1,-1)
+                calle = "Calle2",
+                altura = "4562",
+                coordenadas = Point(-1, -1)
             ),
             metodosDePago = mutableSetOf(MedioDePago.EFECTIVO, MedioDePago.CREDITO, MedioDePago.QR),
             valoraciones = mutableSetOf()
         )
 
         local2.valoraciones = mutableSetOf(
-            Valoracion(cliente = cliente,
+            Valoracion(
+                cliente = cliente,
                 local = local,
                 puntuacion = 1.0
             ),
-            Valoracion(cliente = cliente,
+            Valoracion(
+                cliente = cliente,
                 local = local,
                 puntuacion = 1.0
             ),
-            Valoracion(cliente = cliente,
+            Valoracion(
+                cliente = cliente,
                 local = local,
                 puntuacion = 1.0
-            ))
+            )
+        )
 
         ingrediente1 = Ingrediente("Carne", 120.0, GrupoAlimentos.PROTEINAS)
         ingrediente2 = Ingrediente("Tocino", 80.0, GrupoAlimentos.GRASAS_Y_ACEITES) //ejem, panceta
@@ -146,7 +175,7 @@ class DeliverySpec : DescribeSpec({
             username = "pedrolivery",
             password = "pass1234",
             fechaNacimiento = LocalDate.now().minusYears(30),
-            direccion = Direccion(calle = "Calle Entrega", altura = "789", coordenadas=Point(2, 2)),
+            direccion = Direccion(calle = "Calle Entrega", altura = "789", coordenadas = Point(2, 2)),
             zonaDeTrabajo = Polygon(
                 mutableListOf(
                     Point(-2, -2),
@@ -271,7 +300,7 @@ class DeliverySpec : DescribeSpec({
 
     describe("Condiciones delivery"){
         it ("Un delivery con condicion Rango horario solo acepta pedidos de dentro de su horario") {
-            condicionesList.add(CondicionRangoHorario(LocalTime.of(9,0),LocalTime.of(17,0)))
+            condicionesList.add(CondicionRangoHorario(LocalTime.of(9, 0), LocalTime.of(17, 0)))
             pedido.marcarComoPreparado()
             pedido.horaRetiro = LocalTime.of(14,0)
 
@@ -279,7 +308,7 @@ class DeliverySpec : DescribeSpec({
         }
 
         it ("Un delivery con condicion Rango horario NO acepta pedidos fuera de su horario") {
-            condicionesList.add(CondicionRangoHorario(LocalTime.of(9,0),LocalTime.of(17,0)))
+            condicionesList.add(CondicionRangoHorario(LocalTime.of(9, 0), LocalTime.of(17, 0)))
             pedido.marcarComoPreparado()
             pedido.horaRetiro = LocalTime.of(23,0)
 

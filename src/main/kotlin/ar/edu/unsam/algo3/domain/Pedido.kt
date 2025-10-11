@@ -1,5 +1,9 @@
-package ar.edu.unsam.algo2
+package ar.edu.unsam.algo3.domain
 
+import ar.edu.unsam.algo3.exceptions.AsignacionPedidoException
+import ar.edu.unsam.algo3.exceptions.MedioDePagoInvalidoException
+import ar.edu.unsam.algo3.exceptions.PedidoStateException
+import ar.edu.unsam.algo3.exceptions.PlatoInvalidoException
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
@@ -38,7 +42,7 @@ class Pedido(
             local: Local,
             medioDePago: MedioDePago,
 
-        ): Pedido {
+            ): Pedido {
             val platoRepository = RepositoryGlobal
             val mailSender = MailsenderGlobal
             var pedido = Pedido(cliente, plato, EstadoPedido.PENDIENTE, local, null, medioDePago)

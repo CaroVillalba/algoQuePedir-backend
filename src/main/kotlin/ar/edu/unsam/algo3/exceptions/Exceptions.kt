@@ -1,4 +1,4 @@
-package ar.edu.unsam.algo2
+package ar.edu.unsam.algo3.exceptions
 
 class PedidoInvalidoException(override var message: String): Exception() {
     /* Este Exception es para cuando el pedido usado no es aceptable */
@@ -13,3 +13,5 @@ class MedioDePagoInvalidoException(override var message: String): Exception()
 class AsignacionPedidoException(override var message: String): Exception()
 class ValoracionException(override var message: String): Exception()
 class CuponNoAplicacionException(override var message: String): Exception()
+
+class BusinessException(override var message: String): Exception()

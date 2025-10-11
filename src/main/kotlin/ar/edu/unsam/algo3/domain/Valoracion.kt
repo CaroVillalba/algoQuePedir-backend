@@ -1,9 +1,6 @@
-package ar.edu.unsam.algo2
-import ar.edu.unsam.algo2.Cliente
-import ar.edu.unsam.algo2.Local
+package ar.edu.unsam.algo3.domain
 import java.time.LocalDate
 import java.time.Period
-import java.time.temporal.ChronoUnit
 
 class ValoracionPendiente(
     val local : Local,

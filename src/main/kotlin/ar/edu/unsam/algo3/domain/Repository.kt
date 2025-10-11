@@ -1,9 +1,10 @@
-package ar.edu.unsam.algo2
+package ar.edu.unsam.algo3.domain
+import org.springframework.stereotype.Repository
 
 //Repositorio para cada una de las entidades
 //Deberia haber una entidad global de cada tipo de repositorio, y en este se deben
 //guardar todas las entidades disponibles.
-abstract class Repository<T: Entity> {
+abstract class InMemoryRepository<T: Entity> {
     val elements = mutableMapOf<Int, T>()
     var idDisponible = 1
 
@@ -34,7 +35,7 @@ open class Entity (
     var id: Int = 0
 )
 
-class ClienteRepository : Repository<Cliente>() {
+class ClienteRepository : InMemoryRepository<Cliente>() {
 
     fun buscarNombre(value: String): List<Cliente> =  elements.values.filter { cliente -> cliente.nombre.contains(value, ignoreCase = true)}
     fun buscarApellido(value: String): List<Cliente> = elements.values.filter { cliente ->cliente.apellido.contains(value, ignoreCase = true)}
@@ -46,7 +47,8 @@ class ClienteRepository : Repository<Cliente>() {
     }
 }
 
-class LocalRepository : Repository<Local>() {
+@Repository
+class LocalRepository : InMemoryRepository<Local>() {
     fun buscarNombre(value: String): List<Local> = elements.values.filter { local -> local.nombre.contains(value, ignoreCase = true)}
     fun buscarDireccion(value: String): List<Local> = elements.values.filter { local -> local.direccion.equals(value)}
 
@@ -55,19 +57,19 @@ class LocalRepository : Repository<Local>() {
     }
 }
 
-class DeliveryRepository : Repository<Delivery>() {
+class DeliveryRepository : InMemoryRepository<Delivery>() {
     override fun search(value: String): List<Delivery> {
         return elements.values.filter { delivery -> delivery.username.startsWith(value, ignoreCase = true)  }.toList()
     }
 
 }
-class IngredienteRepository : Repository<Ingrediente>() {
+class IngredienteRepository : InMemoryRepository<Ingrediente>() {
     override fun search(value: String): List<Ingrediente> {
         return elements.values.filter { ingrediente -> ingrediente.nombre.equals(value, ignoreCase = true) }.toList()
     }
 }
 
-open class PlatoRepository : Repository<Plato>() {
+open class PlatoRepository : InMemoryRepository<Plato>() {
 
     fun descripcionContiene(value: String): List<Plato> = elements.values.filter { plato -> plato.descripcion.contains(value, ignoreCase = true)}
     fun buscarNombreLocal(value: String): List<Plato> = elements.values.filter { plato -> plato.local.nombre.contains(value, ignoreCase = true) }
@@ -78,7 +80,7 @@ open class PlatoRepository : Repository<Plato>() {
     }
 }
 
-class CuponRepository : Repository<Cupon>() {
+class CuponRepository : InMemoryRepository<Cupon>() {
     override fun search(value: String): List<Cupon> {
         val porcentajeBuscado = value.toDouble()
         return elements.values.filter { cupon -> cupon.porcentajeBaseDescuento == (porcentajeBuscado) }.toList()

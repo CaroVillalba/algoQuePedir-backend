@@ -1,4 +1,22 @@
-import ar.edu.unsam.algo2.*
+import ar.edu.unsam.algo3.domain.AuditoriaMailSender
+import ar.edu.unsam.algo3.domain.Cliente
+import ar.edu.unsam.algo3.domain.ClienteNormal
+import ar.edu.unsam.algo3.domain.Cupon
+import ar.edu.unsam.algo3.domain.CuponBase
+import ar.edu.unsam.algo3.domain.CuponDiaEspecifico
+import ar.edu.unsam.algo3.domain.CuponLocalEspecifico
+import ar.edu.unsam.algo3.exceptions.CuponNoAplicacionException
+import ar.edu.unsam.algo3.domain.CuponTopeMaximo
+import ar.edu.unsam.algo3.domain.Direccion
+import ar.edu.unsam.algo3.domain.EstadoPedido
+import ar.edu.unsam.algo3.domain.GrupoAlimentos
+import ar.edu.unsam.algo3.domain.Ingrediente
+import ar.edu.unsam.algo3.domain.Local
+import ar.edu.unsam.algo3.domain.MedioDePago
+import ar.edu.unsam.algo3.domain.Pedido
+import ar.edu.unsam.algo3.domain.Plato
+import ar.edu.unsam.algo3.domain.PlatoRepository
+import ar.edu.unsam.algo3.domain.Valoracion
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
@@ -37,9 +55,9 @@ class CuponSpec : DescribeSpec({
             fechaRegistro = LocalDate.of(2020, 1, 1),
             "cliente@gmail.com",
             direccion = Direccion(
-                calle="Calle Falsa",
-                altura="123",
-                coordenadas=Point(2,2)
+                calle = "Calle Falsa",
+                altura = "123",
+                coordenadas = Point(2, 2)
             ),
             ingredientesFavoritos = mutableSetOf(),
             ingredientesAEvitar = mutableSetOf(),
@@ -56,24 +74,27 @@ class CuponSpec : DescribeSpec({
         local = Local(
             nombre = "Comida Rápida",
             direccion = Direccion(
-                calle="Calle",
-                altura="456",
-                coordenadas=Point(-1,-1)
+                calle = "Calle",
+                altura = "456",
+                coordenadas = Point(-1, -1)
             ),
             metodosDePago = mutableSetOf(MedioDePago.EFECTIVO, MedioDePago.CREDITO, MedioDePago.QR),
             valoraciones = mutableSetOf()
         )
 
         local.valoraciones = mutableSetOf(
-            Valoracion(cliente = cliente,
+            Valoracion(
+                cliente = cliente,
                 local = local,
                 puntuacion = 4.5
             ),
-            Valoracion(cliente = cliente,
+            Valoracion(
+                cliente = cliente,
                 local = local,
                 puntuacion = 5.0
             ),
-            Valoracion(cliente = cliente,
+            Valoracion(
+                cliente = cliente,
                 local = local,
                 puntuacion = 4.8
             )

@@ -1,4 +1,19 @@
-import ar.edu.unsam.algo2.*
+import ar.edu.unsam.algo3.domain.AuditoriaMailSender
+import ar.edu.unsam.algo3.domain.Cliente
+import ar.edu.unsam.algo3.domain.CrearPedidoClienteCommand
+import ar.edu.unsam.algo3.domain.Direccion
+import ar.edu.unsam.algo3.domain.GrupoAlimentos
+import ar.edu.unsam.algo3.domain.Ingrediente
+import ar.edu.unsam.algo3.domain.Local
+import ar.edu.unsam.algo3.domain.MailSender
+import ar.edu.unsam.algo3.domain.MedioDePago
+import ar.edu.unsam.algo3.domain.Plato
+import ar.edu.unsam.algo3.domain.PlatoRepository
+import ar.edu.unsam.algo3.domain.PuntuarFijoClienteCommandStrat
+import ar.edu.unsam.algo3.domain.PuntuarLocalesClienteCommand
+import ar.edu.unsam.algo3.domain.PuntuarPromedioClienteCommandStrat
+import ar.edu.unsam.algo3.domain.PuntuarRandomClienteCommandStrat
+import ar.edu.unsam.algo3.domain.ValoracionPendiente
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import java.time.LocalDate
@@ -19,15 +34,17 @@ class ClienteCommandSpec  : DescribeSpec ({
             platorepository = PlatoRepository()
             cliente = Cliente()
             local1 = Local(
-                "testLocal", Direccion(
+                "testLocal",
+                Direccion(
                     "testCalle",
                     "testAltura",
-                    Point(0,0)
+                    Point(0, 0)
                 ),
                 mutableSetOf(MedioDePago.EFECTIVO),
                 mutableSetOf(),
             )
-            ingrediente1 = Ingrediente(nombre = "Tomate", costo = 100.0, grupoAlimentos = GrupoAlimentos.FRUTAS_Y_VERDURAS)
+            ingrediente1 =
+                Ingrediente(nombre = "Tomate", costo = 100.0, grupoAlimentos = GrupoAlimentos.FRUTAS_Y_VERDURAS)
             plato = Plato(
                 nombre = "Pasta",
                 descripcion = "Un plato de pasta clásica y deliciosa",
@@ -48,14 +65,15 @@ class ClienteCommandSpec  : DescribeSpec ({
             )
 
              local2= Local(
-                "testLocal", Direccion(
-                    "testCalle",
-                    "testAltura",
-                    Point(0,0)
-                ),
-                mutableSetOf(MedioDePago.EFECTIVO),
-                valoraciones = mutableSetOf(),
-            )
+                 "testLocal",
+                 Direccion(
+                     "testCalle",
+                     "testAltura",
+                     Point(0, 0)
+                 ),
+                 mutableSetOf(MedioDePago.EFECTIVO),
+                 valoraciones = mutableSetOf(),
+             )
             cliente.crearValoracion(
                 ValoracionPendiente(
                     local2,
@@ -65,14 +83,15 @@ class ClienteCommandSpec  : DescribeSpec ({
             )
 
              local3 = Local(
-                "testLocal", Direccion(
-                    "testCalle",
-                    "testAltura",
-                    Point(0,0)
-                ),
-                mutableSetOf(MedioDePago.EFECTIVO),
-                valoraciones = mutableSetOf(),
-            )
+                 "testLocal",
+                 Direccion(
+                     "testCalle",
+                     "testAltura",
+                     Point(0, 0)
+                 ),
+                 mutableSetOf(MedioDePago.EFECTIVO),
+                 valoraciones = mutableSetOf(),
+             )
             cliente.crearValoracion(
                 ValoracionPendiente(
                     local3,

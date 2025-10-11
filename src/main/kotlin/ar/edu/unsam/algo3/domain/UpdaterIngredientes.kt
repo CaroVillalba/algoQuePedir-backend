@@ -1,6 +1,5 @@
-package ar.edu.unsam.algo2
+package ar.edu.unsam.algo3.domain
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 
 
 interface ServiceIngredientes{
@@ -25,7 +24,7 @@ class UpdaterIngredientes(
     fun getDataIngredientes(): List<DataIngrediente> {
         val gson = Gson()
         var json_data: String = service.getIngredientes()
-        val typeToken = object : TypeToken<List<DataIngrediente>>() {}.type
+        val typeToken = object : com.google.gson.reflect.TypeToken<List<DataIngrediente>>() {}.type
         var dataIngredientes = gson.fromJson<List<DataIngrediente>>(json_data, typeToken)
         return dataIngredientes
     }
@@ -35,18 +34,22 @@ class UpdaterIngredientes(
 
         dataIngredientes.forEach {
             if (repo.getById(it.id) == null) {
-                repo.create(Ingrediente(
+                repo.create(
+                    Ingrediente(
                         it.nombre,
                         it.costo,
                         GrupoAlimentos.valueOf(it.grupo)
-                ))
+                    )
+                )
             }
             else {
-                repo.update(Ingrediente(
-                    it.nombre,
-                    it.costo,
-                    GrupoAlimentos.valueOf(it.grupo),
-                ))
+                repo.update(
+                    Ingrediente(
+                        it.nombre,
+                        it.costo,
+                        GrupoAlimentos.valueOf(it.grupo),
+                    )
+                )
             }
         }
     }

@@ -1,5 +1,21 @@
 
-import ar.edu.unsam.algo2.*
+import ar.edu.unsam.algo3.domain.AuditoriaMailSender
+import ar.edu.unsam.algo3.domain.Cliente
+import ar.edu.unsam.algo3.domain.ClienteFiel
+import ar.edu.unsam.algo3.domain.Cupon
+import ar.edu.unsam.algo3.domain.CuponBase
+import ar.edu.unsam.algo3.domain.Direccion
+import ar.edu.unsam.algo3.domain.EstadoPedido
+import ar.edu.unsam.algo3.domain.GrupoAlimentos
+import ar.edu.unsam.algo3.domain.Ingrediente
+import ar.edu.unsam.algo3.domain.Local
+import ar.edu.unsam.algo3.domain.MedioDePago
+import ar.edu.unsam.algo3.exceptions.MedioDePagoInvalidoException
+import ar.edu.unsam.algo3.domain.Pedido
+import ar.edu.unsam.algo3.domain.Plato
+import ar.edu.unsam.algo3.exceptions.PlatoInvalidoException
+import ar.edu.unsam.algo3.domain.PlatoRepository
+import ar.edu.unsam.algo3.domain.Valoracion
 import org.uqbar.geodds.Point
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -29,9 +45,9 @@ class PedidoSpec {
         local = Local(
             nombre = "Comida Rápida",
             direccion = Direccion(
-                calle="Calle Falsa",
-                altura="123",
-                coordenadas = Point(2,2)
+                calle = "Calle Falsa",
+                altura = "123",
+                coordenadas = Point(2, 2)
             ),
             metodosDePago = mutableSetOf(MedioDePago.EFECTIVO, MedioDePago.CREDITO, MedioDePago.QR),
             valoraciones = mutableSetOf()
@@ -40,9 +56,9 @@ class PedidoSpec {
         localOtro = Local(
             nombre = "Otra Comida Rápida",
             direccion = Direccion(
-                calle="Otra Calle Falsa",
-                altura="Otra 123",
-                coordenadas = Point(2,2)
+                calle = "Otra Calle Falsa",
+                altura = "Otra 123",
+                coordenadas = Point(2, 2)
             ),
 
             metodosDePago = mutableSetOf(MedioDePago.EFECTIVO, MedioDePago.CREDITO, MedioDePago.QR),
@@ -50,7 +66,8 @@ class PedidoSpec {
         )
         platoRepository = PlatoRepository()
         ingrediente1 = Ingrediente(nombre = "Tomate", costo = 100.0, grupoAlimentos = GrupoAlimentos.FRUTAS_Y_VERDURAS)
-        ingrediente2 = Ingrediente(nombre = "Harina", costo = 500.0, grupoAlimentos = GrupoAlimentos.CEREALES_Y_TUBERCULOS)
+        ingrediente2 =
+            Ingrediente(nombre = "Harina", costo = 500.0, grupoAlimentos = GrupoAlimentos.CEREALES_Y_TUBERCULOS)
         ingrediente3 = Ingrediente(nombre = "Queso", costo = 80.0, grupoAlimentos = GrupoAlimentos.LACTEOS)
         ingrediente4 = Ingrediente(nombre = "Aceite", costo = 120.0, grupoAlimentos = GrupoAlimentos.GRASAS_Y_ACEITES)
         ingrediente5 = Ingrediente(nombre = "Lechuga", costo = 110.0, grupoAlimentos = GrupoAlimentos.FRUTAS_Y_VERDURAS)
@@ -76,15 +93,18 @@ class PedidoSpec {
 
         //Setea las valoraciones luego de que cliente y local se inicializen
         local.valoraciones = mutableSetOf(
-            Valoracion(cliente = cliente,
+            Valoracion(
+                cliente = cliente,
                 local = local,
                 puntuacion = 4.5
             ),
-            Valoracion(cliente = cliente,
+            Valoracion(
+                cliente = cliente,
                 local = local,
                 puntuacion = 5.0
             ),
-            Valoracion(cliente = cliente,
+            Valoracion(
+                cliente = cliente,
                 local = local,
                 puntuacion = 4.8
             )
@@ -251,15 +271,18 @@ class PedidoSpec {
                 coordenadas = Point(-2, -8)
             ),
             valoraciones = mutableSetOf(
-                Valoracion(cliente = cliente,
+                Valoracion(
+                    cliente = cliente,
                     local = local,
                     puntuacion = 3.0
                 ),
-                Valoracion(cliente = cliente,
+                Valoracion(
+                    cliente = cliente,
                     local = local,
                     puntuacion = 3.5
                 ),
-                Valoracion(cliente = cliente,
+                Valoracion(
+                    cliente = cliente,
                     local = local,
                     puntuacion = 2.5
                 ),
