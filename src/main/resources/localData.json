@@ -1,0 +1,13 @@
+{
+  "nombre" : "Unsam - Tornavías",
+  "imgURL" : "https://picsum.photos/400/300",
+  "direccion" : {
+    "calle" : "San Martín",
+    "altura" : "2345",
+    "lat" : -31.3,
+    "lon" : -66.96
+  },
+  "comisionApp" : 30,
+  "comisionAutor" : 10,
+  "metodosDePago" : [ "qr", "transferencia" ]
+}

@@ -22,6 +22,7 @@ repositories {
 
 dependencies {
     val kotestVersion = "5.8.0"
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.1")
 
     // básicos de cualquier proyecto Spring Boot
     implementation("org.springframework.boot:spring-boot-starter-web")

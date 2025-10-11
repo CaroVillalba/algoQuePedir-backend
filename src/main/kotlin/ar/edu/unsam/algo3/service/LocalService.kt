@@ -30,7 +30,6 @@ class LocalService(private val localRepository: LocalRepository) {
             altura = dto.direccion.altura,
             coordenadas = Point(dto.direccion.lat, dto.direccion.lon)
         )
-
         local.metodosDePago = dto.metodosDePago.map { nombre ->
             try {
                 MedioDePago.valueOf(nombre.uppercase())
@@ -41,8 +40,17 @@ class LocalService(private val localRepository: LocalRepository) {
 
         localRepository.update(local)
 
+        try {
+            val mapper = com.fasterxml.jackson.module.kotlin.jacksonObjectMapper()
+            val file = java.io.File("src/main/resources/localData.json")
+            mapper.writerWithDefaultPrettyPrinter().writeValue(file, local.toDTO())
+        } catch (e: Exception) {
+            throw BusinessException("Error al guardar Local en JSON: ${e.message}")
+        }
+
         return local.toDTO()
     }
+
 }
 
 fun Local.toDTO() = LocalAccountDTO(

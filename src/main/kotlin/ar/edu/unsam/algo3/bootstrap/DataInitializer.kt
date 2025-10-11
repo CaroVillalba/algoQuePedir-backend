@@ -1,37 +1,44 @@
 package ar.edu.unsam.algo3.bootstrap
 
 import ar.edu.unsam.algo3.domain.*
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import ar.edu.unsam.algo3.dto.LocalAccountDTO
 import jakarta.annotation.PostConstruct
 import org.springframework.stereotype.Component
 import org.uqbar.geodds.Point
+import java.io.File
 import java.time.LocalDate
-import kotlin.math.cos
 
 @Component
 class DataInitializer(
     private val localRepository: LocalRepository,
     private val platoRepository: PlatoRepository,
 ) {
+    private val mapper = jacksonObjectMapper()
 
     @PostConstruct
     fun init() {
+        val file = File("src/main/resources/localData.json")
+        val localDTO = mapper.readValue<LocalAccountDTO>(file)
+
         val local = Local(
-            nombre = "UNSAM - Tornavías",
-            imgURL = "https://picsum.photos/id/237/400/300",
+            nombre = localDTO.nombre,
+            imgURL = localDTO.imgURL,
             direccion = Direccion(
-                calle = "San Martín",
-                altura = "1234",
-                coordenadas = Point(-34.6, -58.45)
+                calle = localDTO.direccion.calle,
+                altura = localDTO.direccion.altura,
+                coordenadas = Point(localDTO.direccion.lat, localDTO.direccion.lon)
             ),
-            comisionApp = 30,
-            comisionAutor = 10,
-            metodosDePago = mutableSetOf(MedioDePago.EFECTIVO, MedioDePago.QR),
+            comisionApp = localDTO.comisionApp,
+            comisionAutor = localDTO.comisionAutor,
+            metodosDePago = localDTO.metodosDePago.map { MedioDePago.valueOf(it.uppercase()) }.toMutableSet(),
             valoraciones = mutableSetOf()
         )
 
         localRepository.create(local)
 
-        println("✅ Local inicial cargado: ${local.nombre} con id ${local.id}")
+        println("✅ Local cargado desde JSON: ${local.nombre}")
 
         // ------------------------------------------------------------------
         val ingrediente1 = Ingrediente(
