@@ -28,6 +28,8 @@ abstract class InMemoryRepository<T: Entity> {
 
     fun getSize(): Int = elements.size
 
+    fun getAll(): List<T> = elements.values.toList()
+
     abstract fun search(value: String): List<T>
 }
 
