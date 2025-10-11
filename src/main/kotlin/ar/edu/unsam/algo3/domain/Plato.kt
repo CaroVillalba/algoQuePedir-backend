@@ -3,6 +3,7 @@ import java.time.Duration
 import java.time.LocalDate
 
 class Plato(
+    var imageURL: String,
     var nombre: String,
     var descripcion: String,
     var ingredientes: List<Ingrediente>,
@@ -11,7 +12,7 @@ class Plato(
     var lanzamiento: LocalDate,
     var regaliasAutor: Double,
     var valorBase: Double,
-    var descuento: Double  //valor fijo, no porcentual
+    var descuento: Double,  //valor fijo, no porcentual
 ): Entity() {
     //calcula el costo
     fun costoDeIngredientes(): Double = ingredientes.sumOf { it.costo }
