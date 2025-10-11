@@ -22,6 +22,8 @@ abstract class InMemoryRepository<T: Entity> {
         elements[item.id] = item
     }
 
+    fun getAll(): List<T> = elements.values.toList()
+
     fun getById(id: Int): T? = elements[id]
 
     fun getIds(): List<Int> = elements.keys.toList()
@@ -34,7 +36,7 @@ abstract class InMemoryRepository<T: Entity> {
 open class Entity (
     var id: Int = 0
 )
-
+@Repository
 class ClienteRepository : InMemoryRepository<Cliente>() {
 
     fun buscarNombre(value: String): List<Cliente> =  elements.values.filter { cliente -> cliente.nombre.contains(value, ignoreCase = true)}
@@ -56,19 +58,20 @@ class LocalRepository : InMemoryRepository<Local>() {
         return (buscarNombre(value) + buscarDireccion(value)).distinct()
     }
 }
-
+@Repository
 class DeliveryRepository : InMemoryRepository<Delivery>() {
     override fun search(value: String): List<Delivery> {
         return elements.values.filter { delivery -> delivery.username.startsWith(value, ignoreCase = true)  }.toList()
     }
 
 }
+@Repository
 class IngredienteRepository : InMemoryRepository<Ingrediente>() {
     override fun search(value: String): List<Ingrediente> {
         return elements.values.filter { ingrediente -> ingrediente.nombre.equals(value, ignoreCase = true) }.toList()
     }
 }
-
+@Repository
 open class PlatoRepository : InMemoryRepository<Plato>() {
 
     fun descripcionContiene(value: String): List<Plato> = elements.values.filter { plato -> plato.descripcion.contains(value, ignoreCase = true)}
@@ -79,7 +82,7 @@ open class PlatoRepository : InMemoryRepository<Plato>() {
         return (descripcionContiene(value) + buscarNombreLocal(value) + buscarDireccionLocal(value)).distinct()
     }
 }
-
+@Repository
 class CuponRepository : InMemoryRepository<Cupon>() {
     override fun search(value: String): List<Cupon> {
         val porcentajeBuscado = value.toDouble()
