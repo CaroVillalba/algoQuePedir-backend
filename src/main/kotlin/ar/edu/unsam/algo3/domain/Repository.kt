@@ -22,13 +22,13 @@ abstract class InMemoryRepository<T: Entity> {
         elements[item.id] = item
     }
 
-    fun getAll(): List<T> = elements.values.toList()
-
     fun getById(id: Int): T? = elements[id]
 
     fun getIds(): List<Int> = elements.keys.toList()
 
     fun getSize(): Int = elements.size
+
+    fun getAll(): List<T> = elements.values.toList()
 
     abstract fun search(value: String): List<T>
 }
@@ -36,6 +36,7 @@ abstract class InMemoryRepository<T: Entity> {
 open class Entity (
     var id: Int = 0
 )
+
 @Repository
 class ClienteRepository : InMemoryRepository<Cliente>() {
 
