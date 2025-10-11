@@ -35,6 +35,7 @@ open class Entity (
     var id: Int = 0
 )
 
+@Repository
 class ClienteRepository : InMemoryRepository<Cliente>() {
 
     fun buscarNombre(value: String): List<Cliente> =  elements.values.filter { cliente -> cliente.nombre.contains(value, ignoreCase = true)}
@@ -85,4 +86,5 @@ class CuponRepository : InMemoryRepository<Cupon>() {
         val porcentajeBuscado = value.toDouble()
         return elements.values.filter { cupon -> cupon.porcentajeBaseDescuento == (porcentajeBuscado) }.toList()
     }
+
 }
