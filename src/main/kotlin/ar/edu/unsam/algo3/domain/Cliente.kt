@@ -1,4 +1,5 @@
-package ar.edu.unsam.algo2
+package ar.edu.unsam.algo3.domain
+import ar.edu.unsam.algo3.exceptions.ValoracionException
 import org.uqbar.geodds.Point
 import java.time.LocalDate
 
@@ -10,7 +11,7 @@ class Cliente (
     fechaNacimiento: LocalDate = LocalDate.now(),
     fechaRegistro: LocalDate = LocalDate.now(),
     mail: String = "",
-    var direccion: Direccion = Direccion("", "", Point(0,0)),
+    var direccion: Direccion = Direccion("", "", Point(0, 0)),
     val ingredientesFavoritos: MutableSet<Ingrediente> = mutableSetOf(),
     val ingredientesAEvitar: MutableSet<Ingrediente> = mutableSetOf(),
     var distanciaCercana: Double = 5.0,
@@ -25,7 +26,7 @@ class Cliente (
         local: Local,
         medioDePago: MedioDePago
     ) {
-        Pedido.crearPedido(
+        Pedido.Companion.crearPedido(
             this,
             platos,
             local,
@@ -51,7 +52,7 @@ class Cliente (
         return tipoDeCliente.esPlatoAdecuado(plato, this) && validarIngredientes(plato)
     }
 
-    fun crearValoracion(valoracionPendiente: ValoracionPendiente,valor: Double){
+    fun crearValoracion(valoracionPendiente: ValoracionPendiente, valor: Double){
         if (!valoracionPendiente.puedePuntuar()) {
             throw ValoracionException("No se puede puntuar este local. Ha expirado el plazo.")
         }

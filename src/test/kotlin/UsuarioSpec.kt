@@ -1,4 +1,9 @@
-import ar.edu.unsam.algo2.*
+import ar.edu.unsam.algo3.domain.Cliente
+import ar.edu.unsam.algo3.domain.ClienteNormal
+import ar.edu.unsam.algo3.domain.Direccion
+import ar.edu.unsam.algo3.domain.GrupoAlimentos
+import ar.edu.unsam.algo3.domain.Ingrediente
+import ar.edu.unsam.algo3.domain.Usuario
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -14,7 +19,7 @@ class UsuarioSpec {
     @BeforeEach
     fun setUp() {
         ingrediente1 = Ingrediente("Tomate", 100.0, grupoAlimentos = GrupoAlimentos.FRUTAS_Y_VERDURAS)
-        ingrediente2 = Ingrediente("Carne", 500.0,  grupoAlimentos = GrupoAlimentos.PROTEINAS)
+        ingrediente2 = Ingrediente("Carne", 500.0, grupoAlimentos = GrupoAlimentos.PROTEINAS)
         ingrediente3 = Ingrediente("Lechuga", 80.0, grupoAlimentos = GrupoAlimentos.FRUTAS_Y_VERDURAS)
 
         usuario = Cliente(

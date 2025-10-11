@@ -1,5 +1,27 @@
 package ar.edu.unsam.algo2
 
+import ar.edu.unsam.algo3.domain.AuditorDeLocales
+import ar.edu.unsam.algo3.domain.Cliente
+import ar.edu.unsam.algo3.domain.ClienteAllTipos
+import ar.edu.unsam.algo3.domain.ClienteNormal
+import ar.edu.unsam.algo3.domain.ClienteVegano
+import ar.edu.unsam.algo3.domain.Combinado
+import ar.edu.unsam.algo3.domain.Direccion
+import ar.edu.unsam.algo3.domain.GrupoAlimentos
+import ar.edu.unsam.algo3.domain.Inbox
+import ar.edu.unsam.algo3.domain.Ingrediente
+import ar.edu.unsam.algo3.domain.LlegaMeta
+import ar.edu.unsam.algo3.domain.LlegaMonto
+import ar.edu.unsam.algo3.domain.LlegaVentas
+import ar.edu.unsam.algo3.domain.Local
+import ar.edu.unsam.algo3.domain.MailSender
+import ar.edu.unsam.algo3.domain.MailsenderGlobal
+import ar.edu.unsam.algo3.domain.MedioDePago
+import ar.edu.unsam.algo3.domain.Pedido
+import ar.edu.unsam.algo3.domain.Plato
+import ar.edu.unsam.algo3.domain.PlatoRepository
+import ar.edu.unsam.algo3.domain.RepositoryGlobal
+import ar.edu.unsam.algo3.domain.Valoracion
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain

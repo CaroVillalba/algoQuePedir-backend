@@ -1,5 +1,21 @@
-import ar.edu.unsam.algo2.*
-import ar.edu.unsam.algo2.Direccion
+import ar.edu.unsam.algo3.domain.Direccion
+import ar.edu.unsam.algo3.domain.ActualizarIngredientesProceso
+import ar.edu.unsam.algo3.domain.Administrador
+import ar.edu.unsam.algo3.domain.AgregarLocales
+import ar.edu.unsam.algo3.domain.AuditoriaMailSender
+import ar.edu.unsam.algo3.domain.BorrarCuponesVencidosProceso
+import ar.edu.unsam.algo3.domain.BorrarMensajesLeidos
+import ar.edu.unsam.algo3.domain.CuponRepository
+import ar.edu.unsam.algo3.domain.CuponTopeMaximo
+import ar.edu.unsam.algo3.domain.Inbox
+import ar.edu.unsam.algo3.domain.IngredienteRepository
+import ar.edu.unsam.algo3.domain.Local
+import ar.edu.unsam.algo3.domain.LocalRepository
+import ar.edu.unsam.algo3.domain.MailSender
+import ar.edu.unsam.algo3.domain.MedioDePago
+import ar.edu.unsam.algo3.domain.Mensaje
+import ar.edu.unsam.algo3.domain.ServiceIngredientes
+import ar.edu.unsam.algo3.domain.UpdaterIngredientes
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.*
 import org.uqbar.geodds.Point
@@ -86,14 +102,16 @@ class ProcesosDeAdministracionSpec : DescribeSpec ({
 
         describe("Proceso de borrado de cupones") {
             it("debe borrar cupones vencidos") {
-                cuponRepository.create(CuponTopeMaximo(
-                    LocalDate.now().minusYears(1),
-                    30,
-                    0.5,
-                    false,
-                    5000.0,
-                    0.0
-                ))
+                cuponRepository.create(
+                    CuponTopeMaximo(
+                        LocalDate.now().minusYears(1),
+                        30,
+                        0.5,
+                        false,
+                        5000.0,
+                        0.0
+                    )
+                )
 
                 admin.addProceso(BorrarCuponesVencidosProceso(cuponRepository, mailSender))
                 admin.executeProcesos()
@@ -107,14 +125,15 @@ class ProcesosDeAdministracionSpec : DescribeSpec ({
 
             it("No hay cupones expirados?"){
                 repeat(10) {
-                    cuponRepository.create(CuponTopeMaximo(
-                        LocalDate.now(),
-                        30,
-                        0.5,
-                        false,
-                        5000.0,
-                        0.0
-                    )
+                    cuponRepository.create(
+                        CuponTopeMaximo(
+                            LocalDate.now(),
+                            30,
+                            0.5,
+                            false,
+                            5000.0,
+                            0.0
+                        )
                     )
                 }
 
@@ -137,8 +156,18 @@ class ProcesosDeAdministracionSpec : DescribeSpec ({
             it("debe agregar locales correctamente") {
                 val localRepository = LocalRepository()
                 val locales = listOf(
-                    Local("Local 1", direccion = Direccion("Calle 1", "123", Point(-3,-3)), mutableSetOf(MedioDePago.EFECTIVO), mutableSetOf()),
-                    Local("Local 2", direccion = Direccion("Calle 2", "456", Point(2,2)), mutableSetOf(MedioDePago.EFECTIVO), mutableSetOf())
+                    Local(
+                        "Local 1",
+                        direccion = Direccion("Calle 1", "123", Point(-3, -3)),
+                        mutableSetOf(MedioDePago.EFECTIVO),
+                        mutableSetOf()
+                    ),
+                    Local(
+                        "Local 2",
+                        direccion = Direccion("Calle 2", "456", Point(2, 2)),
+                        mutableSetOf(MedioDePago.EFECTIVO),
+                        mutableSetOf()
+                    )
                 )
 
                 admin.addProceso(AgregarLocales(localRepository, locales, mailSender))

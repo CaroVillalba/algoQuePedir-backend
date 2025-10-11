@@ -1,5 +1,9 @@
 import org.uqbar.geodds.*
-import ar.edu.unsam.algo2.*
+import ar.edu.unsam.algo3.domain.Cliente
+import ar.edu.unsam.algo3.domain.ClienteNormal
+import ar.edu.unsam.algo3.domain.Direccion
+import ar.edu.unsam.algo3.domain.GrupoAlimentos
+import ar.edu.unsam.algo3.domain.Ingrediente
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import java.time.LocalDate
@@ -23,7 +27,7 @@ class ValidarIngredientesSpec : DescribeSpec({
                 direccion = Direccion(
                     calle = "Calle Siempre Viva ",
                     altura = "742",
-                    coordenadas = Point(8,6)
+                    coordenadas = Point(8, 6)
                 ),
                 fechaNacimiento = LocalDate.of(1995, 5, 10),
                 fechaRegistro = LocalDate.now(),

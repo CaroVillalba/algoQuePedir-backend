@@ -1,4 +1,4 @@
-package ar.edu.unsam.algo2
+package ar.edu.unsam.algo3.domain
 
 enum class GrupoAlimentos(open val esDeOrigenAnimal: Boolean) {
     CEREALES_Y_TUBERCULOS(false),

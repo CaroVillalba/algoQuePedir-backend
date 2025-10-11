@@ -1,4 +1,4 @@
-package ar.edu.unsam.algo2
+package ar.edu.unsam.algo3.domain
 
 interface MailSender {
     fun enviarCorreo(destinatario: String, asunto: String, cuerpo: String)

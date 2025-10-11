@@ -1,5 +1,29 @@
 package ar.edu.unsam.algo2
 
+import ar.edu.unsam.algo3.domain.AuditoriaMailSender
+import ar.edu.unsam.algo3.domain.Cliente
+import ar.edu.unsam.algo3.domain.ClienteConservador
+import ar.edu.unsam.algo3.domain.ClienteExquisito
+import ar.edu.unsam.algo3.domain.ClienteFiel
+import ar.edu.unsam.algo3.domain.ClienteImpaciente
+import ar.edu.unsam.algo3.domain.ClienteMarketing
+import ar.edu.unsam.algo3.domain.ClienteNormal
+import ar.edu.unsam.algo3.domain.ClienteRaro
+import ar.edu.unsam.algo3.domain.ClienteVegano
+import ar.edu.unsam.algo3.domain.CondicionAny
+import ar.edu.unsam.algo3.domain.Delivery
+import ar.edu.unsam.algo3.domain.Direccion
+import ar.edu.unsam.algo3.domain.EnviaMailPlatos
+import ar.edu.unsam.algo3.domain.EstadoPedido
+import ar.edu.unsam.algo3.domain.GrupoAlimentos
+import ar.edu.unsam.algo3.domain.Ingrediente
+import ar.edu.unsam.algo3.domain.Local
+import ar.edu.unsam.algo3.domain.MedioDePago
+import ar.edu.unsam.algo3.domain.Pedido
+import ar.edu.unsam.algo3.domain.Plato
+import ar.edu.unsam.algo3.domain.PlatoRepository
+import ar.edu.unsam.algo3.exceptions.ValoracionException
+import ar.edu.unsam.algo3.domain.ValoracionPendiente
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
@@ -28,7 +52,7 @@ class ClienteSpec: DescribeSpec ({
             direccion = Direccion(
                 calle = "Calle Siempre Viva ",
                 altura = "742",
-                coordenadas = Point(0,0)
+                coordenadas = Point(0, 0)
             )
         )
 
@@ -61,7 +85,7 @@ class ClienteSpec: DescribeSpec ({
             ),
             local = local,
             porcentajeAcordadoConLocal = 0.0,
-            lanzamiento = java.time.LocalDate.now(),
+            lanzamiento = LocalDate.now(),
             regaliasAutor = 0.0,
             valorBase = 0.0,
             descuento = 0.0
@@ -92,7 +116,7 @@ class ClienteSpec: DescribeSpec ({
             fechaNacimiento = LocalDate.now().minusYears(30),
             username = "pedrolivery",
             password = "pass1234",
-            direccion = Direccion(calle = "Calle Entrega", altura = "789", coordenadas=Point(2, 2)),
+            direccion = Direccion(calle = "Calle Entrega", altura = "789", coordenadas = Point(2, 2)),
             zonaDeTrabajo = Polygon(
                 mutableListOf(
                     Point(-2, -2),
@@ -103,7 +127,7 @@ class ClienteSpec: DescribeSpec ({
             ),
             condicionesEntrega = CondicionAny(mutableListOf()),
 
-        )
+            )
         //Setea las valoraciones luego de que cliente y local se inicializen
         //var valo = ValoracionPendiente(local)
         //cliente.valoracionesPendientes.add(valo)
@@ -175,7 +199,7 @@ class ClienteSpec: DescribeSpec ({
             direccion = Direccion(
                 calle = "Calle Siempre Viva ",
                 altura = "742",
-                coordenadas = Point(0.0,0.0)
+                coordenadas = Point(0.0, 0.0)
             )
         )
         var local1 = Local(
@@ -210,7 +234,7 @@ class ClienteSpec: DescribeSpec ({
             ),
             local = local1,
             porcentajeAcordadoConLocal = 0.0,
-            lanzamiento = java.time.LocalDate.now(),
+            lanzamiento = LocalDate.now(),
             regaliasAutor = 0.0,
             valorBase = 0.0,
             descuento = 0.0
@@ -224,7 +248,7 @@ class ClienteSpec: DescribeSpec ({
             ),
             local = local2,
             porcentajeAcordadoConLocal = 0.0,
-            lanzamiento = java.time.LocalDate.now(),
+            lanzamiento = LocalDate.now(),
             regaliasAutor = 1.0,
             valorBase = 0.0,
             descuento = 0.0

@@ -1,4 +1,4 @@
-package ar.edu.unsam.algo2
+package ar.edu.unsam.algo3.domain
 
 import java.time.LocalDateTime
 
