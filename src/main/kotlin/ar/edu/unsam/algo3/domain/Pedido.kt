@@ -22,11 +22,11 @@ class Pedido(
     val plato: List<Plato>,
     var estado: EstadoPedido = EstadoPedido.PENDIENTE,
     var local: Local,
-    var delivery: Delivery?,
+    var delivery: Delivery?, /*ATENCION!!: CAMBIO QUE HICE, ponerle null. Sino, no termino más de probar esto. */
     var medioDePago: MedioDePago,
     var horaRetiro: LocalTime? = null,
     var cuponAplicado: Cupon = CuponBase()
-) {
+) : Entity() {
 
     var observers: MutableList<PedidoObserver> = mutableListOf(
         AuditorDeLocales,
@@ -123,6 +123,36 @@ class Pedido(
         val totalBase = costoPlatos + costoDelivery
         return (totalBase * medioDePago.impuesto()).toBigDecimal().setScale(2, RoundingMode.HALF_EVEN).toDouble()
     }
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /*fun totalDelPedido(): Double {
+        *//*val totalBase = totalBase()*//*
+        val totalConImpuesto = aplicarImpuesto()
+        return redondear(totalConImpuesto)
+    }*/
+
+    fun costoPlatos(): Double =
+        plato.sumOf { it.valorDeVenta() }
+
+    fun costoPlatosSinDescuentos(): Double =
+        plato.sumOf { it.valorDeVentaSinDescuento() }
+
+    fun costoDelivery(): Double =
+        costoPlatosSinDescuentos() * 0.1
+
+    fun totalBase(): Double =
+        costoPlatos() + costoDelivery()
+
+    fun aplicarImpuesto(): Double =
+        this.totalBase() * medioDePago.impuesto()
+
+    fun redondear(valor: Double): Double =
+        valor.toBigDecimal().setScale(2, RoundingMode.HALF_EVEN).toDouble()
+
+    fun totalPlatos(): Int = plato.count()
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     fun totalDelPedidoConCupon(cupon: Cupon): Double {
         return (totalDelPedido() - cupon.calcularDescuentoTotal(this)).toBigDecimal().setScale(2, RoundingMode.HALF_EVEN).toDouble()

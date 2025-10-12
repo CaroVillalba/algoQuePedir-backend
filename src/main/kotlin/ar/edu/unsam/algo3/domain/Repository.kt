@@ -69,8 +69,17 @@ class DeliveryRepository : InMemoryRepository<Delivery>() {
     override fun search(value: String): List<Delivery> {
         return elements.values.filter { delivery -> delivery.username.startsWith(value, ignoreCase = true)  }.toList()
     }
-
 }
+
+/*ATENCION!!: Estoy creando el repositorio porque no estaba. ¿Podré usar alguno de los que ya están?*/
+@Repository
+class PedidoRepository : InMemoryRepository<Pedido>() {
+    override fun search(value: String): List<Pedido> {
+        // vacio
+        return listOf()
+    }
+}
+
 @Repository
 class IngredienteRepository : InMemoryRepository<Ingrediente>() {
     override fun search(value: String): List<Ingrediente> {
