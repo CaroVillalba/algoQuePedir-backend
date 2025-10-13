@@ -24,5 +24,20 @@ class IngredientsService ( private val ingredienteRepository: IngredienteReposit
         }
         return ingredientDTO
     }
+
+    fun getById(id: Int): IngredienteDTO {
+        val ingredient = ingredienteRepository.getById(id)
+        if (ingredient != null) {
+            return IngredienteDTO(
+                name = ingredient.name,
+                price = ingredient.price,
+                group = ingredient.group.toString(),
+                animalOrigin = ingredient.origenAnimal()
+            )
+        }
+        else {
+
+        }
+    }
 }
 
