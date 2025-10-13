@@ -70,17 +70,17 @@ class DeliverySpec : DescribeSpec({
         )
 
         local = Local(
-            nombre = "Comida Rápida",
-            direccion = Direccion(
+            name = "Comida Rápida",
+            address = Direccion(
                 calle = "Calle",
                 altura = "456",
                 coordenadas = Point(-1, -1)
             ),
-            metodosDePago = mutableSetOf(MedioDePago.EFECTIVO, MedioDePago.CREDITO, MedioDePago.QR),
-            valoraciones = mutableSetOf()
+            paymentMethods = mutableSetOf(MedioDePago.EFECTIVO, MedioDePago.CREDITO, MedioDePago.QR),
+            ratings = mutableSetOf()
         )
 
-        local.valoraciones = mutableSetOf(
+        local.ratings = mutableSetOf(
             Valoracion(
                 cliente = cliente,
                 local = local,
@@ -99,17 +99,17 @@ class DeliverySpec : DescribeSpec({
         )
 
         local2 = Local(
-            nombre = "Comida Rápida2",
-            direccion = Direccion(
+            name = "Comida Rápida2",
+            address = Direccion(
                 calle = "Calle2",
                 altura = "4562",
                 coordenadas = Point(-1, -1)
             ),
-            metodosDePago = mutableSetOf(MedioDePago.EFECTIVO, MedioDePago.CREDITO, MedioDePago.QR),
-            valoraciones = mutableSetOf()
+            paymentMethods = mutableSetOf(MedioDePago.EFECTIVO, MedioDePago.CREDITO, MedioDePago.QR),
+            ratings = mutableSetOf()
         )
 
-        local2.valoraciones = mutableSetOf(
+        local2.ratings = mutableSetOf(
             Valoracion(
                 cliente = cliente,
                 local = local,

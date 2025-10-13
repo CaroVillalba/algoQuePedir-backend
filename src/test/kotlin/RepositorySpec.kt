@@ -9,9 +9,9 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 
 fun equalIngredientes(ing1: Ingrediente, ing2: Ingrediente): Boolean {
-    return ing1.nombre == ing2.nombre &&
-            ing1.costo == ing2.costo &&
-            ing1.grupoAlimentos == ing2.grupoAlimentos
+    return ing1.name == ing2.name &&
+            ing1.price == ing2.price &&
+            ing1.group == ing2.group
 }
 
 fun printIngrediente(ing: Ingrediente) {
@@ -64,14 +64,14 @@ class UpdaterIngredientesSpec : DescribeSpec({
     describe ("Funcionalidad del repositorio") {
         val rIngredientes = IngredienteRepository()
         val ingrediente1 = Ingrediente(
-            nombre = "IngredienteAbstracto UUUUhhhhhh",
-            costo = 200.5,
-            grupoAlimentos = GrupoAlimentos.PROTEINAS
+            name = "IngredienteAbstracto UUUUhhhhhh",
+            price = 200.5,
+            group = GrupoAlimentos.PROTEINAS
         )
         val ingrediente2 = Ingrediente(
-            nombre = "IngredienteAbstracto UUUUhhhhhh Aaaaaahhahad8awdawu hiahs",
-            costo = 200.5,
-            grupoAlimentos = GrupoAlimentos.PROTEINAS
+            name = "IngredienteAbstracto UUUUhhhhhh Aaaaaahhahad8awdawu hiahs",
+            price = 200.5,
+            group = GrupoAlimentos.PROTEINAS
         )
 
         it ("Agrega un ingrediente al repositorio, lo actualiza y luego lo elimina") {
@@ -100,9 +100,9 @@ class UpdaterIngredientesSpec : DescribeSpec({
             // Inflacion de 10000% LOL
             rIngredientes.update(
                 Ingrediente(
-                    nombre = "IngredienteAbstracto UUUUhhhhhh",
-                    costo = 20050.0,
-                    grupoAlimentos = GrupoAlimentos.PROTEINAS
+                    name = "IngredienteAbstracto UUUUhhhhhh",
+                    price = 20050.0,
+                    group = GrupoAlimentos.PROTEINAS
                 )
             )
             equalIngredientes(
@@ -171,29 +171,29 @@ class UpdaterIngredientesSpec : DescribeSpec({
 
             var expectedMap = mutableMapOf<Int, Ingrediente>(
                 22 to Ingrediente(
-                    nombre = "Leche",
-                    costo = 200.5,
-                    grupoAlimentos = GrupoAlimentos.LACTEOS
+                    name = "Leche",
+                    price = 200.5,
+                    group = GrupoAlimentos.LACTEOS
                 ),
                 1 to Ingrediente(
-                    nombre = "Arroz",
-                    costo = 100.5,
-                    grupoAlimentos = GrupoAlimentos.CEREALES_Y_TUBERCULOS
+                    name = "Arroz",
+                    price = 100.5,
+                    group = GrupoAlimentos.CEREALES_Y_TUBERCULOS
                 ),
                 3 to Ingrediente(
-                    nombre = "Azúcar",
-                    costo = 200.0,
-                    grupoAlimentos = GrupoAlimentos.AZUCARES_Y_DULCES
+                    name = "Azúcar",
+                    price = 200.0,
+                    group = GrupoAlimentos.AZUCARES_Y_DULCES
                 ),
                 2 to Ingrediente(
-                    nombre = "Pollo",
-                    costo = 400.5,
-                    grupoAlimentos = GrupoAlimentos.PROTEINAS
+                    name = "Pollo",
+                    price = 400.5,
+                    group = GrupoAlimentos.PROTEINAS
                 ),
                 57 to Ingrediente(
-                    nombre = "Manzana",
-                    costo = 100.0,
-                    grupoAlimentos = GrupoAlimentos.FRUTAS_Y_VERDURAS
+                    name = "Manzana",
+                    price = 100.0,
+                    group = GrupoAlimentos.FRUTAS_Y_VERDURAS
                 )
             )
 

@@ -17,14 +17,14 @@ class CostoPlatoSpec : DescribeSpec({
 
         beforeEach {
             localTest = Local(
-                nombre = "Local de Prueba",
-                direccion = Direccion(
+                name = "Local de Prueba",
+                address = Direccion(
                     calle = "Ayuda",
                     altura = "123",
                     coordenadas = Point(0, 1)
                 ),
-                metodosDePago = mutableSetOf(MedioDePago.EFECTIVO, MedioDePago.CREDITO, MedioDePago.DEBITO),
-                valoraciones = mutableSetOf()
+                paymentMethods = mutableSetOf(MedioDePago.EFECTIVO, MedioDePago.CREDITO, MedioDePago.DEBITO),
+                ratings = mutableSetOf()
             )
 
             platoVacio = Plato(
@@ -44,19 +44,19 @@ class CostoPlatoSpec : DescribeSpec({
                 descripcion = "Configuración base para tests",
                 ingredientes = arrayListOf(
                     Ingrediente(
-                        nombre = "Pan",
-                        costo = 5.0,
-                        grupoAlimentos = GrupoAlimentos.CEREALES_Y_TUBERCULOS
+                        name = "Pan",
+                        price = 5.0,
+                        group = GrupoAlimentos.CEREALES_Y_TUBERCULOS
                     ),
                     Ingrediente(
-                        nombre = "Pan",
-                        costo = 5.0,
-                        grupoAlimentos = GrupoAlimentos.CEREALES_Y_TUBERCULOS
+                        name = "Pan",
+                        price = 5.0,
+                        group = GrupoAlimentos.CEREALES_Y_TUBERCULOS
                     ),
                     Ingrediente(
-                        nombre = "Queso",
-                        costo = 30.0,
-                        grupoAlimentos = GrupoAlimentos.LACTEOS
+                        name = "Queso",
+                        price = 30.0,
+                        group = GrupoAlimentos.LACTEOS
                     )
                 ),
                 local = localTest,
@@ -130,30 +130,30 @@ class CostoPlatoSpec : DescribeSpec({
             descripcion = "Dos panes un queso! Uma delicia",
             ingredientes = arrayListOf(
                 Ingrediente(
-                    nombre = "Pan",
-                    costo = 5.0,
-                    grupoAlimentos = GrupoAlimentos.CEREALES_Y_TUBERCULOS
+                    name = "Pan",
+                    price = 5.0,
+                    group = GrupoAlimentos.CEREALES_Y_TUBERCULOS
                 ),
                 Ingrediente(
-                    nombre = "Pan",
-                    costo = 5.0,
-                    grupoAlimentos = GrupoAlimentos.CEREALES_Y_TUBERCULOS
+                    name = "Pan",
+                    price = 5.0,
+                    group = GrupoAlimentos.CEREALES_Y_TUBERCULOS
                 ),
                 Ingrediente(
-                    nombre = "Queso",
-                    costo = 30.0,
-                    grupoAlimentos = GrupoAlimentos.LACTEOS
+                    name = "Queso",
+                    price = 30.0,
+                    group = GrupoAlimentos.LACTEOS
                 )
             ),
             local = Local(
-                nombre = "Local Temporal",
-                direccion = Direccion(
+                name = "Local Temporal",
+                address = Direccion(
                     calle = "Temp",
                     altura = "1",
                     coordenadas = Point(0, 0)
                 ),
-                metodosDePago = mutableSetOf(),
-                valoraciones = mutableSetOf()
+                paymentMethods = mutableSetOf(),
+                ratings = mutableSetOf()
             ),
             lanzamiento = lanzamiento,
             regaliasAutor = 0.0,

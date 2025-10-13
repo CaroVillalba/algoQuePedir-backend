@@ -72,17 +72,17 @@ class CuponSpec : DescribeSpec({
         ingrediente5 = Ingrediente("Aceite", 70.0, GrupoAlimentos.GRASAS_Y_ACEITES)
 
         local = Local(
-            nombre = "Comida Rápida",
-            direccion = Direccion(
+            name = "Comida Rápida",
+            address = Direccion(
                 calle = "Calle",
                 altura = "456",
                 coordenadas = Point(-1, -1)
             ),
-            metodosDePago = mutableSetOf(MedioDePago.EFECTIVO, MedioDePago.CREDITO, MedioDePago.QR),
-            valoraciones = mutableSetOf()
+            paymentMethods = mutableSetOf(MedioDePago.EFECTIVO, MedioDePago.CREDITO, MedioDePago.QR),
+            ratings = mutableSetOf()
         )
 
-        local.valoraciones = mutableSetOf(
+        local.ratings = mutableSetOf(
             Valoracion(
                 cliente = cliente,
                 local = local,
@@ -210,7 +210,7 @@ class CuponSpec : DescribeSpec({
         }
 
         it("Aplica descuento de local específico sin ser pedido certificado") {
-            local.valoraciones.clear() // El pedido ya no es certificado
+            local.ratings.clear() // El pedido ya no es certificado
             cupon2.aplicar(pedido)
             pedido.totalDelPedidoConCupon(cupon2) shouldBe 3056.24
         }

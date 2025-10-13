@@ -15,7 +15,7 @@ class Plato(
     var descuento: Double,  //valor fijo, no porcentual
 ): Entity() {
     //calcula el costo
-    fun costoDeIngredientes(): Double = ingredientes.sumOf { it.costo }
+    fun costoDeIngredientes(): Double = ingredientes.sumOf { it.price }
 
     //cantidad de días que han pasado desde el lanzamiento
     fun getDiasDesdeLanzamiento(): Int = Duration.between(

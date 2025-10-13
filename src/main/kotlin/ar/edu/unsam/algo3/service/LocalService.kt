@@ -23,14 +23,14 @@ class LocalService(private val localRepository: LocalRepository) {
         val local = localRepository.getById(id)
             ?: throw BusinessException("Local no encontrado")
 
-        local.nombre = dto.nombre
+        local.name = dto.nombre
         local.imgURL = dto.imgURL
-        local.direccion = Direccion(
+        local.address = Direccion(
             calle = dto.direccion.calle,
             altura = dto.direccion.altura,
             coordenadas = Point(dto.direccion.lat, dto.direccion.lon)
         )
-        local.metodosDePago = dto.metodosDePago.map { nombre ->
+        local.paymentMethods = dto.metodosDePago.map { nombre ->
             try {
                 MedioDePago.valueOf(nombre.uppercase())
             } catch (e: IllegalArgumentException) {
@@ -54,17 +54,17 @@ class LocalService(private val localRepository: LocalRepository) {
 }
 
 fun Local.toDTO() = LocalAccountDTO(
-    nombre = nombre,
+    nombre = name,
     imgURL = imgURL,
     direccion = DireccionDTO(
-        calle = direccion.calle,
-        altura = direccion.altura,
-        lat = direccion.coordenadas.x,
-        lon = direccion.coordenadas.y
+        calle = address.calle,
+        altura = address.altura,
+        lat = address.coordenadas.x,
+        lon = address.coordenadas.y
     ),
     comisionApp = comisionApp,
-    comisionAutor = comisionAutor,
-    metodosDePago = metodosDePago
+    comisionAutor = comisionAuthor,
+    metodosDePago = paymentMethods
         .filter { it in setOf(MedioDePago.EFECTIVO, MedioDePago.QR, MedioDePago.TRANSFERENCIA) }
         .map { it.name.lowercase() }
 )

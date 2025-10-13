@@ -19,7 +19,7 @@ class EnviaMailPlatos(internal val mailSender: MailSender, private val platoRepo
         println(platosRecomendados)
         if (platosRecomendados.isNotEmpty()) {
             val contenidoMensaje = platosRecomendados.joinToString("\n") { "- ${it.nombre}" }
-            val asunto = "Recomendaciones en ${pedido.local.nombre}"
+            val asunto = "Recomendaciones en ${pedido.local.name}"
             val cuerpo = "Platos para ti:\n$contenidoMensaje"
 
             val mailEnviado = mailSender.enviarCorreo(

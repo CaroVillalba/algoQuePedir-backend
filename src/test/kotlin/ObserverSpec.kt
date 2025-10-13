@@ -37,10 +37,10 @@ class ObserverSpec : DescribeSpec({
 
         beforeEach {
             local = Local(
-                nombre = "Test Local",
-                direccion = Direccion("Calle Test", "123", Point(0, 0)),
-                metodosDePago = mutableSetOf(MedioDePago.EFECTIVO),
-                valoraciones = mutableSetOf(),
+                name = "Test Local",
+                address = Direccion("Calle Test", "123", Point(0, 0)),
+                paymentMethods = mutableSetOf(MedioDePago.EFECTIVO),
+                ratings = mutableSetOf(),
                 inbox = Inbox()
             )
             MailsenderGlobal
@@ -210,7 +210,7 @@ class ObserverSpec : DescribeSpec({
 
                 val mailEnviado = MailsenderGlobal.log.first()
                 print(mailEnviado)
-                mailEnviado shouldContain "Recomendaciones en ${local.nombre}"
+                mailEnviado shouldContain "Recomendaciones en ${local.name}"
                 mailEnviado shouldContain platoApto.nombre
                 mailEnviado shouldNotContain platoNoApto.nombre
             }
@@ -284,9 +284,9 @@ private fun crearCliente(): Cliente {
 
 private fun crearPedidoVegano(local: Local, cliente: Cliente = crearCliente(), mailSender: MailSender, platoRepository: PlatoRepository): Pedido {
     val ingredienteVegano = Ingrediente(
-        nombre = "Lechuga",
-        costo = 50.0,
-        grupoAlimentos = GrupoAlimentos.FRUTAS_Y_VERDURAS
+        name = "Lechuga",
+        price = 50.0,
+        group = GrupoAlimentos.FRUTAS_Y_VERDURAS
     )
 
     val platoVegano = Plato(
@@ -329,7 +329,7 @@ private fun crearClienteAntiguo(): Cliente {
 
 private fun crearPedidoCertificado(local: Local, cliente: Cliente, mailSender: MailSender, platoRepository: PlatoRepository): Pedido {
     val valoracionBuena = Valoracion(cliente, local, 4.5)
-    local.valoraciones.add(valoracionBuena)
+    local.ratings.add(valoracionBuena)
 
     return Pedido(
         cliente = cliente,

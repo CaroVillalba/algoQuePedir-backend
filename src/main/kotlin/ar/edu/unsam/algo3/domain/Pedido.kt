@@ -66,7 +66,7 @@ class Pedido(
     }
 
     private fun validarMedioDePago() {
-        if (!local.metodosDePago.contains(medioDePago)) {
+        if (!local.paymentMethods.contains(medioDePago)) {
             throw MedioDePagoInvalidoException("El medio de pago $medioDePago no es válido para este local.")
         }
     }

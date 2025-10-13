@@ -4,6 +4,7 @@ import ar.edu.unsam.algo3.domain.*
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import ar.edu.unsam.algo3.dto.LocalAccountDTO
+import ar.edu.unsam.algo3.dto.PlatoListDTO
 import jakarta.annotation.PostConstruct
 import org.springframework.stereotype.Component
 import org.uqbar.geodds.Point
@@ -14,6 +15,7 @@ import java.time.LocalDate
 class DataInitializer(
     private val localRepository: LocalRepository,
     private val platoRepository: PlatoRepository,
+    private val ingredienteRepository: IngredienteRepository
 ) {
     private val mapper = jacksonObjectMapper()
 
@@ -22,77 +24,62 @@ class DataInitializer(
         val file = File("src/main/resources/localData.json")
         val localDTO = mapper.readValue<LocalAccountDTO>(file)
 
+        val fileMenu = File("src/main/resources/menuData.json")
+        val platoListDTO = mapper.readValue<PlatoListDTO>(fileMenu)
+
+        val fileIngredients = File("src/main/resources/ingredientsData.json")
+        val ingredients = mapper.readValue<List<Ingrediente>>(fileIngredients)
+
+
         val local = Local(
-            nombre = localDTO.nombre,
+            name = localDTO.nombre,
             imgURL = localDTO.imgURL,
-            direccion = Direccion(
+            address = Direccion(
                 calle = localDTO.direccion.calle,
                 altura = localDTO.direccion.altura,
                 coordenadas = Point(localDTO.direccion.lat, localDTO.direccion.lon)
             ),
             comisionApp = localDTO.comisionApp,
-            comisionAutor = localDTO.comisionAutor,
-            metodosDePago = localDTO.metodosDePago.map { MedioDePago.valueOf(it.uppercase()) }.toMutableSet(),
-            valoraciones = mutableSetOf()
+            comisionAuthor = localDTO.comisionAutor,
+            paymentMethods = localDTO.metodosDePago.map { MedioDePago.valueOf(it.uppercase()) }.toMutableSet(),
+            ratings = mutableSetOf()
         )
 
         localRepository.create(local)
 
-        println("✅ Local cargado desde JSON: ${local.nombre}")
+        println("✅ Local cargado desde JSON: ${local.name}")
 
         // ------------------------------------------------------------------
-        val ingrediente1 = Ingrediente(
-            nombre = "lechuga",
-            costo = 5.0,
-            grupoAlimentos = GrupoAlimentos.FRUTAS_Y_VERDURAS
-        )
-        val ingrediente2 = Ingrediente(
-            nombre = "tomate",
-            costo = 3.0,
-            grupoAlimentos = GrupoAlimentos.FRUTAS_Y_VERDURAS
-        )
+        // Accedemos a la lista de DTOs y realizamos el mapeo manual
+        platoListDTO.platos.forEach { platoDTO ->
 
-        val plato = Plato(
-            imageURL = "https://picsum.photos/id/237/400/300",
-            nombre = "Ensalada de Tomate y lechuga",
-            descripcion = "Ensalada clasica de tomate y lechuga",
-            ingredientes = mutableListOf(ingrediente1, ingrediente2),
-            local = local,
-            porcentajeAcordadoConLocal = 1.0,
-            lanzamiento = LocalDate.now(),
-            regaliasAutor = 0.0,
-            valorBase = 10.0,
-            descuento = 1.0,
-        )
-        val plato2 = Plato(
-            imageURL = "https://picsum.photos/id/237/400/300",
-            nombre = "Ensalada de lechuga",
-            descripcion = "Ensalada clasica de lechuga",
-            ingredientes = mutableListOf(ingrediente1),
-            local = local,
-            porcentajeAcordadoConLocal = 1.0,
-            lanzamiento = LocalDate.now(),
-            regaliasAutor = 0.0,
-            valorBase = 10.0,
-            descuento = 1.0,
-        )
-        val plato3 = Plato(
-            imageURL = "https://picsum.photos/id/237/400/300",
-            nombre = "Ensalada de Tomate",
-            descripcion = "Ensalada clasica de tomate",
-            ingredientes = mutableListOf(ingrediente2),
-            local = local,
-            porcentajeAcordadoConLocal = 1.0,
-            lanzamiento = LocalDate.now(),
-            regaliasAutor = 0.0,
-            valorBase = 10.0,
-            descuento = 1.0,
-        )
+            // Mapeo de Ingredientes de DTO a Entidad
+            val ingredientesEntidad = platoDTO.ingredientes.map { ingDTO ->
+                Ingrediente(
+                    name = ingDTO.name,
+                    price = ingDTO.price,
+                    group = GrupoAlimentos.valueOf(ingDTO.group)
+                )
+            }.toMutableList()
 
-        platoRepository.create(plato)
-        platoRepository.create(plato2)
-        platoRepository.create(plato3)
+            // Mapeo a la entidad Plato, INYECTANDO el 'local'
+            val platoEntidad = Plato(
+                imageURL = platoDTO.imageURL,
+                nombre = platoDTO.nombre,
+                descripcion = platoDTO.descripcion,
+                ingredientes = ingredientesEntidad,
+                local = local, // 👈 Se inyecta el objeto Local ya existente
+                porcentajeAcordadoConLocal = platoDTO.porcentajeAcordadoConLocal,
+                lanzamiento = LocalDate.now(), // 👈 Se inyecta la fecha actual
+                regaliasAutor = platoDTO.regaliasAutor,
+                valorBase = platoDTO.valorBase,
+                descuento = platoDTO.descuento,
+            )
 
+            platoRepository.create(platoEntidad)
+        }
+
+        ingredients.forEach { ingrediente -> ingredienteRepository.create(ingrediente) }
 
     }
 }

@@ -22,7 +22,7 @@ class Delivery (
             throw PedidoStateException("El pedido no está preparado.")
         }
 
-        val retiroDentro = zonaDeTrabajo.isInside(pedido.local.direccion.coordenadas)  //Se cambia por el metodo de polygon
+        val retiroDentro = zonaDeTrabajo.isInside(pedido.local.address.coordenadas)  //Se cambia por el metodo de polygon
         val entregaDentro = zonaDeTrabajo.isInside(pedido.cliente.direccion.coordenadas) // (https://github.com/uqbar-project/geodds-xtend/blob/master/src/main/java/org/uqbar/geodds/Polygon.xtend)
 
         if (!retiroDentro || !entregaDentro) {

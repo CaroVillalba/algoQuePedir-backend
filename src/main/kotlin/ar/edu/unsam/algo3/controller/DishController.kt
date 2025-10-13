@@ -1,7 +1,10 @@
 package ar.edu.unsam.algo3.controller
 
+import ar.edu.unsam.algo3.domain.Plato
+import ar.edu.unsam.algo3.dto.LocalAccountDTO
 import ar.edu.unsam.algo3.service.PlateService
 import ar.edu.unsam.algo3.dto.MenuDTO
+import ar.edu.unsam.algo3.dto.PlatoDTO
 import ar.edu.unsam.algo3.exceptions.BusinessException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -20,6 +23,14 @@ class DishController (private val plateService: PlateService){
             ResponseEntity.ok(dto)
         } catch (e: BusinessException) {
             ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+        }
+    }
+    @PostMapping("/edit-plate")
+    fun createPlate(@RequestBody plate: Plato){
+        try{
+            plateService.createPlate(plate)
+        }catch (e: BusinessException){
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.message)
         }
     }
 }

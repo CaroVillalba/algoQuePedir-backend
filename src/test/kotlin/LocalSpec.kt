@@ -35,17 +35,17 @@ class LocalSpec : DescribeSpec( {
             )
 
             localConfiable = Local(
-                nombre = "Restaurante Top",
-                direccion = Direccion(
+                name = "Restaurante Top",
+                address = Direccion(
                     calle = "Av. Principal",
                     altura = "123",
                     coordenadas = Point(-3, -3)
                 ),
-                metodosDePago = mutableSetOf(MedioDePago.EFECTIVO, MedioDePago.CREDITO),
-                valoraciones = mutableSetOf()
+                paymentMethods = mutableSetOf(MedioDePago.EFECTIVO, MedioDePago.CREDITO),
+                ratings = mutableSetOf()
             )
 
-            localConfiable.valoraciones = mutableSetOf(
+            localConfiable.ratings = mutableSetOf(
                 Valoracion(
                     cliente = cliente,
                     local = localConfiable,
@@ -64,17 +64,17 @@ class LocalSpec : DescribeSpec( {
             )
 
             localNoConfiable = Local(
-                nombre = "Comida Dudosa",
-                direccion = Direccion(
+                name = "Comida Dudosa",
+                address = Direccion(
                     calle = "Calle Oscura",
                     altura = "666",
                     coordenadas = Point(6, 6)
                 ),
-                metodosDePago = mutableSetOf(MedioDePago.EFECTIVO),
-                valoraciones = mutableSetOf()
+                paymentMethods = mutableSetOf(MedioDePago.EFECTIVO),
+                ratings = mutableSetOf()
             )
 
-            localNoConfiable.valoraciones = mutableSetOf(
+            localNoConfiable.ratings = mutableSetOf(
                 Valoracion(
                     cliente = cliente,
                     local = localNoConfiable,

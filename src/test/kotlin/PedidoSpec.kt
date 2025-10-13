@@ -43,34 +43,34 @@ class PedidoSpec {
     @BeforeEach
     fun setUp() {
         local = Local(
-            nombre = "Comida Rápida",
-            direccion = Direccion(
+            name = "Comida Rápida",
+            address = Direccion(
                 calle = "Calle Falsa",
                 altura = "123",
                 coordenadas = Point(2, 2)
             ),
-            metodosDePago = mutableSetOf(MedioDePago.EFECTIVO, MedioDePago.CREDITO, MedioDePago.QR),
-            valoraciones = mutableSetOf()
+            paymentMethods = mutableSetOf(MedioDePago.EFECTIVO, MedioDePago.CREDITO, MedioDePago.QR),
+            ratings = mutableSetOf()
         )
 
         localOtro = Local(
-            nombre = "Otra Comida Rápida",
-            direccion = Direccion(
+            name = "Otra Comida Rápida",
+            address = Direccion(
                 calle = "Otra Calle Falsa",
                 altura = "Otra 123",
                 coordenadas = Point(2, 2)
             ),
 
-            metodosDePago = mutableSetOf(MedioDePago.EFECTIVO, MedioDePago.CREDITO, MedioDePago.QR),
-            valoraciones = mutableSetOf()
+            paymentMethods = mutableSetOf(MedioDePago.EFECTIVO, MedioDePago.CREDITO, MedioDePago.QR),
+            ratings = mutableSetOf()
         )
         platoRepository = PlatoRepository()
-        ingrediente1 = Ingrediente(nombre = "Tomate", costo = 100.0, grupoAlimentos = GrupoAlimentos.FRUTAS_Y_VERDURAS)
+        ingrediente1 = Ingrediente(name = "Tomate", price = 100.0, group = GrupoAlimentos.FRUTAS_Y_VERDURAS)
         ingrediente2 =
-            Ingrediente(nombre = "Harina", costo = 500.0, grupoAlimentos = GrupoAlimentos.CEREALES_Y_TUBERCULOS)
-        ingrediente3 = Ingrediente(nombre = "Queso", costo = 80.0, grupoAlimentos = GrupoAlimentos.LACTEOS)
-        ingrediente4 = Ingrediente(nombre = "Aceite", costo = 120.0, grupoAlimentos = GrupoAlimentos.GRASAS_Y_ACEITES)
-        ingrediente5 = Ingrediente(nombre = "Lechuga", costo = 110.0, grupoAlimentos = GrupoAlimentos.FRUTAS_Y_VERDURAS)
+            Ingrediente(name = "Harina", price = 500.0, group = GrupoAlimentos.CEREALES_Y_TUBERCULOS)
+        ingrediente3 = Ingrediente(name = "Queso", price = 80.0, group = GrupoAlimentos.LACTEOS)
+        ingrediente4 = Ingrediente(name = "Aceite", price = 120.0, group = GrupoAlimentos.GRASAS_Y_ACEITES)
+        ingrediente5 = Ingrediente(name = "Lechuga", price = 110.0, group = GrupoAlimentos.FRUTAS_Y_VERDURAS)
 
 
         cliente = Cliente(
@@ -92,7 +92,7 @@ class PedidoSpec {
         )
 
         //Setea las valoraciones luego de que cliente y local se inicializen
-        local.valoraciones = mutableSetOf(
+        local.ratings = mutableSetOf(
             Valoracion(
                 cliente = cliente,
                 local = local,
@@ -264,13 +264,13 @@ class PedidoSpec {
         var mailSender = AuditoriaMailSender()
         var cupon = CuponBase()
         localConBajaCalificacion = Local(
-            nombre = "Comida Rápida",
-            direccion = Direccion(
+            name = "Comida Rápida",
+            address = Direccion(
                 calle = "Calle Sin Nombre",
                 altura = "456",
                 coordenadas = Point(-2, -8)
             ),
-            valoraciones = mutableSetOf(
+            ratings = mutableSetOf(
                 Valoracion(
                     cliente = cliente,
                     local = local,
@@ -287,7 +287,7 @@ class PedidoSpec {
                     puntuacion = 2.5
                 ),
             ),
-            metodosDePago = mutableSetOf(MedioDePago.EFECTIVO, MedioDePago.CREDITO)
+            paymentMethods = mutableSetOf(MedioDePago.EFECTIVO, MedioDePago.CREDITO)
         )
 
         var platoPastaOscura = Plato(
