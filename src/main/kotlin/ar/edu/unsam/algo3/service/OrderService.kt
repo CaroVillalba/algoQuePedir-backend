@@ -23,6 +23,11 @@ class OrderService ( private val pedidoRepository: PedidoRepository){
         return pedidoRepository.getAll().map { toOrderDTO(it) }
     }
 
+    fun getByID(id: Int): OrderDTO? {
+        val pedido = pedidoRepository.getById(id) ?: return null
+        return toOrderDTO(pedido)
+    }
+
     private fun toOrderDTO(pedido: Pedido): OrderDTO {
         return OrderDTO(
             id = pedido.id,

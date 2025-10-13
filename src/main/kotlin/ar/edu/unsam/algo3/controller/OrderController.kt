@@ -22,4 +22,25 @@ class OrderController (private val orderService: OrderService){
             ResponseEntity.status(HttpStatus.NOT_FOUND).build()
         }
     }
+
+    @GetMapping("/orderDetail/{orderId}")
+    fun get(@PathVariable orderId: Int): ResponseEntity<OrderDTO> {
+        val dto = orderService.getByID(orderId)
+
+        return if (dto != null) {
+            ResponseEntity.ok(dto)
+        } else {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+        }
+    }
+
+    /* @GetMapping("/orderDetail/{orderId}")
+     fun get(@PathVariable orderId: Int): ResponseEntity<OrderDTO> {
+         return try {
+             val dto = orderService.getByID(orderId)
+             ResponseEntity.ok(dto)
+         } catch (e: BusinessException) {
+             ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+         }
+     }*/
 }
