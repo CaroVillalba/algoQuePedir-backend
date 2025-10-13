@@ -107,12 +107,30 @@ class DataInitializer(
             coordenadas = Point(-5.0, 5.0)
         )
 
+        val direccionH = Direccion(
+            calle = "Hinamizawa",
+            altura = "34",
+            coordenadas = Point(-53.4430, 25.220)
+        )
+
         val user = Cliente(
             nombre = "Alejandra",
             username = "piscosour"
         )
 
+        val user2 = Cliente(
+            nombre = "Pedro Aznar",
+            username = "cigarra"
+        )
+
+        val user3 = Cliente(
+            nombre = "Yu Tsun",
+            username = "senderosbifurcados"
+        )
+
         user.direccion = direccionW
+        user2.direccion = direccionW
+        user3.direccion = direccionH
 
         val puntos = listOf(
             Point(0.0, 0.0),
@@ -145,15 +163,36 @@ class DataInitializer(
         DOS CAMBIOS en realidad. */
         /*el state está como pendiente en default*/
         val order1 = Pedido(
-            cliente = user,
+            cliente = user2,
             plato = listOf(plato, plato2, plato3),
             local = local,
             delivery = deliveri,
             medioDePago = MedioDePago.QR
         )
 
+        val order2 = Pedido(
+            cliente = user3,
+            plato = listOf(plato, plato2, plato3),
+            local = local,
+            delivery = deliveri,
+            medioDePago = MedioDePago.EFECTIVO
+        )
+
+        val order3 = Pedido(
+            cliente = user,
+            plato = listOf(plato, plato2, plato3),
+            local = local,
+            delivery = deliveri,
+            medioDePago = MedioDePago.TRANSFERENCIA
+        )
+
+
         order1.horaRetiro = LocalTime.now()
+        order2.horaRetiro = LocalTime.now()
+        order3.horaRetiro = LocalTime.now()
 
         pedidoRepository.create(order1)
+        pedidoRepository.create(order2)
+        pedidoRepository.create(order3)
     }
 }
