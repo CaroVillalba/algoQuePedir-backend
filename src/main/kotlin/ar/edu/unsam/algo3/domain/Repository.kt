@@ -1,4 +1,5 @@
 package ar.edu.unsam.algo3.domain
+import ar.edu.unsam.algo3.dto.AuthDTO
 import org.springframework.stereotype.Repository
 
 //Repositorio para cada una de las entidades
@@ -53,6 +54,7 @@ class ClienteRepository : InMemoryRepository<Cliente>() {
         val clientesPorUsername = buscarUsername(value)
         return clientesPorUsername.filter { cliente -> cliente.password == password }.first()
     }
+
 }
 
 @Repository
