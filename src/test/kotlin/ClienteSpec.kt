@@ -58,7 +58,7 @@ class ClienteSpec: DescribeSpec ({
 
         var local = Local(
             "Local de Prueba",
-            direccion = Direccion(
+            address = Direccion(
                 calle = "Calle Siempre Viva ",
                 altura = "742",
                 coordenadas = Point(1, 1)
@@ -72,14 +72,14 @@ class ClienteSpec: DescribeSpec ({
             descripcion = " plato con ingredientes de origen animal",
             ingredientes = arrayListOf<Ingrediente>(
                 Ingrediente(
-                    nombre = "carne",
-                    costo = 0.0,
-                    grupoAlimentos = GrupoAlimentos.PROTEINAS
+                    name = "carne",
+                    price = 0.0,
+                    group = GrupoAlimentos.PROTEINAS
                 ),
                 Ingrediente(
-                    nombre = "Papa",
-                    costo = 0.0,
-                    grupoAlimentos = GrupoAlimentos.FRUTAS_Y_VERDURAS
+                    name = "Papa",
+                    price = 0.0,
+                    group = GrupoAlimentos.FRUTAS_Y_VERDURAS
                 )
 
             ),
@@ -169,19 +169,19 @@ class ClienteSpec: DescribeSpec ({
 
     describe("Tipos de cliente") {
         var ingredienteCarne = Ingrediente(
-            nombre = "Carne",
-            costo = 0.0,
-            grupoAlimentos = GrupoAlimentos.PROTEINAS
+            name = "Carne",
+            price = 0.0,
+            group = GrupoAlimentos.PROTEINAS
         )
         var ingredientePapa = Ingrediente(
-            nombre = "Papa",
-            costo = 0.0,
-            grupoAlimentos = GrupoAlimentos.FRUTAS_Y_VERDURAS
+            name = "Papa",
+            price = 0.0,
+            group = GrupoAlimentos.FRUTAS_Y_VERDURAS
         )
         var ingredienteTomate = Ingrediente(
-            nombre = "tomate",
-            costo = 0.0,
-            grupoAlimentos = GrupoAlimentos.FRUTAS_Y_VERDURAS
+            name = "tomate",
+            price = 0.0,
+            group = GrupoAlimentos.FRUTAS_Y_VERDURAS
         )
 
         var cliente = Cliente(
@@ -204,7 +204,7 @@ class ClienteSpec: DescribeSpec ({
         )
         var local1 = Local(
             "Local de Prueba",
-            direccion = Direccion(
+            address = Direccion(
                 calle = "Calle Siempre Viva ",
                 altura = "742",
                 coordenadas = Point(0.0, 0.001)
@@ -215,7 +215,7 @@ class ClienteSpec: DescribeSpec ({
 
         var local2 = Local(
             "Local Nuevisimo que no le va a gustar a cliente fiel",
-            direccion = Direccion(
+            address = Direccion(
                 calle = "Calle Siempre Muerta ",
                 altura = "7427536",
                 coordenadas = Point(25.0, 25.0)

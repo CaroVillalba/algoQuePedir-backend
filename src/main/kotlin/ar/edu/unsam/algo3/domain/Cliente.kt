@@ -36,14 +36,14 @@ class Cliente (
 
     fun agregarIngredienteFavorito(ingrediente: Ingrediente) {
         if (ingredientesAEvitar.contains(ingrediente)) {
-            println("Error: El ingrediente ${ingrediente.nombre} está en la lista de ingredientes a evitar.")
+            println("Error: El ingrediente ${ingrediente.name} está en la lista de ingredientes a evitar.")
         }
         else ingredientesFavoritos.add(ingrediente)
     }
 
     fun agregarIngredienteAEvitar(ingrediente: Ingrediente) {
         if (ingredientesFavoritos.contains(ingrediente)) {
-            println("Error: El ingrediente ${ingrediente.nombre} está en la lista de ingredientes favoritos.")
+            println("Error: El ingrediente ${ingrediente.name} está en la lista de ingredientes favoritos.")
         }
         else ingredientesAEvitar.add(ingrediente)
     }
@@ -90,7 +90,7 @@ class Cliente (
     }
 
     fun esLocalCercano(local: Local) : Boolean{
-        val distancia = this.direccion.coordenadas.distance(local.direccion.coordenadas)
+        val distancia = this.direccion.coordenadas.distance(local.address.coordenadas)
         println("Distancia: $distancia")
         return distancia <= distanciaCercana
     }
@@ -131,7 +131,7 @@ class ClienteNormal : TipoDeCliente {
 
 class ClienteVegano : TipoDeCliente {
     override fun esPlatoAdecuado(plato: Plato, cliente: Cliente): Boolean =
-        !plato.ingredientes.any { it.grupoAlimentos.esDeOrigenAnimal }
+        !plato.ingredientes.any { it.group.esDeOrigenAnimal }
 }
 
 class ClienteExquisito : TipoDeCliente {

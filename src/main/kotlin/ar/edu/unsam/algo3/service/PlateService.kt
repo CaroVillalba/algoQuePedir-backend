@@ -1,10 +1,13 @@
 package ar.edu.unsam.algo3.service
 
 
-import ar.edu.unsam.algo3.domain.PlatoRepository
+import ar.edu.unsam.algo3.domain.*
 import ar.edu.unsam.algo3.dto.MenuDTO
+import ar.edu.unsam.algo3.dto.PlatoDTO
 import org.springframework.stereotype.Service
+import org.uqbar.geodds.Point
 import java.math.RoundingMode
+import java.time.LocalDate
 
 
 @Service
@@ -22,5 +25,9 @@ class PlateService ( private val platoRepository: PlatoRepository){
             )
         }
         return menuDTOs
+    }
+    fun createPlate(plate: Plato){
+        platoRepository.create(plate)
+        print("Plato created")
     }
 }

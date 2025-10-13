@@ -57,8 +57,8 @@ class ClienteRepository : InMemoryRepository<Cliente>() {
 
 @Repository
 class LocalRepository : InMemoryRepository<Local>() {
-    fun buscarNombre(value: String): List<Local> = elements.values.filter { local -> local.nombre.contains(value, ignoreCase = true)}
-    fun buscarDireccion(value: String): List<Local> = elements.values.filter { local -> local.direccion.equals(value)}
+    fun buscarNombre(value: String): List<Local> = elements.values.filter { local -> local.name.contains(value, ignoreCase = true)}
+    fun buscarDireccion(value: String): List<Local> = elements.values.filter { local -> local.address.equals(value)}
 
     override fun search(value: String): List<Local> {
         return (buscarNombre(value) + buscarDireccion(value)).distinct()
@@ -83,15 +83,15 @@ class PedidoRepository : InMemoryRepository<Pedido>() {
 @Repository
 class IngredienteRepository : InMemoryRepository<Ingrediente>() {
     override fun search(value: String): List<Ingrediente> {
-        return elements.values.filter { ingrediente -> ingrediente.nombre.equals(value, ignoreCase = true) }.toList()
+        return elements.values.filter { ingrediente -> ingrediente.name.equals(value, ignoreCase = true) }.toList()
     }
 }
 @Repository
 open class PlatoRepository : InMemoryRepository<Plato>() {
 
     fun descripcionContiene(value: String): List<Plato> = elements.values.filter { plato -> plato.descripcion.contains(value, ignoreCase = true)}
-    fun buscarNombreLocal(value: String): List<Plato> = elements.values.filter { plato -> plato.local.nombre.contains(value, ignoreCase = true) }
-    fun buscarDireccionLocal(value: String): List<Plato> = elements.values.filter { plato -> plato.local.direccion.calle.equals(value, ignoreCase = true) }
+    fun buscarNombreLocal(value: String): List<Plato> = elements.values.filter { plato -> plato.local.name.contains(value, ignoreCase = true) }
+    fun buscarDireccionLocal(value: String): List<Plato> = elements.values.filter { plato -> plato.local.address.calle.equals(value, ignoreCase = true) }
 
     override fun search(value: String): List<Plato> {
         return (descripcionContiene(value) + buscarNombreLocal(value) + buscarDireccionLocal(value)).distinct()

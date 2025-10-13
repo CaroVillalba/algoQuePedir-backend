@@ -44,7 +44,7 @@ class ClienteCommandSpec  : DescribeSpec ({
                 mutableSetOf(),
             )
             ingrediente1 =
-                Ingrediente(nombre = "Tomate", costo = 100.0, grupoAlimentos = GrupoAlimentos.FRUTAS_Y_VERDURAS)
+                Ingrediente(name = "Tomate", price = 100.0, group = GrupoAlimentos.FRUTAS_Y_VERDURAS)
             plato = Plato(
                 nombre = "Pasta",
                 descripcion = "Un plato de pasta clásica y deliciosa",
@@ -72,7 +72,7 @@ class ClienteCommandSpec  : DescribeSpec ({
                      Point(0, 0)
                  ),
                  mutableSetOf(MedioDePago.EFECTIVO),
-                 valoraciones = mutableSetOf(),
+                 ratings = mutableSetOf(),
              )
             cliente.crearValoracion(
                 ValoracionPendiente(
@@ -90,7 +90,7 @@ class ClienteCommandSpec  : DescribeSpec ({
                      Point(0, 0)
                  ),
                  mutableSetOf(MedioDePago.EFECTIVO),
-                 valoraciones = mutableSetOf(),
+                 ratings = mutableSetOf(),
              )
             cliente.crearValoracion(
                 ValoracionPendiente(

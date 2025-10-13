@@ -18,9 +18,9 @@ class UsuarioSpec {
     val fechadehoymenos30 = LocalDate.now().minusYears(30)
     @BeforeEach
     fun setUp() {
-        ingrediente1 = Ingrediente("Tomate", 100.0, grupoAlimentos = GrupoAlimentos.FRUTAS_Y_VERDURAS)
-        ingrediente2 = Ingrediente("Carne", 500.0, grupoAlimentos = GrupoAlimentos.PROTEINAS)
-        ingrediente3 = Ingrediente("Lechuga", 80.0, grupoAlimentos = GrupoAlimentos.FRUTAS_Y_VERDURAS)
+        ingrediente1 = Ingrediente("Tomate", 100.0, group = GrupoAlimentos.FRUTAS_Y_VERDURAS)
+        ingrediente2 = Ingrediente("Carne", 500.0, group = GrupoAlimentos.PROTEINAS)
+        ingrediente3 = Ingrediente("Lechuga", 80.0, group = GrupoAlimentos.FRUTAS_Y_VERDURAS)
 
         usuario = Cliente(
             nombre = "Juan",

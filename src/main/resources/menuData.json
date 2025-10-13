@@ -1,0 +1,57 @@
+{
+  "platos": [
+    {
+      "imageURL": "https://picsum.photos/id/237/400/300",
+      "nombre": "Ensalada de Tomate y Lechuga",
+      "descripcion": "Ensalada clásica de tomate y lechuga",
+      "ingredientes": [
+        {
+          "name": "lechuga",
+          "price": 5.0,
+          "group": "FRUTAS_Y_VERDURAS"
+        },
+        {
+          "name": "tomate",
+          "price": 3.0,
+          "group": "FRUTAS_Y_VERDURAS"
+        }
+      ],
+      "porcentajeAcordadoConLocal": 1.0,
+      "regaliasAutor": 0.0,
+      "valorBase": 10.0,
+      "descuento": 1.0
+    },
+    {
+      "imageURL": "https://picsum.photos/id/237/400/300",
+      "nombre": "Ensalada de Lechuga",
+      "descripcion": "Ensalada clásica de lechuga",
+      "ingredientes": [
+        {
+          "name": "lechuga",
+          "price": 10.0,
+          "group": "FRUTAS_Y_VERDURAS"
+        }
+      ],
+      "porcentajeAcordadoConLocal": 1.0,
+      "regaliasAutor": 0.0,
+      "valorBase": 10.0,
+      "descuento": 1.0
+    },
+    {
+      "imageURL": "https://picsum.photos/id/237/400/300",
+      "nombre": "Ensalada de tomate",
+      "descripcion": "Ensalada clásica de tomate",
+      "ingredientes": [
+        {
+          "name": "tomate",
+          "price": 3.0,
+          "group": "FRUTAS_Y_VERDURAS"
+        }
+      ],
+      "porcentajeAcordadoConLocal": 5.0,
+      "regaliasAutor": 0.0,
+      "valorBase": 8.5,
+      "descuento": 1.0
+    }
+  ]
+}

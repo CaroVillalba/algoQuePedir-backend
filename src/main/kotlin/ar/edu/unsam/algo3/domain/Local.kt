@@ -1,24 +1,24 @@
 package ar.edu.unsam.algo3.domain
 
 class Local(
-    var nombre: String,
-    var direccion: Direccion,
-    var metodosDePago: MutableSet<MedioDePago>,
-    var valoraciones: MutableSet<Valoracion>,
+    var name: String,
+    var address: Direccion,
+    var paymentMethods: MutableSet<MedioDePago>,
+    var ratings: MutableSet<Valoracion>  = mutableSetOf(),
     var imgURL: String = "",
     var comisionApp: Int = 0,
-    var comisionAutor: Int = 0,
+    var comisionAuthor: Int = 0,
     val inbox: Inbox = Inbox()
 ) : Entity() {
 
     fun getEsConfiable(): Boolean = getPuntuacion() >= 4.0
 
     fun getPuntuacion(): Double {
-        return if (valoraciones.isNotEmpty()) valoraciones.map { it.puntuacion }.average() else 0.0
+        return if (ratings.isNotEmpty()) ratings.map { it.puntuacion }.average() else 0.0
     }
 
     fun crearValoracion(cliente: Cliente, puntuacion: Double) {
         val valoracion = Valoracion(cliente, this, puntuacion)
-        valoraciones.add(valoracion)
+        ratings.add(valoracion)
     }
 }
