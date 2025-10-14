@@ -13,15 +13,30 @@ import org.springframework.web.bind.annotation.*
 @CrossOrigin(origins = ["http://localhost:5173"])
 class OrderController (private val orderService: OrderService){
     // GET
+
     @GetMapping("/order")
-    fun get() :ResponseEntity<List<OrderDTO>> {
+    fun getByState(@RequestParam(required = false) state: String?): ResponseEntity<List<OrderDTO>> {
         return try {
-            val dto = orderService.getAll()
+            val dto = if (state.isNullOrBlank() || state == "Todos") {
+                orderService.getAll()
+            } else {
+                orderService.getByState(state)
+            }
             ResponseEntity.ok(dto)
         } catch (e: BusinessException) {
             ResponseEntity.status(HttpStatus.NOT_FOUND).build()
         }
     }
+
+    /*  @GetMapping("/order")
+      fun get() :ResponseEntity<List<OrderDTO>> {
+          return try {
+              val dto = orderService.getAll()
+              ResponseEntity.ok(dto)
+          } catch (e: BusinessException) {
+              ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+          }
+      }*/
 
     @GetMapping("/orderDetail/{orderId}")
     fun get(@PathVariable orderId: Int): ResponseEntity<OrderDTO> {
@@ -33,6 +48,16 @@ class OrderController (private val orderService: OrderService){
             ResponseEntity.status(HttpStatus.NOT_FOUND).build()
         }
     }
+
+  /*  @GetMapping("/order")
+    fun get(@PathVariable state: String) :ResponseEntity<List<OrderDTO>> {
+        return try {
+            val dto = orderService.getByState(state)
+            ResponseEntity.ok(dto)
+        } catch (e: BusinessException) {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+        }
+    }*/
 
     /* @GetMapping("/orderDetail/{orderId}")
      fun get(@PathVariable orderId: Int): ResponseEntity<OrderDTO> {

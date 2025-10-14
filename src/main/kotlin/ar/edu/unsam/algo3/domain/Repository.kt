@@ -75,8 +75,12 @@ class DeliveryRepository : InMemoryRepository<Delivery>() {
 @Repository
 class PedidoRepository : InMemoryRepository<Pedido>() {
     override fun search(value: String): List<Pedido> {
-        // vacio
-        return listOf()
+        val estado = try {
+            EstadoPedido.valueOf(value.uppercase())
+        } catch (e: IllegalArgumentException) {
+            return emptyList()  //ojo con esto
+        }
+        return elements.values.filter { pedido -> pedido.estado == estado }
     }
 }
 

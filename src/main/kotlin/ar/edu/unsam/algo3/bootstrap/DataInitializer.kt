@@ -155,7 +155,7 @@ class DataInitializer(
         )
 
         val user = Cliente(
-            nombre = "Alejandra",
+            nombre = "Alejandra Pisco",
             username = "piscosour"
         )
 
@@ -169,9 +169,15 @@ class DataInitializer(
             username = "senderosbifurcados"
         )
 
+        val user4 = Cliente(
+            nombre = "Paul Valery",
+            username = "omniscent"
+        )
+
         user.direccion = direccionW
         user2.direccion = direccionW
         user3.direccion = direccionH
+        user4.direccion = direccionH
 
         val puntos = listOf(
             Point(0.0, 0.0),
@@ -227,13 +233,27 @@ class DataInitializer(
             medioDePago = MedioDePago.TRANSFERENCIA
         )
 
+        val order4 = Pedido(
+            cliente = user4,
+            plato = listOf(plato, plato2, plato3),
+            local = local,
+            delivery = deliveri,
+            medioDePago = MedioDePago.TRANSFERENCIA
+        )
+
+        order4.estado = EstadoPedido.PREPARADO
+        order2.estado = EstadoPedido.ENTREGADO
+
+
 
         order1.horaRetiro = LocalTime.now()
         order2.horaRetiro = LocalTime.now()
         order3.horaRetiro = LocalTime.now()
+        order4.horaRetiro = LocalTime.now()
 
         pedidoRepository.create(order1)
         pedidoRepository.create(order2)
         pedidoRepository.create(order3)
+        pedidoRepository.create(order4)
     }
 }
