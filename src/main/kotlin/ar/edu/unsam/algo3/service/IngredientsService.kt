@@ -6,6 +6,7 @@ import ar.edu.unsam.algo3.domain.IngredienteRepository
 import ar.edu.unsam.algo3.domain.PlatoRepository
 import ar.edu.unsam.algo3.dto.IngredienteDTO
 import ar.edu.unsam.algo3.dto.MenuDTO
+import ar.edu.unsam.algo3.exceptions.ElementDoesntExistException
 import org.springframework.stereotype.Service
 import java.math.RoundingMode
 
@@ -35,8 +36,32 @@ class IngredientsService ( private val ingredienteRepository: IngredienteReposit
                 animalOrigin = ingredient.origenAnimal()
             )
         }
-        else {
+        else throw ElementDoesntExistException("El ingrediente ${id} no existe.")
+    }
 
+    fun create(ingredient: IngredienteDTO) {
+        ingredienteRepository.create(Ingrediente(
+            name = ingredient.name,
+            price = ingredient.price,
+            group = GrupoAlimentos.valueOf(ingredient.group)
+        ))
+    }
+
+    fun update(id: Int, ingredient: IngredienteDTO) {
+        ingredienteRepository.update(Ingrediente(
+            name = ingredient.name,
+            price = ingredient.price,
+            group = GrupoAlimentos.valueOf(ingredient.group)
+        ).apply { this.id = id })
+    }
+
+    fun delete(id: Int) {
+        val ingredient = ingredienteRepository.getById(id)
+        if (ingredient != null) {
+            ingredienteRepository.delete(ingredient)
+        }
+        else {
+            throw ElementDoesntExistException("El ingrediente ${id} no existe.")
         }
     }
 }
