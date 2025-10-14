@@ -1,5 +1,6 @@
 package ar.edu.unsam.algo3.controller
 
+import ar.edu.unsam.algo3.domain.Cliente
 import ar.edu.unsam.algo3.dto.AuthDTO
 import ar.edu.unsam.algo3.dto.LocalAccountDTO
 import ar.edu.unsam.algo3.exceptions.BusinessException
@@ -25,5 +26,16 @@ class UsuarioController(private val clienteService: ClienteService) {
             ResponseEntity.status(HttpStatus.NOT_FOUND).build()
         }
     }
+
+    @PostMapping("/auth/register")
+    fun createCliente(@RequestBody client : Cliente){
+        try {
+             clienteService.createCliente(client)
+
+        } catch (e: BusinessException) {
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.message)
+        }
+    }
+
 
 }

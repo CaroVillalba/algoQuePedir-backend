@@ -26,4 +26,8 @@ class ClienteService(private val clienteRepository: ClienteRepository) {
         return authDTO
 
     }
+
+    fun createCliente(cliente : Cliente){
+        clienteRepository.create(cliente)
+    }
 }
