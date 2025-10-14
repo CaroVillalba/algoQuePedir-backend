@@ -126,12 +126,6 @@ class Pedido(
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /*fun totalDelPedido(): Double {
-        *//*val totalBase = totalBase()*//*
-        val totalConImpuesto = aplicarImpuesto()
-        return redondear(totalConImpuesto)
-    }*/
-
     fun costoPlatos(): Double =
         plato.sumOf { it.valorDeVenta() }
 

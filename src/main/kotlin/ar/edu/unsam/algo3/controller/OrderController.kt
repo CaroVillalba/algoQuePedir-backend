@@ -28,16 +28,6 @@ class OrderController (private val orderService: OrderService){
         }
     }
 
-    /*  @GetMapping("/order")
-      fun get() :ResponseEntity<List<OrderDTO>> {
-          return try {
-              val dto = orderService.getAll()
-              ResponseEntity.ok(dto)
-          } catch (e: BusinessException) {
-              ResponseEntity.status(HttpStatus.NOT_FOUND).build()
-          }
-      }*/
-
     @GetMapping("/orderDetail/{orderId}")
     fun get(@PathVariable orderId: Int): ResponseEntity<OrderDTO> {
         val dto = orderService.getByID(orderId)
@@ -48,24 +38,4 @@ class OrderController (private val orderService: OrderService){
             ResponseEntity.status(HttpStatus.NOT_FOUND).build()
         }
     }
-
-  /*  @GetMapping("/order")
-    fun get(@PathVariable state: String) :ResponseEntity<List<OrderDTO>> {
-        return try {
-            val dto = orderService.getByState(state)
-            ResponseEntity.ok(dto)
-        } catch (e: BusinessException) {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
-        }
-    }*/
-
-    /* @GetMapping("/orderDetail/{orderId}")
-     fun get(@PathVariable orderId: Int): ResponseEntity<OrderDTO> {
-         return try {
-             val dto = orderService.getByID(orderId)
-             ResponseEntity.ok(dto)
-         } catch (e: BusinessException) {
-             ResponseEntity.status(HttpStatus.NOT_FOUND).build()
-         }
-     }*/
 }

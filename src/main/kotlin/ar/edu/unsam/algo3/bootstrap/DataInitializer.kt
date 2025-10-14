@@ -54,10 +54,8 @@ class DataInitializer(
         println("✅ Local cargado desde JSON: ${local.name}")
 
         // ------------------------------------------------------------------
-        // Accedemos a la lista de DTOs y realizamos el mapeo manual
         platoListDTO.platos.forEach { platoDTO ->
 
-            // Mapeo de Ingredientes de DTO a Entidad
             val ingredientesEntidad = platoDTO.ingredientes.map { ingDTO ->
                 Ingrediente(
                     name = ingDTO.name,
@@ -66,15 +64,15 @@ class DataInitializer(
                 )
             }.toMutableList()
 
-            // Mapeo a la entidad Plato, INYECTANDO el 'local'
+
             val platoEntidad = Plato(
                 imageURL = platoDTO.imageURL,
                 nombre = platoDTO.nombre,
                 descripcion = platoDTO.descripcion,
                 ingredientes = ingredientesEntidad,
-                local = local, // 👈 Se inyecta el objeto Local ya existente
+                local = local,
                 porcentajeAcordadoConLocal = platoDTO.porcentajeAcordadoConLocal,
-                lanzamiento = LocalDate.now(), // 👈 Se inyecta la fecha actual
+                lanzamiento = LocalDate.now(),
                 regaliasAutor = platoDTO.regaliasAutor,
                 valorBase = platoDTO.valorBase,
                 descuento = platoDTO.descuento,
