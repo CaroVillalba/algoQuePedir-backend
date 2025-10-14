@@ -26,13 +26,9 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/v1")
 @CrossOrigin(origins = ["http://localhost:5173"])
 class IngredientsController (private val ingredientsService: IngredientsService){
-     @GetMapping("/tuviejalol")
-     fun tuvieja() : ResponseEntity<String> {
-         return ResponseEntity.ok("tu vieja")
-     }
 
     // GET
-    @GetMapping("/ingredients/getAll")
+    @GetMapping("/ingredients")
     fun get() : ResponseEntity<List<IngredienteDTO>> {
         return try {
             val dto = ingredientsService.getAll()
@@ -43,8 +39,8 @@ class IngredientsController (private val ingredientsService: IngredientsService)
     }
 
     // GET
-    @GetMapping("/ingredients/getById")
-    fun getByIngredientId(@RequestParam("id") id: Int) : ResponseEntity<IngredienteDTO> {
+    @GetMapping("/ingredients/{id}")
+    fun getByIngredientId(@PathVariable("id") id: Int) : ResponseEntity<IngredienteDTO> {
         return try {
             val dto = ingredientsService.getById(id)
             ResponseEntity.ok(dto)
@@ -57,20 +53,20 @@ class IngredientsController (private val ingredientsService: IngredientsService)
         }
     }
 
-    @PostMapping("/ingredients/create")
+    @PostMapping("/ingredients/")
     fun create(@RequestBody ingrediente: IngredienteDTO) : ResponseEntity<Int> {
         ingredientsService.create(ingrediente)
         return ResponseEntity.ok().build()
     }
 
-    @PutMapping("/ingredients/update")
-    fun update(@RequestParam("id") id: Int, @RequestBody ingrediente: IngredienteDTO) : ResponseEntity<Int> {
+    @PutMapping("/ingredients/{id}")
+    fun update(@PathVariable("id") id: Int, @RequestBody ingrediente: IngredienteDTO) : ResponseEntity<Int> {
         ingredientsService.update(id, ingrediente)
         return ResponseEntity.ok().build()
     }
 
-    @DeleteMapping("/ingredients/delete")
-    fun delete(@RequestParam("id") id: Int) : ResponseEntity<Int> {
+    @DeleteMapping("/ingredients/{id}")
+    fun delete(@PathVariable("id") id: Int) : ResponseEntity<Int> {
         ingredientsService.delete(id)
         return ResponseEntity.ok().build()
     }
