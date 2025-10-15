@@ -12,15 +12,15 @@ import ar.edu.unsam.algo3.domain.ClienteRaro
 import ar.edu.unsam.algo3.domain.ClienteVegano
 import ar.edu.unsam.algo3.domain.CondicionAny
 import ar.edu.unsam.algo3.domain.Delivery
-import ar.edu.unsam.algo3.domain.Direccion
+import ar.edu.unsam.algo3.domain.Address
 import ar.edu.unsam.algo3.domain.EnviaMailPlatos
 import ar.edu.unsam.algo3.domain.EstadoPedido
 import ar.edu.unsam.algo3.domain.GrupoAlimentos
-import ar.edu.unsam.algo3.domain.Ingrediente
+import ar.edu.unsam.algo3.domain.Ingredient
 import ar.edu.unsam.algo3.domain.Local
 import ar.edu.unsam.algo3.domain.MedioDePago
 import ar.edu.unsam.algo3.domain.Pedido
-import ar.edu.unsam.algo3.domain.Plato
+import ar.edu.unsam.algo3.domain.Dish
 import ar.edu.unsam.algo3.domain.PlatoRepository
 import ar.edu.unsam.algo3.exceptions.ValoracionException
 import ar.edu.unsam.algo3.domain.ValoracionPendiente
@@ -49,7 +49,7 @@ class ClienteSpec: DescribeSpec ({
             fechaNacimiento = LocalDate.now(),
             fechaRegistro = LocalDate.now(),
             mail = "cliente@gmail.com",
-            direccion = Direccion(
+            direccion = Address(
                 calle = "Calle Siempre Viva ",
                 altura = "742",
                 coordenadas = Point(0, 0)
@@ -58,7 +58,7 @@ class ClienteSpec: DescribeSpec ({
 
         var local = Local(
             "Local de Prueba",
-            address = Direccion(
+            address = Address(
                 calle = "Calle Siempre Viva ",
                 altura = "742",
                 coordenadas = Point(1, 1)
@@ -67,16 +67,16 @@ class ClienteSpec: DescribeSpec ({
             mutableSetOf(MedioDePago.EFECTIVO),
             mutableSetOf()
         )
-        var plato = Plato(
+        var dish = Dish(
             nombre = "Plato origen animal",
             descripcion = " plato con ingredientes de origen animal",
-            ingredientes = arrayListOf<Ingrediente>(
-                Ingrediente(
+            ingredients = arrayListOf<Ingredient>(
+                Ingredient(
                     name = "carne",
                     price = 0.0,
                     group = GrupoAlimentos.PROTEINAS
                 ),
-                Ingrediente(
+                Ingredient(
                     name = "Papa",
                     price = 0.0,
                     group = GrupoAlimentos.FRUTAS_Y_VERDURAS
@@ -95,7 +95,7 @@ class ClienteSpec: DescribeSpec ({
 
         var pedido = Pedido.crearPedido(
             cliente = cliente,
-            plato = listOf(plato),
+            plato = listOf(dish),
             local = local,
             medioDePago = MedioDePago.EFECTIVO,
             //mailSender = mockMailSender,
@@ -116,7 +116,7 @@ class ClienteSpec: DescribeSpec ({
             fechaNacimiento = LocalDate.now().minusYears(30),
             username = "pedrolivery",
             password = "pass1234",
-            direccion = Direccion(calle = "Calle Entrega", altura = "789", coordenadas = Point(2, 2)),
+            address = Address(calle = "Calle Entrega", altura = "789", coordenadas = Point(2, 2)),
             zonaDeTrabajo = Polygon(
                 mutableListOf(
                     Point(-2, -2),
@@ -168,24 +168,24 @@ class ClienteSpec: DescribeSpec ({
     }
 
     describe("Tipos de cliente") {
-        var ingredienteCarne = Ingrediente(
+        var ingredientCarne = Ingredient(
             name = "Carne",
             price = 0.0,
             group = GrupoAlimentos.PROTEINAS
         )
-        var ingredientePapa = Ingrediente(
+        var ingredientPapa = Ingredient(
             name = "Papa",
             price = 0.0,
             group = GrupoAlimentos.FRUTAS_Y_VERDURAS
         )
-        var ingredienteTomate = Ingrediente(
+        var ingredientTomate = Ingredient(
             name = "tomate",
             price = 0.0,
             group = GrupoAlimentos.FRUTAS_Y_VERDURAS
         )
 
         var cliente = Cliente(
-            ingredientesFavoritos = mutableSetOf(ingredienteTomate),
+            ingredientesFavoritos = mutableSetOf(ingredientTomate),
             ingredientesAEvitar = mutableSetOf(),
             distanciaCercana = 5.0,
             tipoDeCliente = ClienteVegano(),
@@ -196,7 +196,7 @@ class ClienteSpec: DescribeSpec ({
             fechaNacimiento = LocalDate.now(),
             fechaRegistro = LocalDate.now(),
             mail = "cliente@gmail.com",
-            direccion = Direccion(
+            direccion = Address(
                 calle = "Calle Siempre Viva ",
                 altura = "742",
                 coordenadas = Point(0.0, 0.0)
@@ -204,7 +204,7 @@ class ClienteSpec: DescribeSpec ({
         )
         var local1 = Local(
             "Local de Prueba",
-            address = Direccion(
+            address = Address(
                 calle = "Calle Siempre Viva ",
                 altura = "742",
                 coordenadas = Point(0.0, 0.001)
@@ -215,7 +215,7 @@ class ClienteSpec: DescribeSpec ({
 
         var local2 = Local(
             "Local Nuevisimo que no le va a gustar a cliente fiel",
-            address = Direccion(
+            address = Address(
                 calle = "Calle Siempre Muerta ",
                 altura = "7427536",
                 coordenadas = Point(25.0, 25.0)
@@ -224,12 +224,12 @@ class ClienteSpec: DescribeSpec ({
             mutableSetOf()
         )
 
-        var plato = Plato(
+        var dish = Dish(
             nombre = "Plato origen animal",
             descripcion = "plato con ingredientes de origen animal",
-            ingredientes = arrayListOf<Ingrediente>(
-                ingredienteCarne,
-                ingredientePapa
+            ingredients = arrayListOf<Ingredient>(
+                ingredientCarne,
+                ingredientPapa
 
             ),
             local = local1,
@@ -240,11 +240,11 @@ class ClienteSpec: DescribeSpec ({
             descuento = 0.0
         )
 
-        val platoDeAutor = Plato(
+        val dishDeAutor = Dish(
             nombre = "Tomate de autor",
             descripcion = "Un tomate que lo invento un autor. Totalmente esternocleidomastoideo",
-            ingredientes = arrayListOf<Ingrediente>(
-                ingredienteTomate
+            ingredients = arrayListOf<Ingredient>(
+                ingredientTomate
             ),
             local = local2,
             porcentajeAcordadoConLocal = 0.0,
@@ -256,7 +256,7 @@ class ClienteSpec: DescribeSpec ({
 
         var pedido = Pedido(
             cliente = cliente,
-            plato = listOf(plato),
+            plato = listOf(dish),
             estado = EstadoPedido.PREPARADO,
             local = local1,
             delivery = null,
@@ -265,89 +265,89 @@ class ClienteSpec: DescribeSpec ({
         )
 
         it("Cliente vegano: Solo acepta platos sin carne etc") {
-            cliente.esPlatoAdecuadoParaCliente(platoDeAutor) shouldBe true
+            cliente.esPlatoAdecuadoParaCliente(dishDeAutor) shouldBe true
         }
 
         it("ClienteVegano: El plato no puede ser apto para veganos"){
-            cliente.esPlatoAdecuadoParaCliente(plato) shouldBe false
+            cliente.esPlatoAdecuadoParaCliente(dish) shouldBe false
         }
 
         it("ClienteExquisito: Acepta platos Solo De Autor"){
             cliente.tipoDeCliente = ClienteExquisito()
-            cliente.esPlatoAdecuadoParaCliente(platoDeAutor) shouldBe true
+            cliente.esPlatoAdecuadoParaCliente(dishDeAutor) shouldBe true
         }
 
         it("ClienteExquisito: No acepta un plato que no es de autor"){
             cliente.tipoDeCliente = ClienteExquisito()
-            cliente.esPlatoAdecuadoParaCliente(plato) shouldBe false
+            cliente.esPlatoAdecuadoParaCliente(dish) shouldBe false
         }
 
         it("ClienteFiel: Solo acepta platos de local1"){
             cliente.tipoDeCliente = ClienteFiel(mutableSetOf(local1))
-            cliente.esPlatoAdecuadoParaCliente(plato) shouldBe true
+            cliente.esPlatoAdecuadoParaCliente(dish) shouldBe true
         }
 
         it("ClienteFiel: No acepta platos de local2"){
             cliente.tipoDeCliente = ClienteFiel(mutableSetOf(local1))
-            cliente.esPlatoAdecuadoParaCliente(platoDeAutor) shouldBe false
+            cliente.esPlatoAdecuadoParaCliente(dishDeAutor) shouldBe false
         }
 
         it("ClienteConservador: Acepta solo los que tengan solo Tomate"){
             cliente.tipoDeCliente = ClienteConservador()
-            cliente.esPlatoAdecuadoParaCliente(platoDeAutor) shouldBe true
+            cliente.esPlatoAdecuadoParaCliente(dishDeAutor) shouldBe true
         }
 
         it("ClienteConservador: No acepta los platos que tengan cosas que NO SEAN TOMATE AMO EL TOMATE DAME SOLO TOMATE"){
             cliente.tipoDeCliente = ClienteConservador()
-            cliente.esPlatoAdecuadoParaCliente(plato) shouldBe false
+            cliente.esPlatoAdecuadoParaCliente(dish) shouldBe false
         }
 
         it("ClienteMarketing: solo admite productos que tengan la palabra esternocleidomastoideo en la descripcion"){
             cliente.tipoDeCliente = ClienteMarketing(mutableSetOf("esternocleidomastoideo"))
-            cliente.esPlatoAdecuadoParaCliente(platoDeAutor) shouldBe true
+            cliente.esPlatoAdecuadoParaCliente(dishDeAutor) shouldBe true
         }
 
         it("ClienteMarketing: no acepta productos que no tengan la palabra esternocleidomastoideo en la descripcion"){
             cliente.tipoDeCliente = ClienteMarketing(mutableSetOf("esternocleidomastoideo"))
-            cliente.esPlatoAdecuadoParaCliente(plato) shouldBe false
+            cliente.esPlatoAdecuadoParaCliente(dish) shouldBe false
         }
 
         it("ClienteImpaciente: solo admite platos de locales cercanos"){
             cliente.tipoDeCliente = ClienteImpaciente()
-            cliente.esPlatoAdecuadoParaCliente(plato) shouldBe true
+            cliente.esPlatoAdecuadoParaCliente(dish) shouldBe true
         }
 
         it("ClienteMarketing: no admite platos de locales lejanos"){
             cliente.tipoDeCliente = ClienteImpaciente()
-            cliente.esPlatoAdecuadoParaCliente(platoDeAutor) shouldBe false
+            cliente.esPlatoAdecuadoParaCliente(dishDeAutor) shouldBe false
         }
 
         it("ClienteRaro: es exquisito si tiene edad par. Acepta platos solo de autor.") {
             cliente.tipoDeCliente = ClienteRaro()
             cliente.fechaNacimiento = LocalDate.now()
 
-            cliente.esPlatoAdecuadoParaCliente(platoDeAutor) shouldBe true
+            cliente.esPlatoAdecuadoParaCliente(dishDeAutor) shouldBe true
         }
 
         it("ClienteRaro: es exquisito si tiene edad par. No acepta platos que no sean de autor.") {
             cliente.tipoDeCliente = ClienteRaro()
             cliente.fechaNacimiento = LocalDate.now()
 
-            cliente.esPlatoAdecuadoParaCliente(plato) shouldBe false
+            cliente.esPlatoAdecuadoParaCliente(dish) shouldBe false
         }
 
         it("ClienteRaro: es conservador si tiene edad impar.") {
             cliente.tipoDeCliente = ClienteRaro()
             cliente.fechaNacimiento = LocalDate.now().minusYears(1)
 
-            cliente.esPlatoAdecuadoParaCliente(platoDeAutor) shouldBe true
+            cliente.esPlatoAdecuadoParaCliente(dishDeAutor) shouldBe true
         }
 
         it("ClienteRaro: es conservador si tiene edad impar.") {
             cliente.tipoDeCliente = ClienteRaro()
             cliente.fechaNacimiento = LocalDate.now().minusYears(1)
 
-            cliente.esPlatoAdecuadoParaCliente(plato) shouldBe false
+            cliente.esPlatoAdecuadoParaCliente(dish) shouldBe false
         }
     }
 })

@@ -3,7 +3,6 @@ package ar.edu.unsam.algo3.bootstrap
 import ar.edu.unsam.algo3.domain.*
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import ar.edu.unsam.algo3.dto.LocalAccountDTO
 import ar.edu.unsam.algo3.dto.PlatoListDTO
 import jakarta.annotation.PostConstruct
 import org.springframework.stereotype.Component
@@ -12,170 +11,163 @@ import java.io.File
 import java.time.LocalDate
 import org.uqbar.geodds.Polygon
 import java.time.LocalTime
-import java.time.temporal.TemporalQueries.localDate
 
 @Component
 class DataInitializer(
     private val localRepository: LocalRepository,
-    private val platoRepository: PlatoRepository,
-    private val pedidoRepository: PedidoRepository,
-    private val ingredienteRepository: IngredienteRepository
+    private val platoRepository: DishRepository,
+    private val pedidoRepository: OrderRepository,
+    private val ingredienteRepository: IngredientRepository
 ) {
     private val mapper = jacksonObjectMapper()
 
     @PostConstruct
     fun init() {
-        val file = File("src/main/resources/localData.json")
-        val localDTO = mapper.readValue<LocalAccountDTO>(file)
-
         val fileMenu = File("src/main/resources/menuData.json")
         val platoListDTO = mapper.readValue<PlatoListDTO>(fileMenu)
 
         val fileIngredients = File("src/main/resources/ingredientsData.json")
-        val ingredients = mapper.readValue<List<Ingrediente>>(fileIngredients)
+        val ingredients = mapper.readValue<List<Ingredient>>(fileIngredients)
 
-
-        val local = Local(
-            name = localDTO.nombre,
-            imgURL = localDTO.imgURL,
-            address = Direccion(
-                calle = localDTO.direccion.calle,
-                altura = localDTO.direccion.altura,
-                coordenadas = Point(localDTO.direccion.lat, localDTO.direccion.lon)
+        val restaurante = Local(
+            "La Buena Mesa",
+            "https://www.hilton.com/im/en/BUEPIHH/19783367/mural-2.jpg?impolicy=crop&cw=3857&ch=3000&gravity=NorthWest&xposition=71&yposition=0&rw=684&rh=532",
+            Address(
+                "Av. del Gourmet",
+                 "1250",
+                Point(-31.32, -66.95)
             ),
-            comisionApp = localDTO.comisionApp,
-            comisionAuthor = localDTO.comisionAutor,
-            paymentMethods = localDTO.metodosDePago.map { MedioDePago.valueOf(it.uppercase()) }.toMutableSet(),
-            ratings = mutableSetOf()
+            25.0,
+            12.5,
+            mutableSetOf(PaymentMethod.EFECTIVO, PaymentMethod.QR, PaymentMethod.TRANSFERENCIA),
+            mutableSetOf()
         )
 
-        localRepository.create(local)
-
-        println("✅ Local cargado desde JSON: ${local.name}")
+        localRepository.create(restaurante)
 
         // ------------------------------------------------------------------
         platoListDTO.platos.forEach { platoDTO ->
 
             val ingredientesEntidad = platoDTO.ingredientes.map { ingDTO ->
-                Ingrediente(
+                Ingredient(
                     name = ingDTO.name,
                     price = ingDTO.price,
-                    group = GrupoAlimentos.valueOf(ingDTO.group)
+                    group = FoodGroups.valueOf(ingDTO.group)
                 )
             }.toMutableList()
 
 
-            val platoEntidad = Plato(
-                imageURL = platoDTO.imageURL,
-                nombre = platoDTO.nombre,
-                descripcion = platoDTO.descripcion,
-                ingredientes = ingredientesEntidad,
-                local = local,
-                porcentajeAcordadoConLocal = platoDTO.porcentajeAcordadoConLocal,
-                lanzamiento = LocalDate.now(),
-                regaliasAutor = platoDTO.regaliasAutor,
-                valorBase = platoDTO.valorBase,
-                descuento = platoDTO.descuento,
+            val dishEntidad = Dish(
+                platoDTO.imageURL,
+                platoDTO.nombre,
+                platoDTO.descripcion,
+                ingredientesEntidad,
+                restaurante,
+                platoDTO.porcentajeAcordadoConLocal,
+                LocalDate.now(),
+                platoDTO.regaliasAutor,
+                platoDTO.valorBase,
+                platoDTO.descuento,
             )
 
-            platoRepository.create(platoEntidad)
+            platoRepository.create(dishEntidad)
         }
 
         ingredients.forEach { ingrediente -> ingredienteRepository.create(ingrediente) }
         ///////////////////////////////////////////////////////////////////////////////////////////////////
 
         // ------------------------------------------------------------------
-        val ingrediente1 = Ingrediente(
+        val ingredient1 = Ingredient(
             name = "lechuga",
             price = 5.0,
-            group = GrupoAlimentos.FRUTAS_Y_VERDURAS
+            group = FoodGroups.FRUTAS_Y_VERDURAS
         )
-        val ingrediente2 = Ingrediente(
+        val ingredient2 = Ingredient(
             name= "tomate",
             price = 3.0,
-            group = GrupoAlimentos.FRUTAS_Y_VERDURAS
+            group = FoodGroups.FRUTAS_Y_VERDURAS
         )
 
-        val plato = Plato(
-            imageURL = "https://picsum.photos/id/237/400/300",
-            nombre = "Ensalada de Tomate y lechuga",
-            descripcion = "Ensalada clasica de tomate y lechuga",
-            ingredientes = mutableListOf(ingrediente1, ingrediente2),
-            local = local,
-            porcentajeAcordadoConLocal = 1.0,
-            lanzamiento = LocalDate.now(),
-            regaliasAutor = 0.0,
-            valorBase = 10.0,
-            descuento = 1.0,
+        val dish = Dish(
+            "https://picsum.photos/id/237/400/300",
+            "Ensalada de Tomate y lechuga",
+            "Ensalada clasica de tomate y lechuga",
+            mutableListOf(ingredient1, ingredient2),
+            restaurante,
+            1.0,
+            LocalDate.now(),
+            0.0,
+            10.0,
+            1.0,
         )
-        val plato2 = Plato(
-            imageURL = "https://picsum.photos/id/237/400/300",
-            nombre = "Ensalada de lechuga",
-            descripcion = "Ensalada clasica de lechuga",
-            ingredientes = mutableListOf(ingrediente1),
-            local = local,
-            porcentajeAcordadoConLocal = 1.0,
-            lanzamiento = LocalDate.now(),
-            regaliasAutor = 0.0,
-            valorBase = 10.0,
-            descuento = 1.0,
+        val dish2 = Dish(
+            "https://picsum.photos/id/237/400/300",
+            "Ensalada de lechuga",
+            "Ensalada clasica de lechuga",
+            mutableListOf(ingredient1),
+            restaurante,
+            1.0,
+            LocalDate.now(),
+            0.0,
+            10.0,
+            1.0,
         )
-        val plato3 = Plato(
-            imageURL = "https://picsum.photos/id/237/400/300",
-            nombre = "Ensalada de Tomate",
-            descripcion = "Ensalada clasica de tomate",
-            ingredientes = mutableListOf(ingrediente2),
-            local = local,
-            porcentajeAcordadoConLocal = 1.0,
-            lanzamiento = LocalDate.now(),
-            regaliasAutor = 0.0,
-            valorBase = 10.0,
-            descuento = 1.0,
+        val dish3 = Dish(
+            "https://picsum.photos/id/237/400/300",
+            "Ensalada de Tomate",
+            "Ensalada clasica de tomate",
+            mutableListOf(ingredient2),
+            restaurante,
+            1.0,
+            LocalDate.now(),
+            0.0,
+            10.0,
+            1.0,
         )
 
-        platoRepository.create(plato)
-        platoRepository.create(plato2)
-        platoRepository.create(plato3)
+        platoRepository.create(dish)
+        platoRepository.create(dish2)
+        platoRepository.create(dish3)
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////
 
         /*la direccion no deberia ser del cliente directamente? */
-        val direccionW = Direccion(
-            calle = "San Andres",
-            altura = "334",
-            coordenadas = Point(-5.0, 5.0)
+        val addressW = Address(
+            "San Andres",
+            "334",
+            Point(-5.0, 5.0)
         )
 
-        val direccionH = Direccion(
-            calle = "Hinamizawa",
-            altura = "34",
-            coordenadas = Point(-53.4430, 25.220)
+        val addressH = Address(
+            "Hinamizawa",
+            "34",
+            Point(-53.4430, 25.220)
         )
 
-        val user = Cliente(
-            nombre = "Alejandra Pisco",
+        val user = Client(
+            "Alejandra Pisco",
             username = "piscosour"
         )
 
-        val user2 = Cliente(
-            nombre = "Pedro Aznar",
+        val user2 = Client(
+            "Pedro Aznar",
             username = "cigarra"
         )
 
-        val user3 = Cliente(
-            nombre = "Yu Tsun",
+        val user3 = Client(
+            "Yu Tsun",
             username = "senderosbifurcados"
         )
 
-        val user4 = Cliente(
-            nombre = "Paul Valery",
+        val user4 = Client(
+            "Paul Valery",
             username = "omniscent"
         )
 
-        user.direccion = direccionW
-        user2.direccion = direccionW
-        user3.direccion = direccionH
-        user4.direccion = direccionH
+        user.address = addressW
+        user2.address = addressW
+        user3.address = addressH
+        user4.address = addressH
 
         val puntos = listOf(
             Point(0.0, 0.0),
@@ -186,68 +178,68 @@ class DataInitializer(
 
         val zonaTrabajo = Polygon(puntos)
 
-        val condicion = CondicionAny(
-            listaCondiciones = listOf(
-                CondicionMontoMinimo(50.0),  // mínimo $50
-                CondicionRangoHorario(LocalTime.of(10,0), LocalTime.of(22,0)) // entre 10:00 y 22:00
+        val condicion = AnyCondition(
+            listOf(
+                MinimumAmountCondition(50.0),  // mínimo $50
+                TimeRangeCondition(LocalTime.of(10,0), LocalTime.of(22,0)) // entre 10:00 y 22:00
             )
         )
 
         val deliveri = Delivery(
-            nombre = "Deliveri",
-            apellido = "pipo",
-            username = "pipon",
-            password = "pepin",
-            fechaNacimiento = LocalDate.now(),
-            direccion = direccionW,
-            zonaDeTrabajo = zonaTrabajo,
-            condicionesEntrega = condicion
+            "Deliveri",
+            "pipo",
+            "pipon",
+            "pepin",
+            LocalDate.now(),
+            addressW,
+            zonaTrabajo,
+            condicion
         )
 
         /*ATENCION!!: Realice un cambio en Pedido. Hablar con el profe de esto.
         DOS CAMBIOS en realidad. */
         /*el state está como pendiente en default*/
-        val order1 = Pedido(
-            cliente = user2,
-            plato = listOf(plato, plato2, plato3),
-            local = local,
+        val order1 = Order(
+            user2,
+            listOf(dish, dish2, dish3),
+            local = restaurante,
             delivery = deliveri,
-            medioDePago = MedioDePago.QR
+            paymentMethod = PaymentMethod.QR
         )
 
-        val order2 = Pedido(
-            cliente = user3,
-            plato = listOf(plato, plato2, plato3),
-            local = local,
+        val order2 = Order(
+            user3,
+            listOf(dish, dish2, dish3),
+            local = restaurante,
             delivery = deliveri,
-            medioDePago = MedioDePago.EFECTIVO
+            paymentMethod = PaymentMethod.EFECTIVO
         )
 
-        val order3 = Pedido(
-            cliente = user,
-            plato = listOf(plato, plato2, plato3),
-            local = local,
+        val order3 = Order(
+            user,
+            listOf(dish, dish2, dish3),
+            local = restaurante,
             delivery = deliveri,
-            medioDePago = MedioDePago.TRANSFERENCIA
+            paymentMethod = PaymentMethod.TRANSFERENCIA
         )
 
-        val order4 = Pedido(
-            cliente = user4,
-            plato = listOf(plato, plato2, plato3),
-            local = local,
+        val order4 = Order(
+            user4,
+            listOf(dish, dish2, dish3),
+            local = restaurante,
             delivery = deliveri,
-            medioDePago = MedioDePago.TRANSFERENCIA
+            paymentMethod = PaymentMethod.TRANSFERENCIA
         )
 
-        order4.estado = EstadoPedido.PREPARADO
-        order2.estado = EstadoPedido.ENTREGADO
+        order4.status = OrderStatus.PREPARADO
+        order2.status = OrderStatus.ENTREGADO
 
 
 
-        order1.horaRetiro = LocalTime.now()
-        order2.horaRetiro = LocalTime.now()
-        order3.horaRetiro = LocalTime.now()
-        order4.horaRetiro = LocalTime.now()
+        order1.pickupTime = LocalTime.now()
+        order2.pickupTime = LocalTime.now()
+        order3.pickupTime = LocalTime.now()
+        order4.pickupTime = LocalTime.now()
 
         pedidoRepository.create(order1)
         pedidoRepository.create(order2)

@@ -4,132 +4,131 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
-interface PedidoObserver {
-    fun notificar(pedido: Pedido)
+interface OrderObserver {
+    fun notify(order: Order)
 }
 
-class EnviaMailPlatos(internal val mailSender: MailSender, private val platoRepository: PlatoRepository): PedidoObserver {
-    override fun notificar(pedido: Pedido) {
-        val repo = platoRepository
-        val platosDelLocal = repo.search("").filter { it.local == pedido.local }
-        println(platosDelLocal)
-        val platosRecomendados = platosDelLocal
-            .filter { pedido.cliente.esPlatoAdecuadoParaCliente(it) }
+class SendDishEmails(internal val mailSender: MailSender, private val dishRepository: DishRepository): OrderObserver {
+    override fun notify(order: Order) {
+        val repo = dishRepository
+        val localDishes = repo.search("").filter { it.local == order.local }
+        println(localDishes)
+        val recommendedDishes = localDishes
+            .filter { order.client.isDishSuitableForClient(it) }
             .shuffled()
-        println(platosRecomendados)
-        if (platosRecomendados.isNotEmpty()) {
-            val contenidoMensaje = platosRecomendados.joinToString("\n") { "- ${it.nombre}" }
-            val asunto = "Recomendaciones en ${pedido.local.name}"
-            val cuerpo = "Platos para ti:\n$contenidoMensaje"
+        println(recommendedDishes)
+        if (recommendedDishes.isNotEmpty()) {
+            val messageContent = recommendedDishes.joinToString("\n") { "- ${it.name}" }
+            val subject = "Recomendaciones en ${order.local.name}"
+            val body = "Platos para ti:\n$messageContent"
 
-            val mailEnviado = mailSender.enviarCorreo(
-                pedido.cliente.mail,
-                asunto,
-                cuerpo
+            val mailSent = mailSender.sendEmail(
+                order.client.email,
+                subject,
+                body
             )
-            println(mailEnviado)
-
+            println(mailSent)
         }
     }
 }
 
-object AuditorDeLocales: PedidoObserver {
-    var mapaLocales: Map<Local, LocalAuditor> = mapOf()
-    private val localesCumplidores = mutableSetOf<Local>()
+object LocalAuditorObject: OrderObserver {
+    var localMap: Map<Local, LocalAuditor> = mapOf()
+    private val compliantLocals = mutableSetOf<Local>()
 
-    override fun notificar(pedido: Pedido) {
-        val auditor = mapaLocales[pedido.local]
-        auditor?.auditar(pedido)
+    override fun notify(order: Order) {
+        val auditor = localMap[order.local]
+        auditor?.audit(order)
     }
 
-    fun cumpleObjetivo(local: Local): Boolean {
-        return mapaLocales[local]?.cumpleObjetivo(local) ?: false
+    fun meetsGoal(local: Local): Boolean {
+        return localMap[local]?.meetsGoal(local) ?: false
     }
 }
 
-class PedidoVegano: PedidoObserver {
-    override fun notificar(pedido: Pedido) {
-        if (pedido.esVegano()) {
-            val cliente = pedido.cliente
-            val tipoActual = cliente.tipoDeCliente
+class VeganOrderObserver: OrderObserver {
+    override fun notify(order: Order) {
+        if (order.isVegan()) {
+            val client = order.client
+            val currentType = client.clientType
 
-            val nuevosTipos = mutableListOf<TipoDeCliente>()
-            nuevosTipos.add(ClienteVegano())
-            nuevosTipos.add(tipoActual)
+            val newTypes = mutableListOf<ClientType>()
+            newTypes.add(VeganClient())
+            newTypes.add(currentType)
 
-            cliente.tipoDeCliente = ClienteAllTipos(nuevosTipos)
+            client.clientType = ClientAllTypes(newTypes)
         }
     }
 }
 
-class PedidoCertificado(): PedidoObserver {
-    override fun notificar(pedido: Pedido) {
-        if (pedido.esPedidoCertificado()) {
-            val mensaje = Mensaje(
-                fechaEmision = LocalDateTime.now(),
-                asunto = "¡Pedido Certificado! - Cliente Premium",
-                contenido = """
+class CertifiedOrderObserver(): OrderObserver {
+    override fun notify(order: Order) {
+        if (order.isCertifiedOrder()) {
+            val message = Message(
+                LocalDateTime.now(),
+                "¡Pedido Certificado! - Cliente Premium",
+                """
                     Se ha recibido un pedido certificado que requiere atención prioritaria.
-                    Cliente: ${pedido.cliente.nombre}
-                    Antigüedad: ${ChronoUnit.YEARS.between(pedido.cliente.fechaRegistro, LocalDate.now())} años
-                    Cantidad de platos: ${pedido.plato.size}
+                    Cliente: ${order.client.firstName}
+                    Antigüedad: ${ChronoUnit.YEARS.between(order.client.registrationDate, LocalDate.now())} años
+                    Cantidad de platos: ${order.dishes.size}
                 """.trimIndent()
             )
 
-            pedido.local.inbox.agregarMensaje(mensaje)
+            order.local.inbox.addMessage(message)
         }
     }
 }
 
 interface LocalAuditor {
-    fun auditar(pedido: Pedido)
-    fun cumpleObjetivo(local: Local): Boolean
+    fun audit(order: Order)
+    fun meetsGoal(local: Local): Boolean
 }
 
-class LlegaMonto(var montoMinimo: Double, var montoAcumulado: Double = 0.0): LocalAuditor {
-    override fun auditar(pedido: Pedido) {
-        montoAcumulado += pedido.totalDelPedido()
+class ReachAmount(var minimumAmount: Double, var accumulatedAmount: Double = 0.0): LocalAuditor {
+    override fun audit(order: Order) {
+        accumulatedAmount += order.getOrderTotal()
     }
 
-    override fun cumpleObjetivo(local: Local): Boolean {
-        return montoAcumulado >= montoMinimo
+    override fun meetsGoal(local: Local): Boolean {
+        return accumulatedAmount >= minimumAmount
     }
 }
 
-// Este auditor cumple cuando un local tiene 5 o mas pedidos con 3 o mas platos
-class LlegaVentas(var ventasAcumuladas: Int = 0, var ventasObjetivo: Int = 5): LocalAuditor {
-    override fun auditar(pedido: Pedido) {
-        if (pedido.plato.size >= 3) {
-            ventasAcumuladas += 1
+// This auditor meets the goal when a local has 5 or more orders with 3 or more dishes
+class ReachSales(var accumulatedSales: Int = 0, var salesGoal: Int = 5): LocalAuditor {
+    override fun audit(order: Order) {
+        if (order.dishes.size >= 3) {
+            accumulatedSales += 1
         }
     }
 
-    override fun cumpleObjetivo(local: Local): Boolean {
-        return ventasAcumuladas >= ventasObjetivo
+    override fun meetsGoal(local: Local): Boolean {
+        return accumulatedSales >= salesGoal
     }
 }
 
-// Este auditor cumple cuando un local vende mas de metaVeganos platos veganos
-class LlegaMeta(val metaVeganos: Int, var acumulado: Int = 0): LocalAuditor {
-    override fun auditar(pedido: Pedido) {
-        pedido.plato.forEach { plato ->
-            if (plato.esVegano()) {
-                acumulado += 1
+// This auditor meets the goal when a local sells more than metaVegans vegan dishes
+class ReachGoal(val veganGoal: Int, var accumulated: Int = 0): LocalAuditor {
+    override fun audit(order: Order) {
+        order.dishes.forEach { dish ->
+            if (dish.isVegan()) {
+                accumulated += 1
             }
         }
     }
 
-    override fun cumpleObjetivo(local: Local): Boolean {
-        return acumulado >= metaVeganos
+    override fun meetsGoal(local: Local): Boolean {
+        return accumulated >= veganGoal
     }
 }
 
-class Combinado(val auditores: List<LocalAuditor>): LocalAuditor {
-    override fun auditar(pedido: Pedido) {
-        auditores.forEach { it.auditar(pedido) }
+class Combined(val auditors: List<LocalAuditor>): LocalAuditor {
+    override fun audit(order: Order) {
+        auditors.forEach { it.audit(order) }
     }
 
-    override fun cumpleObjetivo(local: Local): Boolean {
-        return auditores.all { it.cumpleObjetivo(local) }
+    override fun meetsGoal(local: Local): Boolean {
+        return auditors.all { it.meetsGoal(local) }
     }
 }

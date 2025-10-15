@@ -1,20 +1,20 @@
 import ar.edu.unsam.algo3.domain.AuditoriaMailSender
 import ar.edu.unsam.algo3.domain.DataIngrediente
 import ar.edu.unsam.algo3.domain.GrupoAlimentos
-import ar.edu.unsam.algo3.domain.Ingrediente
+import ar.edu.unsam.algo3.domain.Ingredient
 import ar.edu.unsam.algo3.domain.IngredienteRepository
 import ar.edu.unsam.algo3.domain.ServiceIngredientes
 import ar.edu.unsam.algo3.domain.UpdaterIngredientes
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 
-fun equalIngredientes(ing1: Ingrediente, ing2: Ingrediente): Boolean {
+fun equalIngredientes(ing1: Ingredient, ing2: Ingredient): Boolean {
     return ing1.name == ing2.name &&
             ing1.price == ing2.price &&
             ing1.group == ing2.group
 }
 
-fun printIngrediente(ing: Ingrediente) {
+fun printIngrediente(ing: Ingredient) {
     println("")
 }
 
@@ -63,12 +63,12 @@ class ServiceIngredientesStub : ServiceIngredientes {
 class UpdaterIngredientesSpec : DescribeSpec({
     describe ("Funcionalidad del repositorio") {
         val rIngredientes = IngredienteRepository()
-        val ingrediente1 = Ingrediente(
+        val ingredient1 = Ingredient(
             name = "IngredienteAbstracto UUUUhhhhhh",
             price = 200.5,
             group = GrupoAlimentos.PROTEINAS
         )
-        val ingrediente2 = Ingrediente(
+        val ingredient2 = Ingredient(
             name = "IngredienteAbstracto UUUUhhhhhh Aaaaaahhahad8awdawu hiahs",
             price = 200.5,
             group = GrupoAlimentos.PROTEINAS
@@ -76,11 +76,11 @@ class UpdaterIngredientesSpec : DescribeSpec({
 
         it ("Agrega un ingrediente al repositorio, lo actualiza y luego lo elimina") {
             // Nuevo ingrediente fuaaaaa
-            rIngredientes.create(ingrediente1)
+            rIngredientes.create(ingredient1)
             //rIngredientes.id shouldBe 0
             var itemRecienCreado = rIngredientes.getById(1)
             equalIngredientes(
-                ingrediente1,
+                ingredient1,
                 itemRecienCreado!!
             ) shouldBe true
 
@@ -88,9 +88,9 @@ class UpdaterIngredientesSpec : DescribeSpec({
             //itemRecienCreado?.id shouldBe 1
 
             // Nuevo ingrediente fuaaaaa 2
-            rIngredientes.create(ingrediente2)
+            rIngredientes.create(ingredient2)
             equalIngredientes(
-                ingrediente1,
+                ingredient1,
                 rIngredientes.getById(1)!!
             ) shouldBe true
 
@@ -99,19 +99,19 @@ class UpdaterIngredientesSpec : DescribeSpec({
 
             // Inflacion de 10000% LOL
             rIngredientes.update(
-                Ingrediente(
+                Ingredient(
                     name = "IngredienteAbstracto UUUUhhhhhh",
                     price = 20050.0,
                     group = GrupoAlimentos.PROTEINAS
                 )
             )
             equalIngredientes(
-                ingrediente1,
+                ingredient1,
                 rIngredientes.getById(1)!!
             ) shouldBe true
 
             // No hay mas stock lol
-            rIngredientes.delete(ingrediente1)
+            rIngredientes.delete(ingredient1)
             rIngredientes.getById(1) shouldBe null
         }
 
@@ -169,28 +169,28 @@ class UpdaterIngredientesSpec : DescribeSpec({
         it("Actualiza bien el repositorio"){
             updater.updateIngredientes()
 
-            var expectedMap = mutableMapOf<Int, Ingrediente>(
-                22 to Ingrediente(
+            var expectedMap = mutableMapOf<Int, Ingredient>(
+                22 to Ingredient(
                     name = "Leche",
                     price = 200.5,
                     group = GrupoAlimentos.LACTEOS
                 ),
-                1 to Ingrediente(
+                1 to Ingredient(
                     name = "Arroz",
                     price = 100.5,
                     group = GrupoAlimentos.CEREALES_Y_TUBERCULOS
                 ),
-                3 to Ingrediente(
+                3 to Ingredient(
                     name = "Azúcar",
                     price = 200.0,
                     group = GrupoAlimentos.AZUCARES_Y_DULCES
                 ),
-                2 to Ingrediente(
+                2 to Ingredient(
                     name = "Pollo",
                     price = 400.5,
                     group = GrupoAlimentos.PROTEINAS
                 ),
-                57 to Ingrediente(
+                57 to Ingredient(
                     name = "Manzana",
                     price = 100.0,
                     group = GrupoAlimentos.FRUTAS_Y_VERDURAS

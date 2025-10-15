@@ -6,10 +6,10 @@ import ar.edu.unsam.algo3.domain.ClienteAllTipos
 import ar.edu.unsam.algo3.domain.ClienteNormal
 import ar.edu.unsam.algo3.domain.ClienteVegano
 import ar.edu.unsam.algo3.domain.Combinado
-import ar.edu.unsam.algo3.domain.Direccion
+import ar.edu.unsam.algo3.domain.Address
 import ar.edu.unsam.algo3.domain.GrupoAlimentos
 import ar.edu.unsam.algo3.domain.Inbox
-import ar.edu.unsam.algo3.domain.Ingrediente
+import ar.edu.unsam.algo3.domain.Ingredient
 import ar.edu.unsam.algo3.domain.LlegaMeta
 import ar.edu.unsam.algo3.domain.LlegaMonto
 import ar.edu.unsam.algo3.domain.LlegaVentas
@@ -18,7 +18,7 @@ import ar.edu.unsam.algo3.domain.MailSender
 import ar.edu.unsam.algo3.domain.MailsenderGlobal
 import ar.edu.unsam.algo3.domain.MedioDePago
 import ar.edu.unsam.algo3.domain.Pedido
-import ar.edu.unsam.algo3.domain.Plato
+import ar.edu.unsam.algo3.domain.Dish
 import ar.edu.unsam.algo3.domain.PlatoRepository
 import ar.edu.unsam.algo3.domain.RepositoryGlobal
 import ar.edu.unsam.algo3.domain.Valoracion
@@ -38,7 +38,7 @@ class ObserverSpec : DescribeSpec({
         beforeEach {
             local = Local(
                 name = "Test Local",
-                address = Direccion("Calle Test", "123", Point(0, 0)),
+                address = Address("Calle Test", "123", Point(0, 0)),
                 paymentMethods = mutableSetOf(MedioDePago.EFECTIVO),
                 ratings = mutableSetOf(),
                 inbox = Inbox()
@@ -166,25 +166,25 @@ class ObserverSpec : DescribeSpec({
 
             it("Debe enviar por mail publicidad de platos acordes a las preferencias del cliente") {
                 val cliente = crearCliente()
-                var ingredienteFeo = Ingrediente("Carne", 10.0, GrupoAlimentos.PROTEINAS)
-                cliente.ingredientesAEvitar.add(ingredienteFeo)
+                var ingredientFeo = Ingredient("Carne", 10.0, GrupoAlimentos.PROTEINAS)
+                cliente.ingredientesAEvitar.add(ingredientFeo)
 
-                val platoApto = Plato(
+                val dishApto = Dish(
                     nombre = "Plato Apto",
                     descripcion = "Plato para test",
                     valorBase = 100.0,
-                    ingredientes = listOf(),
+                    ingredients = listOf(),
                     local = local,
                     lanzamiento = LocalDate.now(),
                     regaliasAutor = 0.0,
                     descuento = 0.0,
                     porcentajeAcordadoConLocal = 0.0
                 )
-                val platoNoApto = Plato(
+                val dishNoApto = Dish(
                     nombre = "Plato No Apto",
                     descripcion = "Tiene ingrediente a evitar",
                     valorBase = 100.0,
-                    ingredientes = listOf(ingredienteFeo),
+                    ingredients = listOf(ingredientFeo),
                     local = local,
                     lanzamiento = LocalDate.now(),
                     regaliasAutor = 0.0,
@@ -193,13 +193,13 @@ class ObserverSpec : DescribeSpec({
                 )
 
                 // *** CAMBIAR ESTAS LÍNEAS PARA USAR EL REPOSITORIO GLOBAL ***
-                RepositoryGlobal.create(platoApto)
-                RepositoryGlobal.create(platoNoApto)
+                RepositoryGlobal.create(dishApto)
+                RepositoryGlobal.create(dishNoApto)
                 // *** FIN DE CAMBIO ***
 
                 val pedido = Pedido.crearPedido(
                     cliente = cliente,
-                    plato = listOf(platoApto),
+                    plato = listOf(dishApto),
                     local = local,
                     medioDePago = MedioDePago.EFECTIVO,
                     //mailSender = mailSender,
@@ -211,8 +211,8 @@ class ObserverSpec : DescribeSpec({
                 val mailEnviado = MailsenderGlobal.log.first()
                 print(mailEnviado)
                 mailEnviado shouldContain "Recomendaciones en ${local.name}"
-                mailEnviado shouldContain platoApto.nombre
-                mailEnviado shouldNotContain platoNoApto.nombre
+                mailEnviado shouldContain dishApto.nombre
+                mailEnviado shouldNotContain dishNoApto.nombre
             }
         }
     }
@@ -220,11 +220,11 @@ class ObserverSpec : DescribeSpec({
 
 // Funciones auxiliares para crear objetos de prueba
 private fun crearPedidoConMonto(monto: Double, local: Local, mailSender: MailSender, platoRepository: PlatoRepository): Pedido {
-    val plato = Plato(
+    val dish = Dish(
         nombre = "Test",
         descripcion = "Test",
         valorBase = monto,
-        ingredientes = listOf(),
+        ingredients = listOf(),
         local = local,
         lanzamiento = LocalDate.now(),
         regaliasAutor = 0.0,
@@ -234,7 +234,7 @@ private fun crearPedidoConMonto(monto: Double, local: Local, mailSender: MailSen
 
     return Pedido(
         cliente = crearCliente(),
-        plato = listOf(plato),
+        plato = listOf(dish),
         local = local,
         delivery = null,
         medioDePago = MedioDePago.EFECTIVO
@@ -242,12 +242,12 @@ private fun crearPedidoConMonto(monto: Double, local: Local, mailSender: MailSen
 }
 
 private fun crearPedidoConPlatos(cantidadPlatos: Int, local: Local, mailSender: MailSender, platoRepository: PlatoRepository): Pedido {
-    val platos = (1..cantidadPlatos).map {
-        Plato(
+    val dishes = (1..cantidadPlatos).map {
+        Dish(
             nombre = "Plato $it",
             descripcion = "Test",
             valorBase = 100.0,
-            ingredientes = listOf(),
+            ingredients = listOf(),
             local = local,
             lanzamiento = LocalDate.now(),
             regaliasAutor = 0.0,
@@ -258,7 +258,7 @@ private fun crearPedidoConPlatos(cantidadPlatos: Int, local: Local, mailSender: 
 
     return Pedido(
         cliente = crearCliente(),
-        plato = platos,
+        plato = dishes,
         local = local,
         delivery = null,
         medioDePago = MedioDePago.EFECTIVO
@@ -278,22 +278,22 @@ private fun crearCliente(): Cliente {
         fechaNacimiento = LocalDate.now().minusYears(20),
         fechaRegistro = LocalDate.now(),
         mail = "test@test.com",
-        direccion = Direccion("Test", "123", Point(0, 0))
+        direccion = Address("Test", "123", Point(0, 0))
     )
 }
 
 private fun crearPedidoVegano(local: Local, cliente: Cliente = crearCliente(), mailSender: MailSender, platoRepository: PlatoRepository): Pedido {
-    val ingredienteVegano = Ingrediente(
+    val ingredientVegano = Ingredient(
         name = "Lechuga",
         price = 50.0,
         group = GrupoAlimentos.FRUTAS_Y_VERDURAS
     )
 
-    val platoVegano = Plato(
+    val dishVegano = Dish(
         nombre = "Ensalada Vegana",
         descripcion = "Plato 100% vegano",
         valorBase = 200.0,
-        ingredientes = listOf(ingredienteVegano),
+        ingredients = listOf(ingredientVegano),
         local = local,
         lanzamiento = LocalDate.now(),
         regaliasAutor = 0.0,
@@ -303,7 +303,7 @@ private fun crearPedidoVegano(local: Local, cliente: Cliente = crearCliente(), m
 
     return Pedido(
         cliente = cliente,
-        plato = listOf(platoVegano),
+        plato = listOf(dishVegano),
         local = local,
         delivery = null,
         medioDePago = MedioDePago.EFECTIVO
@@ -323,7 +323,7 @@ private fun crearClienteAntiguo(): Cliente {
         fechaNacimiento = LocalDate.now().minusYears(30),
         fechaRegistro = LocalDate.now().minusYears(2),
         mail = "antiguo@test.com",
-        direccion = Direccion("Test", "123", Point(0, 0))
+        direccion = Address("Test", "123", Point(0, 0))
     )
 }
 
@@ -334,11 +334,11 @@ private fun crearPedidoCertificado(local: Local, cliente: Cliente, mailSender: M
     return Pedido(
         cliente = cliente,
         plato = listOf(
-            Plato(
+            Dish(
                 nombre = "Plato Premium",
                 descripcion = "Plato especial certificado",
                 valorBase = 500.0,
-                ingredientes = listOf(),
+                ingredients = listOf(),
                 local = local,
                 lanzamiento = LocalDate.now(),
                 regaliasAutor = 0.0,

@@ -7,14 +7,14 @@ import ar.edu.unsam.algo3.domain.CuponDiaEspecifico
 import ar.edu.unsam.algo3.domain.CuponLocalEspecifico
 import ar.edu.unsam.algo3.exceptions.CuponNoAplicacionException
 import ar.edu.unsam.algo3.domain.CuponTopeMaximo
-import ar.edu.unsam.algo3.domain.Direccion
+import ar.edu.unsam.algo3.domain.Address
 import ar.edu.unsam.algo3.domain.EstadoPedido
 import ar.edu.unsam.algo3.domain.GrupoAlimentos
-import ar.edu.unsam.algo3.domain.Ingrediente
+import ar.edu.unsam.algo3.domain.Ingredient
 import ar.edu.unsam.algo3.domain.Local
 import ar.edu.unsam.algo3.domain.MedioDePago
 import ar.edu.unsam.algo3.domain.Pedido
-import ar.edu.unsam.algo3.domain.Plato
+import ar.edu.unsam.algo3.domain.Dish
 import ar.edu.unsam.algo3.domain.PlatoRepository
 import ar.edu.unsam.algo3.domain.Valoracion
 import io.kotest.assertions.throwables.shouldThrow
@@ -30,13 +30,13 @@ class CuponSpec : DescribeSpec({
     lateinit var pedido: Pedido
     lateinit var pedido2: Pedido
     lateinit var cliente: Cliente
-    lateinit var ingrediente1: Ingrediente
-    lateinit var ingrediente2: Ingrediente
-    lateinit var ingrediente3: Ingrediente
-    lateinit var ingrediente4: Ingrediente
-    lateinit var ingrediente5: Ingrediente
-    lateinit var plato1: Plato
-    lateinit var plato2: Plato
+    lateinit var ingredient1: Ingredient
+    lateinit var ingredient2: Ingredient
+    lateinit var ingredient3: Ingredient
+    lateinit var ingredient4: Ingredient
+    lateinit var ingredient5: Ingredient
+    lateinit var dish1: Dish
+    lateinit var dish2: Dish
     lateinit var cupon1: CuponDiaEspecifico
     lateinit var cupon2: Cupon
     lateinit var cupon3: CuponTopeMaximo
@@ -54,7 +54,7 @@ class CuponSpec : DescribeSpec({
             fechaNacimiento = LocalDate.of(1990, 1, 1),
             fechaRegistro = LocalDate.of(2020, 1, 1),
             "cliente@gmail.com",
-            direccion = Direccion(
+            direccion = Address(
                 calle = "Calle Falsa",
                 altura = "123",
                 coordenadas = Point(2, 2)
@@ -65,15 +65,15 @@ class CuponSpec : DescribeSpec({
             tipoDeCliente = ClienteNormal(),
         )
 
-        ingrediente1 = Ingrediente("Carne", 120.0, GrupoAlimentos.PROTEINAS)
-        ingrediente2 = Ingrediente("Tocino", 80.0, GrupoAlimentos.GRASAS_Y_ACEITES) //ejem, panceta
-        ingrediente3 = Ingrediente("Tomate", 100.0, GrupoAlimentos.FRUTAS_Y_VERDURAS)
-        ingrediente4 = Ingrediente("Papa", 60.0, GrupoAlimentos.CEREALES_Y_TUBERCULOS)
-        ingrediente5 = Ingrediente("Aceite", 70.0, GrupoAlimentos.GRASAS_Y_ACEITES)
+        ingredient1 = Ingredient("Carne", 120.0, GrupoAlimentos.PROTEINAS)
+        ingredient2 = Ingredient("Tocino", 80.0, GrupoAlimentos.GRASAS_Y_ACEITES) //ejem, panceta
+        ingredient3 = Ingredient("Tomate", 100.0, GrupoAlimentos.FRUTAS_Y_VERDURAS)
+        ingredient4 = Ingredient("Papa", 60.0, GrupoAlimentos.CEREALES_Y_TUBERCULOS)
+        ingredient5 = Ingredient("Aceite", 70.0, GrupoAlimentos.GRASAS_Y_ACEITES)
 
         local = Local(
             name = "Comida Rápida",
-            address = Direccion(
+            address = Address(
                 calle = "Calle",
                 altura = "456",
                 coordenadas = Point(-1, -1)
@@ -100,10 +100,10 @@ class CuponSpec : DescribeSpec({
             )
         )
 
-        plato1 = Plato(
+        dish1 = Dish(
             nombre = "Hamburguesa",
             descripcion = "Hamburguesa gourmet con carne de res premium, tocino crujiente y salsa especial",
-            ingredientes = listOf(ingrediente1, ingrediente2, ingrediente3),
+            ingredients = listOf(ingredient1, ingredient2, ingredient3),
             local = local,
             porcentajeAcordadoConLocal = 20.0,
             lanzamiento = LocalDate.now().minusDays(2),
@@ -112,10 +112,10 @@ class CuponSpec : DescribeSpec({
             descuento = 0.0
         )
 
-        plato2 = Plato(
+        dish2 = Dish(
             nombre = "Papas Fritas",
             descripcion = "Papas fritas clásicas, crujientes por fuera y suaves por dentro",
-            ingredientes = listOf(ingrediente4, ingrediente5),
+            ingredients = listOf(ingredient4, ingredient5),
             local = local,
             porcentajeAcordadoConLocal = 30.0,
             lanzamiento = LocalDate.now().minusDays(3),
@@ -126,7 +126,7 @@ class CuponSpec : DescribeSpec({
 
         pedido = Pedido(
             cliente = cliente,
-            plato = listOf(plato1, plato2),
+            plato = listOf(dish1, dish2),
             estado = EstadoPedido.PENDIENTE,
             local = local,
             delivery = null,
@@ -137,7 +137,7 @@ class CuponSpec : DescribeSpec({
 
         pedido2 = Pedido(
             cliente = cliente,
-            plato = listOf(plato1, plato2),
+            plato = listOf(dish1, dish2),
             estado = EstadoPedido.PENDIENTE,
             local = local,
             delivery = null,
@@ -187,7 +187,7 @@ class CuponSpec : DescribeSpec({
             //Descuento = 4355.30 * 0.20 = 871.06
             //Total con descuento = 4355.30 - 871.06 = 3484.24
 
-            plato1.lanzamiento=LocalDate.now();
+            dish1.lanzamiento=LocalDate.now();
             cupon1.aplicar(pedido)
             pedido.totalDelPedidoConCupon(cupon1) shouldBe 3484.24
         }

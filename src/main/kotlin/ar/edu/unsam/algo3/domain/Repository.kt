@@ -1,5 +1,4 @@
 package ar.edu.unsam.algo3.domain
-import ar.edu.unsam.algo3.dto.AuthDTO
 import org.springframework.stereotype.Repository
 
 //Repositorio para cada una de las entidades
@@ -7,12 +6,12 @@ import org.springframework.stereotype.Repository
 //guardar todas las entidades disponibles.
 abstract class InMemoryRepository<T: Entity> {
     val elements = mutableMapOf<Int, T>()
-    var idDisponible = 1
+    var nextId = 1
 
     fun create(item: T) {
-        item.id = idDisponible
-        elements[idDisponible] = item
-        idDisponible += 1
+        item.id = nextId
+        elements[nextId] = item
+        nextId += 1
     }
 
     fun delete(item: T) {
@@ -34,79 +33,81 @@ abstract class InMemoryRepository<T: Entity> {
     abstract fun search(value: String): List<T>
 }
 
-open class Entity (
+open class Entity(
     var id: Int = 0
 )
 
 @Repository
-class ClienteRepository : InMemoryRepository<Cliente>() {
+class ClientRepository : InMemoryRepository<Client>() {
 
-    fun buscarNombre(value: String): List<Cliente> =  elements.values.filter { cliente -> cliente.nombre.contains(value, ignoreCase = true)}
-    fun buscarApellido(value: String): List<Cliente> = elements.values.filter { cliente ->cliente.apellido.contains(value, ignoreCase = true)}
-    fun buscarPassword(value: String): List<Cliente> = elements.values.filter { cliente -> cliente.password.equals(value, ignoreCase = true)}
-    fun buscarUsername(value: String): List<Cliente> = elements.values.filter { cliente ->cliente.username.contains(value, ignoreCase = true)}
+    fun searchByName(value: String): List<Client> = elements.values.filter { it.firstName.contains(value, ignoreCase = true) }
+    fun searchByLastName(value: String): List<Client> = elements.values.filter { it.lastName.contains(value, ignoreCase = true) }
+    fun searchByPassword(value: String): List<Client> = elements.values.filter { it.password.equals(value, ignoreCase = true) }
+    fun searchByUsername(value: String): List<Client> = elements.values.filter { it.username.contains(value, ignoreCase = true) }
 
-    override fun search(value: String): List<Cliente> {
-        return (buscarPassword(value) + buscarUsername(value)).distinct()
+    override fun search(value: String): List<Client> {
+        return (searchByPassword(value) + searchByUsername(value)).distinct()
     }
 
-    fun searchCredenciales(value: String, password : String ): Cliente {
-        val clientesPorUsername = buscarUsername(value)
-        return clientesPorUsername.filter { cliente -> cliente.password == password }.first()
+    fun searchCredentials(username: String, password: String): Client {
+        val clientsByUsername = searchByUsername(username)
+        return clientsByUsername.filter { it.password == password }.first()
     }
-
 }
 
 @Repository
 class LocalRepository : InMemoryRepository<Local>() {
-    fun buscarNombre(value: String): List<Local> = elements.values.filter { local -> local.name.contains(value, ignoreCase = true)}
-    fun buscarDireccion(value: String): List<Local> = elements.values.filter { local -> local.address.equals(value)}
+    fun searchByName(value: String): List<Local> = elements.values.filter { it.name.contains(value, ignoreCase = true) }
+    fun searchByAddress(value: String): List<Local> = elements.values.filter { it.address.equals(value) }
 
     override fun search(value: String): List<Local> {
-        return (buscarNombre(value) + buscarDireccion(value)).distinct()
+        return (searchByName(value) + searchByAddress(value)).distinct()
     }
 }
+
 @Repository
 class DeliveryRepository : InMemoryRepository<Delivery>() {
     override fun search(value: String): List<Delivery> {
-        return elements.values.filter { delivery -> delivery.username.startsWith(value, ignoreCase = true)  }.toList()
+        return elements.values.filter { it.username.startsWith(value, ignoreCase = true) }.toList()
     }
 }
 
 /*ATENCION!!: Estoy creando el repositorio porque no estaba. ¿Podré usar alguno de los que ya están?*/
 @Repository
-class PedidoRepository : InMemoryRepository<Pedido>() {
-    override fun search(value: String): List<Pedido> {
-        val estado = try {
-            EstadoPedido.valueOf(value.uppercase())
+class OrderRepository : InMemoryRepository<Order>() {
+    override fun search(value: String): List<Order> {
+        val status = try {
+            OrderStatus.valueOf(value.uppercase())
         } catch (e: IllegalArgumentException) {
             return emptyList()  //ojo con esto
         }
-        return elements.values.filter { pedido -> pedido.estado == estado }
+        return elements.values.filter { it.status == status }
     }
 }
 
 @Repository
-class IngredienteRepository : InMemoryRepository<Ingrediente>() {
-    override fun search(value: String): List<Ingrediente> {
-        return elements.values.filter { ingrediente -> ingrediente.name.equals(value, ignoreCase = true) }.toList()
+class IngredientRepository : InMemoryRepository<Ingredient>() {
+    override fun search(value: String): List<Ingredient> {
+        return elements.values.filter { it.name.equals(value, ignoreCase = true) }.toList()
     }
 }
+
 @Repository
-open class PlatoRepository : InMemoryRepository<Plato>() {
+open class DishRepository : InMemoryRepository<Dish>() {
 
-    fun descripcionContiene(value: String): List<Plato> = elements.values.filter { plato -> plato.descripcion.contains(value, ignoreCase = true)}
-    fun buscarNombreLocal(value: String): List<Plato> = elements.values.filter { plato -> plato.local.name.contains(value, ignoreCase = true) }
-    fun buscarDireccionLocal(value: String): List<Plato> = elements.values.filter { plato -> plato.local.address.calle.equals(value, ignoreCase = true) }
+    fun descriptionContains(value: String): List<Dish> = elements.values.filter { it.description.contains(value, ignoreCase = true) }
+    fun searchByLocalName(value: String): List<Dish> = elements.values.filter { it.local.name.contains(value, ignoreCase = true) }
+    fun searchByLocalAddress(value: String): List<Dish> = elements.values.filter { it.local.address.street.equals(value, ignoreCase = true) }
 
-    override fun search(value: String): List<Plato> {
-        return (descripcionContiene(value) + buscarNombreLocal(value) + buscarDireccionLocal(value)).distinct()
+    override fun search(value: String): List<Dish> {
+        return (descriptionContains(value) + searchByLocalName(value) + searchByLocalAddress(value)).distinct()
     }
 }
+
 @Repository
-class CuponRepository : InMemoryRepository<Cupon>() {
-    override fun search(value: String): List<Cupon> {
-        val porcentajeBuscado = value.toDouble()
-        return elements.values.filter { cupon -> cupon.porcentajeBaseDescuento == (porcentajeBuscado) }.toList()
+class CouponRepository : InMemoryRepository<Coupon>() {
+    override fun search(value: String): List<Coupon> {
+        val searchedPercentage = value.toDouble()
+        return elements.values.filter { it.baseDiscountRate == searchedPercentage }.toList()
     }
 }

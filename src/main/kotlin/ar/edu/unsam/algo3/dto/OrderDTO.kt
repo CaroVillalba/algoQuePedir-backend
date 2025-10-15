@@ -1,7 +1,7 @@
 package ar.edu.unsam.algo3.dto
 
-import ar.edu.unsam.algo3.domain.EstadoPedido
-import ar.edu.unsam.algo3.domain.MedioDePago
+import ar.edu.unsam.algo3.domain.OrderStatus
+import ar.edu.unsam.algo3.domain.PaymentMethod
 import java.time.LocalTime
 
 /*ATENCION: MedioDePago es medio distinto a lo que tenemos en el front. Puede ser que haya que agregar algun icono, ¿O no?*/
@@ -15,9 +15,9 @@ data class OrderDTO (
     val hora: LocalTime?,
     val platos: List<MenuDTO>,
     val direction: DireccionOrderDTO,
-    val metodoPago: MedioDePago,
+    val metodoPago: PaymentMethod,
     val cantidad: Number,
     val total: Number,
     val subtotal: Number,
-    val state: EstadoPedido
+    val state: OrderStatus
 )

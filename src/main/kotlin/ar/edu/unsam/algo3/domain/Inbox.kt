@@ -2,37 +2,35 @@ package ar.edu.unsam.algo3.domain
 
 import java.time.LocalDateTime
 
-class Mensaje(
-    val fechaEmision: LocalDateTime,
-    val asunto: String,
-    val contenido: String,
-    private var leido: Boolean = false
+class Message(
+    val sentAt: LocalDateTime,
+    val subject: String,
+    val content: String,
+    private var read: Boolean = false
 ) {
-    fun marcarComoLeido() {
-        leido = true
+    fun markAsRead() {
+        read = true
     }
 
-    fun marcarComoNoLeido() {
-        leido = false
+    fun markAsUnread() {
+        read = false
     }
 
-    fun estaLeido() = leido
+    fun isRead() = read
 }
 
 class Inbox {
-    val mensajes = mutableListOf<Mensaje>()
+    private val internalMessages = mutableListOf<Message>()
 
-    fun agregarMensaje(mensaje: Mensaje) {
-        mensajes.add(mensaje)
+    fun addMessage(message: Message) {
+        internalMessages.add(message)
     }
 
-    fun obtenerMensajes(): List<Mensaje> = mensajes.toList()
+    fun getMessages(): List<Message> = internalMessages.toList()
 
-    fun obtenerMensajesNoLeidos(): List<Mensaje> =
-        mensajes.filter { !it.estaLeido() }
+    fun getUnreadMessages(): List<Message> =
+        internalMessages.filter { !it.isRead() }
 
-    fun obtenerMensajesLeidos(): List<Mensaje> =
-        mensajes.filter { it.estaLeido() }
+    fun getReadMessages(): List<Message> =
+        internalMessages.filter { it.isRead() }
 }
-
-

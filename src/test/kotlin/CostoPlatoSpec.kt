@@ -1,9 +1,9 @@
-import ar.edu.unsam.algo3.domain.Direccion
+import ar.edu.unsam.algo3.domain.Address
 import ar.edu.unsam.algo3.domain.GrupoAlimentos
-import ar.edu.unsam.algo3.domain.Ingrediente
+import ar.edu.unsam.algo3.domain.Ingredient
 import ar.edu.unsam.algo3.domain.Local
 import ar.edu.unsam.algo3.domain.MedioDePago
-import ar.edu.unsam.algo3.domain.Plato
+import ar.edu.unsam.algo3.domain.Dish
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import org.uqbar.geodds.Point
@@ -12,13 +12,13 @@ import java.time.LocalDate
 class CostoPlatoSpec : DescribeSpec({
     describe("Cálculo de costos y descuentos de Plato") {
         lateinit var localTest: Local
-        lateinit var platoVacio: Plato
-        lateinit var sangucheQuesoBase: Plato
+        lateinit var dishVacio: Dish
+        lateinit var sangucheQuesoBase: Dish
 
         beforeEach {
             localTest = Local(
                 name = "Local de Prueba",
-                address = Direccion(
+                address = Address(
                     calle = "Ayuda",
                     altura = "123",
                     coordenadas = Point(0, 1)
@@ -27,10 +27,10 @@ class CostoPlatoSpec : DescribeSpec({
                 ratings = mutableSetOf()
             )
 
-            platoVacio = Plato(
+            dishVacio = Dish(
                 nombre = "Plato Vacio",
                 descripcion = "Literalmente un plato playo vacio",
-                ingredientes = arrayListOf(),
+                ingredients = arrayListOf(),
                 local = localTest,
                 lanzamiento = LocalDate.now(),
                 regaliasAutor = 0.0,
@@ -39,21 +39,21 @@ class CostoPlatoSpec : DescribeSpec({
                 descuento = 1.0
             )
 
-            sangucheQuesoBase = Plato(
+            sangucheQuesoBase = Dish(
                 nombre = "Sanguche de Queso Base",
                 descripcion = "Configuración base para tests",
-                ingredientes = arrayListOf(
-                    Ingrediente(
+                ingredients = arrayListOf(
+                    Ingredient(
                         name = "Pan",
                         price = 5.0,
                         group = GrupoAlimentos.CEREALES_Y_TUBERCULOS
                     ),
-                    Ingrediente(
+                    Ingredient(
                         name = "Pan",
                         price = 5.0,
                         group = GrupoAlimentos.CEREALES_Y_TUBERCULOS
                     ),
-                    Ingrediente(
+                    Ingredient(
                         name = "Queso",
                         price = 30.0,
                         group = GrupoAlimentos.LACTEOS
@@ -69,7 +69,7 @@ class CostoPlatoSpec : DescribeSpec({
         }
 
         it("Plato sin ingredientes debe tener costo 0") {
-            platoVacio.costoDeIngredientes() shouldBe 0.0
+            dishVacio.costoDeIngredientes() shouldBe 0.0
         }
 
         it("Costo de ingredientes debe sumar correctamente") {
@@ -125,21 +125,21 @@ class CostoPlatoSpec : DescribeSpec({
         fun crearSangucheQueso(
             lanzamiento: LocalDate,
             descuento: Double
-        ) = Plato(
+        ) = Dish(
             nombre = "Sanguche de Queso",
             descripcion = "Dos panes un queso! Uma delicia",
-            ingredientes = arrayListOf(
-                Ingrediente(
+            ingredients = arrayListOf(
+                Ingredient(
                     name = "Pan",
                     price = 5.0,
                     group = GrupoAlimentos.CEREALES_Y_TUBERCULOS
                 ),
-                Ingrediente(
+                Ingredient(
                     name = "Pan",
                     price = 5.0,
                     group = GrupoAlimentos.CEREALES_Y_TUBERCULOS
                 ),
-                Ingrediente(
+                Ingredient(
                     name = "Queso",
                     price = 30.0,
                     group = GrupoAlimentos.LACTEOS
@@ -147,7 +147,7 @@ class CostoPlatoSpec : DescribeSpec({
             ),
             local = Local(
                 name = "Local Temporal",
-                address = Direccion(
+                address = Address(
                     calle = "Temp",
                     altura = "1",
                     coordenadas = Point(0, 0)

@@ -1,10 +1,8 @@
 package ar.edu.unsam.algo3.controller
 
-import ar.edu.unsam.algo3.domain.Plato
-import ar.edu.unsam.algo3.dto.LocalAccountDTO
+import ar.edu.unsam.algo3.domain.Dish
 import ar.edu.unsam.algo3.service.PlateService
 import ar.edu.unsam.algo3.dto.MenuDTO
-import ar.edu.unsam.algo3.dto.PlatoDTO
 import ar.edu.unsam.algo3.exceptions.BusinessException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -26,9 +24,9 @@ class DishController (private val plateService: PlateService){
         }
     }
     @PostMapping("/edit-plate")
-    fun createPlate(@RequestBody plate: Plato){
+    fun createPlate(@RequestBody dish: Dish){
         try{
-            plateService.createPlate(plate)
+            plateService.createPlate(dish)
         }catch (e: BusinessException){
             ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.message)
         }

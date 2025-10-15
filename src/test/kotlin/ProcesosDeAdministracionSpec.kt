@@ -1,4 +1,4 @@
-import ar.edu.unsam.algo3.domain.Direccion
+import ar.edu.unsam.algo3.domain.Address
 import ar.edu.unsam.algo3.domain.ActualizarIngredientesProceso
 import ar.edu.unsam.algo3.domain.Administrador
 import ar.edu.unsam.algo3.domain.AgregarLocales
@@ -158,13 +158,13 @@ class ProcesosDeAdministracionSpec : DescribeSpec ({
                 val locales = listOf(
                     Local(
                         "Local 1",
-                        address = Direccion("Calle 1", "123", Point(-3, -3)),
+                        address = Address("Calle 1", "123", Point(-3, -3)),
                         mutableSetOf(MedioDePago.EFECTIVO),
                         mutableSetOf()
                     ),
                     Local(
                         "Local 2",
-                        address = Direccion("Calle 2", "456", Point(2, 2)),
+                        address = Address("Calle 2", "456", Point(2, 2)),
                         mutableSetOf(MedioDePago.EFECTIVO),
                         mutableSetOf()
                     )

@@ -1,8 +1,8 @@
 import ar.edu.unsam.algo3.domain.Cliente
 import ar.edu.unsam.algo3.domain.ClienteNormal
-import ar.edu.unsam.algo3.domain.Direccion
+import ar.edu.unsam.algo3.domain.Address
 import ar.edu.unsam.algo3.domain.GrupoAlimentos
-import ar.edu.unsam.algo3.domain.Ingrediente
+import ar.edu.unsam.algo3.domain.Ingredient
 import ar.edu.unsam.algo3.domain.Usuario
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -12,15 +12,15 @@ import java.time.LocalDate
 
 class UsuarioSpec {
     private lateinit var usuario: Usuario
-    private lateinit var ingrediente1: Ingrediente
-    private lateinit var ingrediente2: Ingrediente
-    private lateinit var ingrediente3: Ingrediente
+    private lateinit var ingredient1: Ingredient
+    private lateinit var ingredient2: Ingredient
+    private lateinit var ingredient3: Ingredient
     val fechadehoymenos30 = LocalDate.now().minusYears(30)
     @BeforeEach
     fun setUp() {
-        ingrediente1 = Ingrediente("Tomate", 100.0, group = GrupoAlimentos.FRUTAS_Y_VERDURAS)
-        ingrediente2 = Ingrediente("Carne", 500.0, group = GrupoAlimentos.PROTEINAS)
-        ingrediente3 = Ingrediente("Lechuga", 80.0, group = GrupoAlimentos.FRUTAS_Y_VERDURAS)
+        ingredient1 = Ingredient("Tomate", 100.0, group = GrupoAlimentos.FRUTAS_Y_VERDURAS)
+        ingredient2 = Ingredient("Carne", 500.0, group = GrupoAlimentos.PROTEINAS)
+        ingredient3 = Ingredient("Lechuga", 80.0, group = GrupoAlimentos.FRUTAS_Y_VERDURAS)
 
         usuario = Cliente(
             nombre = "Juan",
@@ -30,7 +30,7 @@ class UsuarioSpec {
             fechaNacimiento = fechadehoymenos30,
             fechaRegistro = LocalDate.now(),
             "usuario@gmail.com",
-            direccion = Direccion(
+            direccion = Address(
                 calle = "Calle random en kirguistan",
                 coordenadas = Point(40.92963, 73.00132)
             ),

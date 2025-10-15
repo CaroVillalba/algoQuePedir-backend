@@ -1,13 +1,13 @@
 import ar.edu.unsam.algo3.domain.AuditoriaMailSender
 import ar.edu.unsam.algo3.domain.Cliente
 import ar.edu.unsam.algo3.domain.CrearPedidoClienteCommand
-import ar.edu.unsam.algo3.domain.Direccion
+import ar.edu.unsam.algo3.domain.Address
 import ar.edu.unsam.algo3.domain.GrupoAlimentos
-import ar.edu.unsam.algo3.domain.Ingrediente
+import ar.edu.unsam.algo3.domain.Ingredient
 import ar.edu.unsam.algo3.domain.Local
 import ar.edu.unsam.algo3.domain.MailSender
 import ar.edu.unsam.algo3.domain.MedioDePago
-import ar.edu.unsam.algo3.domain.Plato
+import ar.edu.unsam.algo3.domain.Dish
 import ar.edu.unsam.algo3.domain.PlatoRepository
 import ar.edu.unsam.algo3.domain.PuntuarFijoClienteCommandStrat
 import ar.edu.unsam.algo3.domain.PuntuarLocalesClienteCommand
@@ -22,9 +22,9 @@ import org.uqbar.geodds.Point
 class ClienteCommandSpec  : DescribeSpec ({
     describe("Puntuar Locales Cliente Command") {
         lateinit var platorepository: PlatoRepository
-        lateinit var ingrediente1: Ingrediente
+        lateinit var ingredient1: Ingredient
         lateinit var mailsender: MailSender
-        lateinit var plato: Plato
+        lateinit var dish: Dish
         lateinit var cliente: Cliente
         lateinit var local1: Local
         lateinit var local2: Local
@@ -35,7 +35,7 @@ class ClienteCommandSpec  : DescribeSpec ({
             cliente = Cliente()
             local1 = Local(
                 "testLocal",
-                Direccion(
+                Address(
                     "testCalle",
                     "testAltura",
                     Point(0, 0)
@@ -43,13 +43,13 @@ class ClienteCommandSpec  : DescribeSpec ({
                 mutableSetOf(MedioDePago.EFECTIVO),
                 mutableSetOf(),
             )
-            ingrediente1 =
-                Ingrediente(name = "Tomate", price = 100.0, group = GrupoAlimentos.FRUTAS_Y_VERDURAS)
-            plato = Plato(
+            ingredient1 =
+                Ingredient(name = "Tomate", price = 100.0, group = GrupoAlimentos.FRUTAS_Y_VERDURAS)
+            dish = Dish(
                 nombre = "Pasta",
                 descripcion = "Un plato de pasta clásica y deliciosa",
                 valorBase = 500.0,
-                ingredientes = listOf(ingrediente1),
+                ingredients = listOf(ingredient1),
                 local = local1,
                 lanzamiento = LocalDate.now(),
                 regaliasAutor = 0.0,
@@ -66,7 +66,7 @@ class ClienteCommandSpec  : DescribeSpec ({
 
              local2= Local(
                  "testLocal",
-                 Direccion(
+                 Address(
                      "testCalle",
                      "testAltura",
                      Point(0, 0)
@@ -84,7 +84,7 @@ class ClienteCommandSpec  : DescribeSpec ({
 
              local3 = Local(
                  "testLocal",
-                 Direccion(
+                 Address(
                      "testCalle",
                      "testAltura",
                      Point(0, 0)
@@ -157,7 +157,7 @@ class ClienteCommandSpec  : DescribeSpec ({
         it("cliente crea un pedido"){
             cliente.comandos = mutableListOf(
                 CrearPedidoClienteCommand(
-                    mutableListOf(plato),
+                    mutableListOf(dish),
                     local1,
                     MedioDePago.EFECTIVO,
                     //mailsender,

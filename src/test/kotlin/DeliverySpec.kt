@@ -10,16 +10,16 @@ import ar.edu.unsam.algo3.domain.CondicionPedidoCertificado
 import ar.edu.unsam.algo3.domain.CondicionRangoHorario
 import ar.edu.unsam.algo3.domain.CuponBase
 import ar.edu.unsam.algo3.domain.Delivery
-import ar.edu.unsam.algo3.domain.Direccion
+import ar.edu.unsam.algo3.domain.Address
 import ar.edu.unsam.algo3.domain.EstadoPedido
 import ar.edu.unsam.algo3.domain.GrupoAlimentos
-import ar.edu.unsam.algo3.domain.Ingrediente
+import ar.edu.unsam.algo3.domain.Ingredient
 import ar.edu.unsam.algo3.domain.Local
 import ar.edu.unsam.algo3.domain.MedioDePago
 import ar.edu.unsam.algo3.domain.Pedido
 import ar.edu.unsam.algo3.exceptions.PedidoInvalidoException
 import ar.edu.unsam.algo3.exceptions.PedidoStateException
-import ar.edu.unsam.algo3.domain.Plato
+import ar.edu.unsam.algo3.domain.Dish
 import ar.edu.unsam.algo3.domain.PlatoRepository
 import ar.edu.unsam.algo3.domain.Valoracion
 import io.kotest.core.spec.style.DescribeSpec
@@ -34,15 +34,15 @@ class DeliverySpec : DescribeSpec({
     lateinit var delivery: Delivery
     lateinit var pedido: Pedido
     lateinit var cliente: Cliente
-    lateinit var ingrediente1: Ingrediente
-    lateinit var ingrediente2: Ingrediente
-    lateinit var ingrediente3: Ingrediente
-    lateinit var ingrediente4: Ingrediente
-    lateinit var ingrediente5: Ingrediente
+    lateinit var ingredient1: Ingredient
+    lateinit var ingredient2: Ingredient
+    lateinit var ingredient3: Ingredient
+    lateinit var ingredient4: Ingredient
+    lateinit var ingredient5: Ingredient
     lateinit var local: Local
     lateinit var local2: Local
-    lateinit var plato1: Plato
-    lateinit var plato2: Plato
+    lateinit var dish1: Dish
+    lateinit var dish2: Dish
     lateinit var condicionesList: MutableList<CondicionEntrega>
 
     beforeTest {
@@ -58,7 +58,7 @@ class DeliverySpec : DescribeSpec({
             fechaNacimiento = LocalDate.of(1990, 1, 1),
             fechaRegistro = LocalDate.of(2020, 1, 1),
             "cliente@mail.com",
-            direccion = Direccion(
+            direccion = Address(
                 calle = "Calle Falsa",
                 altura = "123",
                 coordenadas = Point(2, 2)
@@ -71,7 +71,7 @@ class DeliverySpec : DescribeSpec({
 
         local = Local(
             name = "Comida Rápida",
-            address = Direccion(
+            address = Address(
                 calle = "Calle",
                 altura = "456",
                 coordenadas = Point(-1, -1)
@@ -100,7 +100,7 @@ class DeliverySpec : DescribeSpec({
 
         local2 = Local(
             name = "Comida Rápida2",
-            address = Direccion(
+            address = Address(
                 calle = "Calle2",
                 altura = "4562",
                 coordenadas = Point(-1, -1)
@@ -127,16 +127,16 @@ class DeliverySpec : DescribeSpec({
             )
         )
 
-        ingrediente1 = Ingrediente("Carne", 120.0, GrupoAlimentos.PROTEINAS)
-        ingrediente2 = Ingrediente("Tocino", 80.0, GrupoAlimentos.GRASAS_Y_ACEITES) //ejem, panceta
-        ingrediente3 = Ingrediente("Tomate", 100.0, GrupoAlimentos.FRUTAS_Y_VERDURAS)
-        ingrediente4 = Ingrediente("Papa", 60.0, GrupoAlimentos.CEREALES_Y_TUBERCULOS)
-        ingrediente5 = Ingrediente("Aceite", 70.0, GrupoAlimentos.GRASAS_Y_ACEITES)
+        ingredient1 = Ingredient("Carne", 120.0, GrupoAlimentos.PROTEINAS)
+        ingredient2 = Ingredient("Tocino", 80.0, GrupoAlimentos.GRASAS_Y_ACEITES) //ejem, panceta
+        ingredient3 = Ingredient("Tomate", 100.0, GrupoAlimentos.FRUTAS_Y_VERDURAS)
+        ingredient4 = Ingredient("Papa", 60.0, GrupoAlimentos.CEREALES_Y_TUBERCULOS)
+        ingredient5 = Ingredient("Aceite", 70.0, GrupoAlimentos.GRASAS_Y_ACEITES)
 
-        plato1 = Plato(
+        dish1 = Dish(
             nombre = "Hamburguesa",
             descripcion = "Hamburguesa gourmet con carne de res premium, tocino crujiente y salsa especial",
-            ingredientes = listOf(ingrediente1, ingrediente2, ingrediente3),
+            ingredients = listOf(ingredient1, ingredient2, ingredient3),
             local = local,
             porcentajeAcordadoConLocal = 20.0,
             lanzamiento = LocalDate.now().minusWeeks(2),
@@ -144,10 +144,10 @@ class DeliverySpec : DescribeSpec({
             valorBase = 800.0,
             descuento = 0.0
         )
-        plato2 = Plato(
+        dish2 = Dish(
             nombre = "Papas Fritas",
             descripcion = "Papas fritas clásicas, crujientes por fuera y suaves por dentro",
-            ingredientes = listOf(ingrediente4, ingrediente5),
+            ingredients = listOf(ingredient4, ingredient5),
             local = local,
             porcentajeAcordadoConLocal = 30.0,
             lanzamiento = LocalDate.now().minusWeeks(30),
@@ -158,7 +158,7 @@ class DeliverySpec : DescribeSpec({
 
         pedido = Pedido(
             cliente = cliente,
-            plato = listOf(plato1, plato2),
+            plato = listOf(dish1, dish2),
             estado = EstadoPedido.PENDIENTE,
             local = local,
             delivery = null,
@@ -175,7 +175,7 @@ class DeliverySpec : DescribeSpec({
             username = "pedrolivery",
             password = "pass1234",
             fechaNacimiento = LocalDate.now().minusYears(30),
-            direccion = Direccion(calle = "Calle Entrega", altura = "789", coordenadas = Point(2, 2)),
+            address = Address(calle = "Calle Entrega", altura = "789", coordenadas = Point(2, 2)),
             zonaDeTrabajo = Polygon(
                 mutableListOf(
                     Point(-2, -2),

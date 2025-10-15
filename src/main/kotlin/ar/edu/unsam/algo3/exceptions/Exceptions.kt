@@ -1,17 +1,19 @@
 package ar.edu.unsam.algo3.exceptions
 
-class PedidoInvalidoException(override var message: String): Exception() {
+class InvalidOrderException(override var message: String) : Exception() {
     /* Este Exception es para cuando el pedido usado no es aceptable */
 }
-class PedidoStateException(override var message: String): Exception() {
+
+class OrderStateException(override var message: String) : Exception() {
     /* Este Exception es para cuando el pedido esta en un estado en el cual no deberia*/
 }
-class PlatoInvalidoException(override var message: String): Exception()
-class MedioDePagoInvalidoException(override var message: String): Exception()
-class AsignacionPedidoException(override var message: String): Exception()
-class ValoracionException(override var message: String): Exception()
-class CuponNoAplicacionException(override var message: String): Exception()
 
-class BusinessException(override var message: String): Exception()
+class InvalidDishException(override var message: String) : Exception()
+class InvalidPaymentMethodException(override var message: String) : Exception()
+class OrderAssignmentException(override var message: String) : Exception()
+class RatingException(override var message: String) : Exception()
+class CouponNotApplicableException(override var message: String) : Exception()
 
-class ElementDoesntExistException(override var message: String): Exception()
+class BusinessException(override var message: String) : Exception()
+
+class ElementDoesNotExistException(override var message: String) : Exception()

@@ -2,7 +2,7 @@ import org.uqbar.geodds.*
 import ar.edu.unsam.algo3.domain.Local
 import ar.edu.unsam.algo3.domain.Cliente
 import ar.edu.unsam.algo3.domain.ClienteNormal
-import ar.edu.unsam.algo3.domain.Direccion
+import ar.edu.unsam.algo3.domain.Address
 import ar.edu.unsam.algo3.domain.MedioDePago
 import ar.edu.unsam.algo3.domain.Valoracion
 import io.kotest.core.spec.style.DescribeSpec
@@ -23,7 +23,7 @@ class LocalSpec : DescribeSpec( {
                 fechaNacimiento = LocalDate.of(1990, 1, 1),
                 fechaRegistro = LocalDate.of(2020, 1, 1),
                 "cliente@gmail.com",
-                direccion = Direccion(
+                direccion = Address(
                     calle = "Calle Falsa",
                     altura = "123",
                     coordenadas = Point(2, 2)
@@ -36,7 +36,7 @@ class LocalSpec : DescribeSpec( {
 
             localConfiable = Local(
                 name = "Restaurante Top",
-                address = Direccion(
+                address = Address(
                     calle = "Av. Principal",
                     altura = "123",
                     coordenadas = Point(-3, -3)
@@ -65,7 +65,7 @@ class LocalSpec : DescribeSpec( {
 
             localNoConfiable = Local(
                 name = "Comida Dudosa",
-                address = Direccion(
+                address = Address(
                     calle = "Calle Oscura",
                     altura = "666",
                     coordenadas = Point(6, 6)
