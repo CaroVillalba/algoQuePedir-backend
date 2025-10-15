@@ -1,18 +1,15 @@
 package ar.edu.unsam.algo3.service
 
-import ar.edu.unsam.algo3.domain.GrupoAlimentos
-import ar.edu.unsam.algo3.domain.Ingrediente
-import ar.edu.unsam.algo3.domain.IngredienteRepository
-import ar.edu.unsam.algo3.domain.PlatoRepository
+import ar.edu.unsam.algo3.domain.FoodGroup
+import ar.edu.unsam.algo3.domain.Ingredient
+import ar.edu.unsam.algo3.domain.IngredientRepository
 import ar.edu.unsam.algo3.dto.IngredienteDTO
-import ar.edu.unsam.algo3.dto.MenuDTO
-import ar.edu.unsam.algo3.exceptions.ElementDoesntExistException
+import ar.edu.unsam.algo3.exceptions.ElementDoesNotExistException
 import org.springframework.stereotype.Service
-import java.math.RoundingMode
 
 
 @Service
-class IngredientsService ( private val ingredienteRepository: IngredienteRepository){
+class IngredientsService ( private val ingredienteRepository: IngredientRepository){
     fun getAll(): List<IngredienteDTO> {
         val ingredients = ingredienteRepository.getAll()
         val ingredientDTO = ingredients.map{ ingredient ->
@@ -20,7 +17,7 @@ class IngredientsService ( private val ingredienteRepository: IngredienteReposit
                 name = ingredient.name,
                 price = ingredient.price,
                 group = ingredient.group.toString(),
-                animalOrigin = ingredient.group.esDeOrigenAnimal
+                animalOrigin = ingredient.group.isAnimalOrigin
             )
         }
         return ingredientDTO
@@ -33,25 +30,25 @@ class IngredientsService ( private val ingredienteRepository: IngredienteReposit
                 name = ingredient.name,
                 price = ingredient.price,
                 group = ingredient.group.toString(),
-                animalOrigin = ingredient.origenAnimal()
+                animalOrigin = ingredient.animalOrigin()
             )
         }
-        else throw ElementDoesntExistException("El ingrediente ${id} no existe.")
+        else throw ElementDoesNotExistException("El ingrediente ${id} no existe.")
     }
 
     fun create(ingredient: IngredienteDTO) {
-        ingredienteRepository.create(Ingrediente(
+        ingredienteRepository.create(Ingredient(
             name = ingredient.name,
             price = ingredient.price,
-            group = GrupoAlimentos.valueOf(ingredient.group)
+            group = FoodGroup.valueOf(ingredient.group)
         ))
     }
 
     fun update(id: Int, ingredient: IngredienteDTO) {
-        ingredienteRepository.update(Ingrediente(
+        ingredienteRepository.update(Ingredient(
             name = ingredient.name,
             price = ingredient.price,
-            group = GrupoAlimentos.valueOf(ingredient.group)
+            group = FoodGroup.valueOf(ingredient.group)
         ).apply { this.id = id })
     }
 
@@ -61,7 +58,7 @@ class IngredientsService ( private val ingredienteRepository: IngredienteReposit
             ingredienteRepository.delete(ingredient)
         }
         else {
-            throw ElementDoesntExistException("El ingrediente ${id} no existe.")
+            throw ElementDoesNotExistException("El ingrediente ${id} no existe.")
         }
     }
 }

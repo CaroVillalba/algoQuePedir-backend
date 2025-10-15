@@ -1,6 +1,6 @@
 package ar.edu.unsam.algo3.domain
 
-enum class GrupoAlimentos(open val esDeOrigenAnimal: Boolean, open val nombre: String) {
+enum class FoodGroup(open val isAnimalOrigin: Boolean, open val names: String) {
     CEREALES_Y_TUBERCULOS(false, "Cereales y Tuberculos"),
     AZUCARES_Y_DULCES(false, "Azucares y Dulces"),
     LACTEOS(true, "Lacteos"),

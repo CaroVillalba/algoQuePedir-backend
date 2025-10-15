@@ -8,21 +8,21 @@ import java.time.LocalDate
 
 @Component
 class DataInitializerAuth (
-    private val clienteRepository: ClienteRepository
+    private val clienteRepository: ClientRepository
 ) {
     @PostConstruct
     fun init() {
-        val usuario = Cliente(
-            nombre = "Admin",
-            apellido = "Admin",
+        val usuario = Client(
+            "Admin",
+            "Admin",
             username = "admin",
             password = "admin",
-            fechaNacimiento = LocalDate.of(1990, 1, 1),
-            mail = "ola123@gmail.com",
-            direccion = Direccion(
-                calle = "Calle Falsa",
-                altura = "123",
-                coordenadas = Point(-34.6, -58.45)
+            LocalDate.of(1990, 1, 1),
+            email = "ola123@gmail.com",
+            address = Address(
+                "Calle Falsa",
+                "123",
+                Point(-34.6, -58.45)
             )
         )
 

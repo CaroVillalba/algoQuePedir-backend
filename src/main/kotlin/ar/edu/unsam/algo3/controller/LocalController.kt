@@ -2,6 +2,7 @@ package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.dto.LocalAccountDTO
 import ar.edu.unsam.algo3.exceptions.BusinessException
+import ar.edu.unsam.algo3.mapper.LocalMapper
 import ar.edu.unsam.algo3.service.LocalService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -23,7 +24,7 @@ class LocalController(private val localService: LocalService) {
     fun getLocal(@PathVariable id: Int): ResponseEntity<LocalAccountDTO> {
         return try {
             val dto = localService.getLocalById(id)
-            ResponseEntity.ok(dto)
+            ResponseEntity.ok(LocalMapper.toDTO(dto))
         } catch (e: BusinessException) {
             ResponseEntity.status(HttpStatus.NOT_FOUND).build()
         }
@@ -36,8 +37,9 @@ class LocalController(private val localService: LocalService) {
         @RequestBody dto: LocalAccountDTO
     ): ResponseEntity<LocalAccountDTO> {
         return try {
-            val updated = localService.updateLocal(id, dto)
-            ResponseEntity.ok(updated)
+            val local = localService.getLocalById(id)
+            val updated = localService.updateLocal(id, LocalMapper.toEntity(dto, local))
+            ResponseEntity.ok(LocalMapper.toDTO(updated))
         } catch (e: BusinessException) {
             ResponseEntity.status(HttpStatus.NOT_FOUND).body(null)
         }

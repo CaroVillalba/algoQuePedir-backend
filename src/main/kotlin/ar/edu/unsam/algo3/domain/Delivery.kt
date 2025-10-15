@@ -1,48 +1,47 @@
 package ar.edu.unsam.algo3.domain
-import ar.edu.unsam.algo3.exceptions.PedidoInvalidoException
-import ar.edu.unsam.algo3.exceptions.PedidoStateException
-import org.uqbar.geodds.Polygon //Se agrega dependencia
+
+import ar.edu.unsam.algo3.exceptions.InvalidOrderException
+import ar.edu.unsam.algo3.exceptions.OrderStateException
+import org.uqbar.geodds.Polygon // Se agrega dependencia
 
 import java.time.LocalDate
 
-class Delivery (
-    nombre: String,
-    apellido: String,
+class Delivery(
+    firstName: String,
+    lastName: String,
     username: String,
     password: String,
-    fechaNacimiento: LocalDate,
-    var direccion: Direccion, //objeto Direccion del aporte de Ulises
-    var zonaDeTrabajo: Polygon, // Se cambia por tipo de objeto poligono
-    val condicionesEntrega: CondicionEntrega,
-) : Usuario(nombre, apellido, username, password, fechaNacimiento) {
+    birthDate: LocalDate,
+    var address: Address, // objeto Address del aporte de Ulises
+    var workZone: Polygon, // Se cambia por tipo de objeto Polygon
+    val deliveryConditions: DeliveryCondition
+) : User(firstName, lastName, username, password, birthDate) {
 
-    fun tomarPedido(pedido: Pedido) : Boolean { //por qué devuelve un boolean?
-        if (pedido.estado != EstadoPedido.PREPARADO) {
+    fun takeOrder(order: Order): Boolean { // por qué devuelve un boolean?
+        if (order.status != OrderStatus.PREPARADO) {
             println("El pedido no esta preparado")
-            throw PedidoStateException("El pedido no está preparado.")
+            throw OrderStateException("El pedido no está preparado.")
         }
 
-        val retiroDentro = zonaDeTrabajo.isInside(pedido.local.address.coordenadas)  //Se cambia por el metodo de polygon
-        val entregaDentro = zonaDeTrabajo.isInside(pedido.cliente.direccion.coordenadas) // (https://github.com/uqbar-project/geodds-xtend/blob/master/src/main/java/org/uqbar/geodds/Polygon.xtend)
+        val pickupInside = workZone.isInside(order.local.address.coordinates)
+        val deliveryInside = workZone.isInside(order.client.address.coordinates)
 
-        if (!retiroDentro || !entregaDentro) {
-            throw PedidoInvalidoException("El pedido no está dentro la zona de trabajo.")
+        if (!pickupInside || !deliveryInside) {
+            throw InvalidOrderException("El pedido no está dentro la zona de trabajo.")
         }
 
-        if (!cumpleConCondiciones(pedido)) {
-            throw PedidoInvalidoException("El pedido no cumple con las condiciones de entrega.")
+        if (!meetsConditions(order)) {
+            throw InvalidOrderException("El pedido no cumple con las condiciones de entrega.")
         }
 
         return true
     }
 
-    fun cumpleConCondiciones(pedido: Pedido): Boolean {
-        return condicionesEntrega.cumpleCondicion(pedido, this)
-
+    fun meetsConditions(order: Order): Boolean {
+        return deliveryConditions.meetsCondition(order, this)
     }
 
-    fun entregarPedido(pedido: Pedido) {
-        pedido.marcarComoEntregado()
+    fun deliverOrder(order: Order) {
+        order.markAsDelivered()
     }
-
 }

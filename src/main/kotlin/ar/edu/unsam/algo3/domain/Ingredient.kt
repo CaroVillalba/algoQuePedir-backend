@@ -1,9 +1,9 @@
 package ar.edu.unsam.algo3.domain
 
-open class Ingrediente(
+open class Ingredient(
     var name: String = "",
     var price: Double = 0.0,
-    var group: GrupoAlimentos
+    var group: FoodGroup
 ): Entity()  {
-    fun origenAnimal() = group.esDeOrigenAnimal
+    fun animalOrigin() = group.isAnimalOrigin
 }

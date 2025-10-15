@@ -1,13 +1,10 @@
 package ar.edu.unsam.algo3.controller
 
 
-import ar.edu.unsam.algo3.domain.Ingrediente
 import ar.edu.unsam.algo3.dto.IngredienteDTO
-import ar.edu.unsam.algo3.dto.MenuDTO
 import ar.edu.unsam.algo3.exceptions.BusinessException
-import ar.edu.unsam.algo3.exceptions.ElementDoesntExistException
+import ar.edu.unsam.algo3.exceptions.ElementDoesNotExistException
 import ar.edu.unsam.algo3.service.IngredientsService
-import ar.edu.unsam.algo3.service.PlateService
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -45,7 +41,7 @@ class IngredientsController (private val ingredientsService: IngredientsService)
             val dto = ingredientsService.getById(id)
             ResponseEntity.ok(dto)
         }
-        catch (e: ElementDoesntExistException) {
+        catch (e: ElementDoesNotExistException) {
             ResponseEntity.status(HttpStatus.NOT_FOUND).build()
         }
         catch (e: Exception){

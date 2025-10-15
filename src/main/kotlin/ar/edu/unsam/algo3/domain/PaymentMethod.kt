@@ -1,8 +1,8 @@
 package ar.edu.unsam.algo3.domain
 
-enum class MedioDePago {
+enum class PaymentMethod {
     EFECTIVO {
-        override fun impuesto(): Double =  1.0
+        override fun tax(): Double =  1.0
     },
     DEBITO,
     CREDITO,
@@ -10,5 +10,5 @@ enum class MedioDePago {
     QR,
     BITCOIN;
 
-    open fun impuesto(): Double = 1.05
+    open fun tax(): Double = 1.05
 }
