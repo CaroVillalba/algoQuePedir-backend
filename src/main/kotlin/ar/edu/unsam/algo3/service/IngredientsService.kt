@@ -1,6 +1,6 @@
 package ar.edu.unsam.algo3.service
 
-import ar.edu.unsam.algo3.domain.FoodGroups
+import ar.edu.unsam.algo3.domain.FoodGroup
 import ar.edu.unsam.algo3.domain.Ingredient
 import ar.edu.unsam.algo3.domain.IngredientRepository
 import ar.edu.unsam.algo3.dto.IngredienteDTO
@@ -40,7 +40,7 @@ class IngredientsService ( private val ingredienteRepository: IngredientReposito
         ingredienteRepository.create(Ingredient(
             name = ingredient.name,
             price = ingredient.price,
-            group = FoodGroups.valueOf(ingredient.group)
+            group = FoodGroup.valueOf(ingredient.group)
         ))
     }
 
@@ -48,7 +48,7 @@ class IngredientsService ( private val ingredienteRepository: IngredientReposito
         ingredienteRepository.update(Ingredient(
             name = ingredient.name,
             price = ingredient.price,
-            group = FoodGroups.valueOf(ingredient.group)
+            group = FoodGroup.valueOf(ingredient.group)
         ).apply { this.id = id })
     }
 

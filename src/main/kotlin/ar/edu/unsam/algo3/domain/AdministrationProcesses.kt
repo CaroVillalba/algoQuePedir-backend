@@ -62,7 +62,7 @@ class DeleteExpiredCouponsProcess(
         for (key in keys) {
             val coupon = couponRepository.getById(key)!!
             if (coupon.isExpired() && !coupon.wasApplied) {
-                println("El cupon " + coupon + " expiro para siempre ooooohhh borrandoo....")
+                println("El cupón " + coupon + " expiró para siempre ooooohhh borrandoo....")
                 couponRepository.delete(coupon)
             }
         }
@@ -74,7 +74,7 @@ class UpdateIngredientsProcess(
     mailSender: MailSender
 ) : ProcessWithMail(mailSender) {
 
-    override var processName = "Proceso de Actualizacion de Ingredientes"
+    override var processName = "Proceso de Actualización de Ingredientes"
 
     override fun process() {
         updater.updateIngredients()
@@ -87,7 +87,7 @@ class DeleteReadMessagesProcess(
     mailSender: MailSender
 ) : ProcessWithMail(mailSender) {
 
-    override var processName = "Proceso de Borrado de Mensajes Leidos"
+    override var processName = "Proceso de Borrado de Mensajes Leídos"
 
     override fun process() {
         deleteOldReadMessages(days)
@@ -95,8 +95,8 @@ class DeleteReadMessagesProcess(
 
     fun deleteOldReadMessages(daysOld: Long) {
         val limitDate = LocalDateTime.now().minusDays(daysOld)
-        inbox.messages.removeIf { mensaje ->
-            mensaje.isRead() && mensaje.sentAt.isBefore(limitDate)
+        inbox.internalMessages.removeIf { message ->
+            message.isRead() && message.sentAt.isBefore(limitDate)
         }
     }
 }

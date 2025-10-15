@@ -95,7 +95,6 @@ class ReachAmount(var minimumAmount: Double, var accumulatedAmount: Double = 0.0
     }
 }
 
-// This auditor meets the goal when a local has 5 or more orders with 3 or more dishes
 class ReachSales(var accumulatedSales: Int = 0, var salesGoal: Int = 5): LocalAuditor {
     override fun audit(order: Order) {
         if (order.dishes.size >= 3) {
@@ -108,7 +107,6 @@ class ReachSales(var accumulatedSales: Int = 0, var salesGoal: Int = 5): LocalAu
     }
 }
 
-// This auditor meets the goal when a local sells more than metaVegans vegan dishes
 class ReachGoal(val veganGoal: Int, var accumulated: Int = 0): LocalAuditor {
     override fun audit(order: Order) {
         order.dishes.forEach { dish ->

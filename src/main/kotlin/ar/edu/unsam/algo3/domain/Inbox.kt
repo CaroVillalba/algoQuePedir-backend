@@ -20,7 +20,7 @@ class Message(
 }
 
 class Inbox {
-    private val internalMessages = mutableListOf<Message>()
+    internal val internalMessages = mutableListOf<Message>()
 
     fun addMessage(message: Message) {
         internalMessages.add(message)

@@ -52,7 +52,7 @@ class DataInitializer(
                 Ingredient(
                     name = ingDTO.name,
                     price = ingDTO.price,
-                    group = FoodGroups.valueOf(ingDTO.group)
+                    group = FoodGroup.valueOf(ingDTO.group)
                 )
             }.toMutableList()
 
@@ -80,12 +80,12 @@ class DataInitializer(
         val ingredient1 = Ingredient(
             name = "lechuga",
             price = 5.0,
-            group = FoodGroups.FRUTAS_Y_VERDURAS
+            group = FoodGroup.FRUTAS_Y_VERDURAS
         )
         val ingredient2 = Ingredient(
             name= "tomate",
             price = 3.0,
-            group = FoodGroups.FRUTAS_Y_VERDURAS
+            group = FoodGroup.FRUTAS_Y_VERDURAS
         )
 
         val dish = Dish(
