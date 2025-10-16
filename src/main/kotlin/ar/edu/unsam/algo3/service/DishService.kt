@@ -8,7 +8,7 @@ import java.math.RoundingMode
 
 
 @Service
-class PlateService ( private val platoRepository: DishRepository){
+class DishService (private val platoRepository: DishRepository){
     fun getAll(): List<MenuDTO> {
         val platos = platoRepository.getAll()
 

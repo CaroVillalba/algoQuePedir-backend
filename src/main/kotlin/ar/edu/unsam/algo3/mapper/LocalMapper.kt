@@ -9,8 +9,10 @@ import org.uqbar.geodds.Point
 import ar.edu.unsam.algo3.exceptions.BusinessException
 
 object LocalMapper {
+    // Convierte entidad a DTO
     fun toDTO(local: Local): LocalAccountDTO {
         return LocalAccountDTO(
+            local.id,
             local.name,
             local.imgURL,
             DireccionDTO(
@@ -27,6 +29,7 @@ object LocalMapper {
         )
     }
 
+    // Convierte el DTO a entidad para actualizar la existente
     fun toEntity(dto: LocalAccountDTO, existing: Local): Local {
         existing.name = dto.name
         existing.imgURL = dto.imgURL

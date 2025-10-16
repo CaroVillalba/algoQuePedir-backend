@@ -2,6 +2,7 @@ package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.dto.LocalAccountDTO
 import ar.edu.unsam.algo3.exceptions.BusinessException
+import ar.edu.unsam.algo3.exceptions.ElementDoesNotExistException
 import ar.edu.unsam.algo3.mapper.LocalMapper
 import ar.edu.unsam.algo3.service.LocalService
 import org.springframework.http.HttpStatus
@@ -21,9 +22,9 @@ class LocalController(private val localService: LocalService) {
 
     // GET /local/{id}
     @GetMapping("/{id}")
-    fun getLocal(@PathVariable id: Int): ResponseEntity<LocalAccountDTO> {
+    fun getById(@PathVariable id: Int): ResponseEntity<LocalAccountDTO> {
         return try {
-            val dto = localService.getLocalById(id)
+            val dto = localService.getById(id)
             ResponseEntity.ok(LocalMapper.toDTO(dto))
         } catch (e: BusinessException) {
             ResponseEntity.status(HttpStatus.NOT_FOUND).build()
@@ -32,16 +33,19 @@ class LocalController(private val localService: LocalService) {
 
     // PUT /local/{id}
     @PutMapping("/{id}")
-    fun updateLocal(
+    fun update(
         @PathVariable id: Int,
         @RequestBody dto: LocalAccountDTO
     ): ResponseEntity<LocalAccountDTO> {
         return try {
-            val local = localService.getLocalById(id)
-            val updated = localService.updateLocal(id, LocalMapper.toEntity(dto, local))
-            ResponseEntity.ok(LocalMapper.toDTO(updated))
+            val local = localService.getById(id)
+            val updatedLocal = LocalMapper.toEntity(dto, local)
+            localService.update(updatedLocal)
+            ResponseEntity.ok().build()
+        } catch (e: ElementDoesNotExistException) {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
         } catch (e: BusinessException) {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).body(null)
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
         }
     }
 }
