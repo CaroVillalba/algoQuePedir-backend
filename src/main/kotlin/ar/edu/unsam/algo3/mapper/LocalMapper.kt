@@ -31,6 +31,24 @@ object LocalMapper {
 
     // Convierte el DTO a entidad para actualizar la existente
     fun toEntity(dto: LocalAccountDTO, existing: Local): Local {
+        if (dto.name.isBlank()) throw BusinessException("El nombre no puede estar vacío")
+        if (!dto.imgURL.startsWith("http")) throw BusinessException("URL de la imagen inválida")
+        if (dto.address.street.isBlank()) throw BusinessException("Calle inválida")
+        if (dto.address.number <= "0") throw BusinessException("Número de calle inválido")
+        if (dto.address.lat !in -90.0..90.0) throw BusinessException("Latitud inválida")
+        if (dto.address.lon !in -180.0..180.0) throw BusinessException("Longitud inválida")
+        if (dto.appCommission !in 0.0..100.0) throw BusinessException("Comisión App inválida")
+        if (dto.authorCommission !in 0.0..100.0) throw BusinessException("Comisión autores inválida")
+        if (dto.paymentMethods.isEmpty()) throw BusinessException("Debe seleccionar al menos un método de pago")
+
+        val paymentMethods = dto.paymentMethods.map { name ->
+            try {
+                PaymentMethod.valueOf(name.uppercase())
+            } catch (e: IllegalArgumentException) {
+                throw BusinessException("Método de pago inválido: $name")
+            }
+        }.toMutableSet()
+
         existing.name = dto.name
         existing.imgURL = dto.imgURL
         existing.address = Address(
@@ -40,13 +58,7 @@ object LocalMapper {
         )
         existing.appCommission = dto.appCommission
         existing.authorCommission = dto.authorCommission
-        existing.paymentMethods = dto.paymentMethods.map { name ->
-            try {
-                PaymentMethod.valueOf(name.uppercase())
-            } catch (e: IllegalArgumentException) {
-                throw BusinessException("Método de pago inválido: $name")
-            }
-        }.toMutableSet()
+        existing.paymentMethods = paymentMethods
 
         return existing
     }

@@ -7,13 +7,7 @@ import ar.edu.unsam.algo3.mapper.LocalMapper
 import ar.edu.unsam.algo3.service.LocalService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/v1/local")
@@ -22,30 +16,39 @@ class LocalController(private val localService: LocalService) {
 
     // GET /local/{id}
     @GetMapping("/{id}")
-    fun getById(@PathVariable id: Int): ResponseEntity<LocalAccountDTO> {
+    fun getById(@PathVariable id: Int): ResponseEntity<Any> {
         return try {
-            val dto = localService.getById(id)
-            ResponseEntity.ok(LocalMapper.toDTO(dto))
+            val local = localService.getById(id)
+            ResponseEntity.ok(LocalMapper.toDTO(local))
+        } catch (e: ElementDoesNotExistException) {
+            ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(e.message ?: "Local no encontrado")
         } catch (e: BusinessException) {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+            ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(e.message ?: "Error de negocio")
+        } catch (e: Exception) {
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Error inesperado: ${e.message}")
         }
     }
 
     // PUT /local/{id}
     @PutMapping("/{id}")
-    fun update(
-        @PathVariable id: Int,
-        @RequestBody dto: LocalAccountDTO
-    ): ResponseEntity<LocalAccountDTO> {
+    fun update(@PathVariable id: Int, @RequestBody dto: LocalAccountDTO): ResponseEntity<Any> {
         return try {
             val local = localService.getById(id)
             val updatedLocal = LocalMapper.toEntity(dto, local)
             localService.update(updatedLocal)
-            ResponseEntity.ok().build()
+            ResponseEntity.ok("Local actualizado correctamente")
         } catch (e: ElementDoesNotExistException) {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+            ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(e.message ?: "Local no encontrado")
         } catch (e: BusinessException) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+            ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(e.message ?: "Datos inválidos")
+        } catch (e: Exception) {
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Error inesperado: ${e.message}")
         }
     }
 }
