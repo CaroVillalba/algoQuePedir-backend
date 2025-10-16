@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/v1/ingredients")
 @CrossOrigin(origins = ["http://localhost:5173"])
 class IngredientsController (private val ingredientsService: IngredientsService){
 
     // GET
-    @GetMapping("/ingredients")
+    @GetMapping
     fun get() : ResponseEntity<List<IngredienteDTO>> {
         return try {
             val dto = ingredientsService.getAll()
@@ -35,7 +35,7 @@ class IngredientsController (private val ingredientsService: IngredientsService)
     }
 
     // GET
-    @GetMapping("/ingredients/{id}")
+    @GetMapping("/{id}")
     fun getByIngredientId(@PathVariable("id") id: Int) : ResponseEntity<IngredienteDTO> {
         return try {
             val dto = ingredientsService.getById(id)
@@ -49,19 +49,19 @@ class IngredientsController (private val ingredientsService: IngredientsService)
         }
     }
 
-    @PostMapping("/ingredients/")
+    @PostMapping
     fun create(@RequestBody ingrediente: IngredienteDTO) : ResponseEntity<Int> {
         ingredientsService.create(ingrediente)
         return ResponseEntity.ok().build()
     }
 
-    @PutMapping("/ingredients/{id}")
-    fun update(@PathVariable("id") id: Int, @RequestBody ingrediente: IngredienteDTO) : ResponseEntity<Int> {
-        ingredientsService.update(id, ingrediente)
+    @PutMapping
+    fun update(@RequestBody ingrediente: IngredienteDTO) : ResponseEntity<Int> {
+        ingredientsService.update(ingrediente.id, ingrediente)
         return ResponseEntity.ok().build()
     }
 
-    @DeleteMapping("/ingredients/{id}")
+    @DeleteMapping("/{id}")
     fun delete(@PathVariable("id") id: Int) : ResponseEntity<Int> {
         ingredientsService.delete(id)
         return ResponseEntity.ok().build()

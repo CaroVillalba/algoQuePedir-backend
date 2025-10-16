@@ -14,6 +14,7 @@ class IngredientsService ( private val ingredienteRepository: IngredientReposito
         val ingredients = ingredienteRepository.getAll()
         val ingredientDTO = ingredients.map{ ingredient ->
             IngredienteDTO(
+                id = ingredient.id,
                 name = ingredient.name,
                 price = ingredient.price,
                 group = ingredient.group.toString(),
@@ -27,6 +28,7 @@ class IngredientsService ( private val ingredienteRepository: IngredientReposito
         val ingredient = ingredienteRepository.getById(id)
         if (ingredient != null) {
             return IngredienteDTO(
+                id = ingredient.id,
                 name = ingredient.name,
                 price = ingredient.price,
                 group = ingredient.group.toString(),

@@ -1,47 +1,47 @@
 [
     {
-      "name": "lechuga",
-      "price": 10.0,
+      "name": "Lechuga",
+      "price": 1599.0,
       "group": "FRUTAS_Y_VERDURAS"
     },
     {
-      "name": "tomate",
-      "price": 10.0,
+      "name": "Tomate",
+      "price": 2799.0,
       "group": "FRUTAS_Y_VERDURAS"
     },
     {
-      "name": "costilla",
-      "price": 10.0,
+      "name": "Costilla",
+      "price": 9299.0,
       "group": "PROTEINAS"
     },
     {
-      "name": "leche",
-      "price": 10.0,
+      "name": "Leche",
+      "price": 1290.0,
       "group": "LACTEOS"
     },
     {
-      "name": "porotos",
-      "price": 10.0,
+      "name": "Porotos",
+      "price": 1845.0,
       "group": "CEREALES_Y_TUBERCULOS"
     },
     {
-      "name": "lentejas",
-      "price": 10.0,
+      "name": "Lentejas",
+      "price": 1055.0,
       "group": "CEREALES_Y_TUBERCULOS"
     },
     {
-      "name": "avena",
-      "price": 10.0,
+      "name": "Avena",
+      "price": 3300.0,
       "group": "CEREALES_Y_TUBERCULOS"
     },
     {
-      "name": "azucar",
-      "price": 10.0,
+      "name": "Azucar",
+      "price": 1926.0,
       "group": "AZUCARES_Y_DULCES"
     },
     {
-      "name": "hamburguesa de carne",
-      "price": 10.0,
+      "name": "Hamburguesa de Carne",
+      "price": 3835.0,
       "group": "PROTEINAS"
     }
 ]
