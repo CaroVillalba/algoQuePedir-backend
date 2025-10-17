@@ -204,7 +204,7 @@ class DataInitializer(
             listOf(dish, dish2, dish3),
             local = restaurante,
             delivery = deliveri,
-            paymentMethod = PaymentMethod.QR
+            paymentMethod = PaymentMethod.TRANSFERENCIA
         )
 
         val order2 = Order(
@@ -220,7 +220,7 @@ class DataInitializer(
             listOf(dish, dish2, dish3),
             local = restaurante,
             delivery = deliveri,
-            paymentMethod = PaymentMethod.TRANSFERENCIA
+            paymentMethod = PaymentMethod.DEBITO
         )
 
         val order4 = Order(

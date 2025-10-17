@@ -31,10 +31,6 @@ class OrderController(private val orderService: OrderService) {
     @GetMapping("/orderDetail/{orderId}")
     fun get(@PathVariable orderId: Int): ResponseEntity<OrderDTO> {
         val pedido = orderService.getByID(orderId)
-        return if (pedido != null) {
-            ResponseEntity.ok(OrderMapper.toOrderDTO(pedido))
-        } else {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
-        }
+        return ResponseEntity.ok(OrderMapper.toOrderDTO(pedido))
     }
 }
