@@ -29,9 +29,7 @@ class DataInitializer(
         val ingredients = mapper.readValue<List<Ingredient>>(fileIngredients)
         ingredients.forEach { ingredienteRepository.create(it) }
 
-        // ----------------------- Carga de Menú -------------------------------
-        val fileMenu = File("src/main/resources/menuData.json")
-        val platoListDTO = mapper.readValue<PlatoListDTO>(fileMenu)
+
 
         val restaurante = Local(
             "La Buena Mesa",
@@ -44,35 +42,15 @@ class DataInitializer(
         )
         localRepository.create(restaurante)
 
-        // Platos desde JSON
-        platoListDTO.platos.forEach { platoDTO ->
-            val ingredientesEntidad = platoDTO.ingredientes.map { ingDTO ->
-                Ingredient(
-                    name = ingDTO.name,
-                    price = ingDTO.price,
-                    group = FoodGroup.valueOf(ingDTO.group)
-                )
-            }.toMutableList()
 
-            val dishEntidad = Dish(
-                platoDTO.imageURL,
-                platoDTO.nombre,
-                platoDTO.descripcion,
-                ingredientesEntidad,
-                restaurante,
-                platoDTO.porcentajeAcordadoConLocal,
-                LocalDate.now(),
-                platoDTO.regaliasAutor,
-                platoDTO.valorBase,
-                platoDTO.descuento,
-            )
-
-            platoRepository.create(dishEntidad)
-        }
 
         // Platos de ejemplo adicionales
         val ingredient1 = Ingredient("lechuga", 5.0, FoodGroup.FRUTAS_Y_VERDURAS)
         val ingredient2 = Ingredient("tomate", 3.0, FoodGroup.FRUTAS_Y_VERDURAS)
+
+        ingredienteRepository.create(ingredient1)
+        ingredienteRepository.create(ingredient2)
+
         val dish1 = Dish(
             "https://picsum.photos/id/237/400/300",
             "Ensalada de Tomate y lechuga",

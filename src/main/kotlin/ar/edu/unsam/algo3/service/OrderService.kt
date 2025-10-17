@@ -57,6 +57,7 @@ class OrderService ( private val pedidoRepository: OrderRepository){
     /*ATENCION!!: Esto se puede usar en el PlateService tmb, es lo mismo. */
         fun toPlateDTO(dish: Dish): MenuDTO {
             return MenuDTO(
+                id = dish.id,
                 imageUrl = dish.imageURL,
                 name = dish.name,
                 description = dish.description,

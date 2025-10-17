@@ -44,7 +44,7 @@ object LocalMapper {
         val paymentMethods = dto.paymentMethods.map { name ->
             try {
                 PaymentMethod.valueOf(name.uppercase())
-            } catch (e: IllegalArgumentException) {
+            } catch (e: BusinessException) {
                 throw BusinessException("Método de pago inválido: $name")
             }
         }.toMutableSet()
