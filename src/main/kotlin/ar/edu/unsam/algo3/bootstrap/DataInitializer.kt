@@ -24,13 +24,6 @@ class DataInitializer(
 
     @PostConstruct
     fun init() {
-        // ----------------------- Carga de Ingredientes -----------------------
-        val fileIngredients = File("src/main/resources/ingredientsData.json")
-        val ingredients = mapper.readValue<List<Ingredient>>(fileIngredients)
-        ingredients.forEach { ingredienteRepository.create(it) }
-
-
-
         val restaurante = Local(
             "La Buena Mesa",
             "https://www.hilton.com/im/en/BUEPIHH/19783367/mural-2.jpg?impolicy=crop&cw=3857&ch=3000&gravity=NorthWest&xposition=71&yposition=0&rw=684&rh=532",

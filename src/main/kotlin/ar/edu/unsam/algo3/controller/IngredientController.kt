@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/v1/ingredients")
 @CrossOrigin(origins = ["http://localhost:5173"])
 class IngredientController(private val ingredientService: IngredientService) {
 
     // GET /ingredients
-    @GetMapping("/ingredients")
+    @GetMapping
     fun getAll(): ResponseEntity<List<IngredientDTO>> {
         return try {
             val ingredients = ingredientService.getAll()
@@ -37,7 +37,7 @@ class IngredientController(private val ingredientService: IngredientService) {
     }
 
     // GET /ingredients/{id}
-    @GetMapping("/ingredients/{id}")
+    @GetMapping("/{id}")
     fun getById(@PathVariable id: Int): ResponseEntity<IngredientDTO> {
         return try {
             val ingredient = ingredientService.getByIdEntity(id)  // devuelve Ingredient
@@ -51,7 +51,7 @@ class IngredientController(private val ingredientService: IngredientService) {
     }
 
     // POST /ingredients
-    @PostMapping("/ingredients")
+    @PostMapping
     fun create(@RequestBody dto: IngredientDTO): ResponseEntity<Void> {
         return try {
             val ingredient = IngredientMapper.toEntity(dto)
@@ -63,10 +63,10 @@ class IngredientController(private val ingredientService: IngredientService) {
     }
 
     // PUT /ingredients/{id}
-    @PutMapping("/ingredients/{id}")
-    fun update(@PathVariable id: Int, @RequestBody dto: IngredientDTO): ResponseEntity<Void> {
+    @PutMapping
+    fun update(@RequestBody dto: IngredientDTO): ResponseEntity<Void> {
         return try {
-            val existing = ingredientService.getByIdEntity(id)
+            val existing = ingredientService.getByIdEntity(dto.id)
             IngredientMapper.updateEntity(dto, existing)
             ingredientService.update(existing)
             ResponseEntity.ok().build()
@@ -78,7 +78,7 @@ class IngredientController(private val ingredientService: IngredientService) {
     }
 
     // DELETE /ingredients/{id}
-    @DeleteMapping("/ingredients/{id}")
+    @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Int): ResponseEntity<Void> {
         return try {
             ingredientService.deleteById(id)

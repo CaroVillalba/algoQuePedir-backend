@@ -6,7 +6,7 @@ data class PlatoDTO(
     val descripcion: String,
     val ingredientes: List<IngredientDTO>,
     val agreedPercentageWithLocal: Double,
-    val local: Int, // el id del Local y hacer un get del local para conseguirlo y pasarselo
+    val local: Int,
     val regaliasAutor: Double,
     val valorBase: Double,
     val descuento: Double,
