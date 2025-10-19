@@ -32,13 +32,14 @@ object OrderMapper {
         )
     }
 
-    fun toPlateDTO(dish: Dish): MenuDTO {
-        return MenuDTO(
+    fun toPlateDTO(dish: Dish): OrderDetailDTO {
+        return OrderDetailDTO(
             id = dish.id,
             imageUrl = dish.imageURL,
             name = dish.name,
             description = dish.description,
-            price = dish.salePrice().toBigDecimal().setScale(2, RoundingMode.HALF_EVEN).toDouble()
+            price = dish.salePrice().toBigDecimal().setScale(2, RoundingMode.HALF_EVEN).toDouble(),
+            cant = 1
         )
     }
 
