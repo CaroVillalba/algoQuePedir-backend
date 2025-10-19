@@ -137,9 +137,6 @@ class Order(
     fun applyTax(): Double =
         this.baseTotal() * paymentMethod.tax()
 
-    fun round(value: Double): Double =
-        value.toBigDecimal().setScale(2, RoundingMode.HALF_EVEN).toDouble()
-
     fun totalDishes(): Int = dishes.count()
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
