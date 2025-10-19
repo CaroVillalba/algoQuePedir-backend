@@ -34,6 +34,7 @@ object OrderMapper {
 
     fun toPlateDTO(dish: Dish): MenuDTO {
         return MenuDTO(
+            id = dish.id,
             imageUrl = dish.imageURL,
             name = dish.name,
             description = dish.description,

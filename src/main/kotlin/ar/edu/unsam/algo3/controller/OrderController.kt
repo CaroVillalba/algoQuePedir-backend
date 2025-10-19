@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*
 @CrossOrigin(origins = ["http://localhost:5173"])
 class OrderController(private val orderService: OrderService) {
 
-    @GetMapping("/order")
+    @GetMapping
     fun getByState(@RequestParam(required = false) state: String?): ResponseEntity<List<OrderDTO>> {
         return try {
             val pedidos = if (state.isNullOrBlank() || state == "Todos") {
