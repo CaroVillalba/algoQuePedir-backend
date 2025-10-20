@@ -16,10 +16,15 @@ class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException::class)
     fun handleBusinessException(ex: BusinessException): ResponseEntity<Map<String, String>> {
         val body = mapOf("message" to (ex.message ?: "Error de negocio"))
+        return ResponseEntity(body, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(ElementDoesNotExistException::class)
+    fun handleElementNotFound(ex: ElementDoesNotExistException): ResponseEntity<Map<String, String>> {
+        val body = mapOf("message" to (ex.message ?: "Elemento no encontrado"))
         return ResponseEntity(body, HttpStatus.NOT_FOUND)
     }
 
-    // (Opcional) Manejador genérico para cualquier otra excepción
     @ExceptionHandler(Exception::class)
     fun handleGeneralException(ex: Exception): ResponseEntity<Map<String, String>> {
         val body = mapOf("message" to (ex.message ?: "Error interno del servidor"))

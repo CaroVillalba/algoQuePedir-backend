@@ -5,7 +5,6 @@ import ar.edu.unsam.algo3.domain.LocalRepository
 import ar.edu.unsam.algo3.dto.DishDTO
 import ar.edu.unsam.algo3.service.DishService
 import ar.edu.unsam.algo3.dto.MenuDTO
-import ar.edu.unsam.algo3.dto.PlatoDTO
 import ar.edu.unsam.algo3.exceptions.BusinessException
 import ar.edu.unsam.algo3.exceptions.ElementDoesNotExistException
 import ar.edu.unsam.algo3.mapper.DishMapper
@@ -20,54 +19,30 @@ import org.springframework.web.bind.annotation.*
 class DishController (private val dishService: DishService, private val localRepository: LocalRepository){
     // GET
     @GetMapping
-    fun get() :ResponseEntity<List<MenuDTO>> {
-        return try {
-            val menu = dishService.getAll()
-            val menuResponse = DishMapper.toMenuDTO(menu) //call to mapper y return MenuDTO
-            ResponseEntity.ok(menuResponse)
-        } catch (e: BusinessException) {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
-        }
+    fun get(): List<MenuDTO> {
+        val menu = dishService.getAll()
+        return DishMapper.toMenuDTO(menu)
     }
+
     @PostMapping
-    fun createPlate(@RequestBody dto: PlatoDTO){
-        try{
-            val localObject: Local = localRepository.getById(dto.local) ?: throw IllegalArgumentException("Local with ID ${dto.local} not found.")
-            val dish = DishMapper.toEntity(dto, localObject)
-            dishService.createPlate(dish)
-        }catch (e: BusinessException){
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.message)
-        }
+    fun createDish(@RequestBody dto: DishDTO) {
+        val localObject: Local = localRepository.getById(dto.local)
+            ?: throw ElementDoesNotExistException("Local con ID ${dto.local} no encontrado")
+        val dish = DishMapper.toEntity(dto, localObject)
+        dishService.createDish(dish)
     }
+
     @GetMapping("/{id}")
-    fun getById(@PathVariable id: Int): ResponseEntity<DishDTO> {
+    fun getById(@PathVariable id: Int): DishDTO {
         val dish = dishService.getById(id)
-        return ResponseEntity.ok(DishMapper.toDTO(dish))
-        /* catch (e: BusinessException) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(e.message ?: "Error de negocio")
-        } catch (e: Exception) {
-            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Error inesperado: ${e.message}")
-        }*/
+        return DishMapper.toDTO(dish, id)
     }
+
     // PUT /local/{id}
     @PutMapping("/{id}")
-    fun update(@PathVariable id: Int, @RequestBody dto: PlatoDTO): ResponseEntity<Any> {
-        return try {
-            val oldDish = dishService.getById(id)
-            val updatedDish = DishMapper.updateEntity(dto, oldDish)
-            dishService.update(updatedDish)
-            ResponseEntity.ok("Plato actualizado correctamente")
-        } catch (e: ElementDoesNotExistException) {
-            ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(e.message ?: "Local no encontrado")
-        } catch (e: BusinessException) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(e.message ?: "Datos inválidos")
-        } catch (e: Exception) {
-            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Error inesperado: ${e.message}")
-        }
+    fun update(@PathVariable id: Int, @RequestBody dto: DishDTO) {
+        val oldDish = dishService.getById(id)
+        val updatedDish = DishMapper.updateEntity(dto, oldDish)
+        dishService.update(updatedDish)
     }
 }

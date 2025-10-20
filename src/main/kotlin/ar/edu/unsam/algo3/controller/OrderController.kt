@@ -14,23 +14,18 @@ import org.springframework.web.bind.annotation.*
 class OrderController(private val orderService: OrderService) {
 
     @GetMapping
-    fun getByState(@RequestParam(required = false) state: String?): ResponseEntity<List<OrderDTO>> {
-        return try {
-            val pedidos = if (state.isNullOrBlank() || state == "Todos") {
-                orderService.getAll()
-            } else {
-                orderService.getByState(state)
-            }
-            val dtoList = pedidos.map { OrderMapper.toOrderDTO(it) }
-            ResponseEntity.ok(dtoList)
-        } catch (e: BusinessException) {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+    fun getByState(@RequestParam(required = false) state: String?): List<OrderDTO> {
+        val orders = if (state.isNullOrBlank() || state == "Todos") {
+            orderService.getAll()
+        } else {
+            orderService.getByState(state)
         }
+        return orders.map { OrderMapper.toOrderDTO(it) }
     }
 
     @GetMapping("/orderDetail/{orderId}")
-    fun get(@PathVariable orderId: Int): ResponseEntity<OrderDTO> {
-        val pedido = orderService.getByID(orderId)
-        return ResponseEntity.ok(OrderMapper.toOrderDTO(pedido))
+    fun get(@PathVariable orderId: Int): OrderDTO {
+        val order = orderService.getByID(orderId)
+        return OrderMapper.toOrderDTO(order)
     }
 }

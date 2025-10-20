@@ -26,65 +26,35 @@ class IngredientController(private val ingredientService: IngredientService) {
 
     // GET /ingredients
     @GetMapping
-    fun getAll(): ResponseEntity<List<IngredientDTO>> {
-        return try {
-            val ingredients = ingredientService.getAll()
-            val dtos = ingredients.map { IngredientMapper.toDTO(it) }
-            ResponseEntity.ok(dtos)
-        } catch (e: Exception) {
-            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()
-        }
+    fun getAll(): List<IngredientDTO> {
+        return ingredientService.getAll().map { IngredientMapper.toDTO(it) }
     }
 
     // GET /ingredients/{id}
     @GetMapping("/{id}")
-    fun getById(@PathVariable id: Int): ResponseEntity<IngredientDTO> {
-        return try {
-            val ingredient = ingredientService.getByIdEntity(id)  // devuelve Ingredient
-            val dto = IngredientMapper.toDTO(ingredient)
-            ResponseEntity.ok(dto)
-        } catch (e: ElementDoesNotExistException) {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
-        } catch (e: Exception) {
-            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()
-        }
+    fun getById(@PathVariable id: Int): IngredientDTO {
+        val ingredient = ingredientService.getByIdEntity(id)
+        return IngredientMapper.toDTO(ingredient)
     }
 
     // POST /ingredients
     @PostMapping
-    fun create(@RequestBody dto: IngredientDTO): ResponseEntity<Void> {
-        return try {
-            val ingredient = IngredientMapper.toEntity(dto)
-            ingredientService.create(ingredient)
-            ResponseEntity.status(HttpStatus.CREATED).build()
-        } catch (e: BusinessException) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
-        }
+    fun create(@RequestBody dto: IngredientDTO) {
+        val ingredient = IngredientMapper.toEntity(dto)
+        ingredientService.create(ingredient)
     }
 
     // PUT /ingredients/{id}
-    @PutMapping
-    fun update(@RequestBody dto: IngredientDTO): ResponseEntity<Void> {
-        return try {
-            val existing = ingredientService.getByIdEntity(dto.id)
-            IngredientMapper.updateEntity(dto, existing)
-            ingredientService.update(existing)
-            ResponseEntity.ok().build()
-        } catch (e: ElementDoesNotExistException) {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
-        } catch (e: BusinessException) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
-        }
+    @PutMapping("/{id}")
+    fun update(@PathVariable id: Int, @RequestBody dto: IngredientDTO) {
+        val existing = ingredientService.getByIdEntity(id)
+        val updated = IngredientMapper.updateEntity(dto, existing)
+        ingredientService.update(updated)
     }
 
     // DELETE /ingredients/{id}
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: Int): ResponseEntity<Void> {
-        return try {
-            ingredientService.deleteById(id)
-            ResponseEntity.noContent().build()
-        } catch (e: ElementDoesNotExistException) {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
-        }
+    fun delete(@PathVariable id: Int) {
+        ingredientService.deleteById(id)
     }
 }
