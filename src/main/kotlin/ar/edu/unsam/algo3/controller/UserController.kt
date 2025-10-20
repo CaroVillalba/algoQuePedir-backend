@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.*
 
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/v1/auth")
 @CrossOrigin(origins = ["http://localhost:5173"])
 class UserController(private val userService: UserService) {
 
-    @GetMapping("/auth/login")
+    @GetMapping("/login")
     fun getClient(
         @RequestParam username: String,
         @RequestParam password : String
@@ -27,7 +27,7 @@ class UserController(private val userService: UserService) {
         }
     }
 
-    @PostMapping("/auth/register")
+    @PostMapping("/register")
     fun createClient(@RequestBody dto: AuthDTO){
         try {
             val client = AuthMapper.toEntity(dto)

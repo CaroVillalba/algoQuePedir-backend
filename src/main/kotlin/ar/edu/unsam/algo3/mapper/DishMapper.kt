@@ -4,14 +4,14 @@ import ar.edu.unsam.algo3.domain.*
 import ar.edu.unsam.algo3.dto.IngredientDTO
 import ar.edu.unsam.algo3.dto.MenuDTO
 import ar.edu.unsam.algo3.dto.PlatoDTO
-import ar.edu.unsam.algo3.dto.DishResponseDTO
+import ar.edu.unsam.algo3.dto.DishDTO
 import java.time.LocalDate
 
 object DishMapper {
     // Convierte entidad a DTO
-    fun toDTO(dish: Dish): DishResponseDTO {
+    fun toDTO(dish: Dish): DishDTO {
         val ingredients: List<IngredientDTO> = dish.ingredients.map{ingredient -> IngredientMapper.toDTO(ingredient)}
-        return DishResponseDTO(
+        return DishDTO(
             dish.imageURL,
             dish.name,
             dish.description,
@@ -19,9 +19,11 @@ object DishMapper {
             dish.agreedPercentageWithLocal,
             dish.authorRoyalties,
             dish.baseValue,
-            dish.discount
+            dish.discount,
+            dish.salePrice()
         )
     }
+
     // Convierte entidad a DTO
     fun toMenuDTO(dishes: List<Dish>): List<MenuDTO> {
         return dishes.map{dish -> MenuDTO(
@@ -32,35 +34,36 @@ object DishMapper {
             dish.salePrice()
         )}
     }
+
     // Convierte DTO a nueva entidad
     fun toEntity(dto: PlatoDTO, local: Local): Dish {
-        val ingredient = dto.ingredientes.map {ingredient -> IngredientMapper.toEntity(ingredient)}
+        val ingredient = dto.ingredients.map {ingredient -> IngredientMapper.toEntity(ingredient)}
         return Dish(
             dto.imageURL,
-            dto.nombre,
-            dto.descripcion,
+            dto.name,
+            dto.description,
             ingredient,
             local,
             dto.agreedPercentageWithLocal,
             LocalDate.now(),
-            dto.regaliasAutor,
-            dto.valorBase,
-            dto.descuento,
+            dto.authorRoyalties,
+            dto.baseValue,
+            dto.discount,
         )
     }
 
     // Actualiza una entidad existente a partir de un DTO
     fun updateEntity(dto: PlatoDTO, existing: Dish): Dish {
-        val ingredient = dto.ingredientes.map {ingredient -> IngredientMapper.toEntity(ingredient)}
+        val ingredient = dto.ingredients.map {ingredient -> IngredientMapper.toEntity(ingredient)}
 
         existing.imageURL = dto.imageURL
-        existing.name = dto.nombre
-        existing.description = dto.descripcion
+        existing.name = dto.name
+        existing.description = dto.description
         existing.ingredients = ingredient
         existing.agreedPercentageWithLocal = dto.agreedPercentageWithLocal
-        existing.authorRoyalties = dto.regaliasAutor
-        existing.baseValue = dto.valorBase
-        existing.discount = dto.descuento
+        existing.authorRoyalties = dto.authorRoyalties
+        existing.baseValue = dto.baseValue
+        existing.discount = dto.discount
 
         return existing
     }

@@ -16,19 +16,16 @@ class LocalController(private val localService: LocalService) {
 
     // GET /local/{id}
     @GetMapping("/{id}")
-    fun getById(@PathVariable id: Int): ResponseEntity<Any> {
+    fun getById(@PathVariable id: Int): ResponseEntity<LocalAccountDTO> {
         return try {
             val local = localService.getById(id)
             ResponseEntity.ok(LocalMapper.toDTO(local))
         } catch (e: ElementDoesNotExistException) {
-            ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(e.message ?: "Local no encontrado")
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body(null)
         } catch (e: BusinessException) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(e.message ?: "Error de negocio")
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
         } catch (e: Exception) {
-            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Error inesperado: ${e.message}")
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null)
         }
     }
 

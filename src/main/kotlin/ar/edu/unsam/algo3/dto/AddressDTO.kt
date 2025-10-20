@@ -1,6 +1,6 @@
 package ar.edu.unsam.algo3.dto
 
-data class DireccionDTO(
+data class AddressDTO(
     val street: String,
     val number: String,
     val lat: Double,

@@ -16,14 +16,16 @@ class DishService (private val platoRepository: DishRepository, private val loca
         val platos = platoRepository.getAll()
         return platos
     }
+
     fun createPlate(dish: Dish){
         platoRepository.create(dish)
-        print("Plato created")
     }
+
     fun getById(id: Int): Dish {
         val dish = platoRepository.getById(id) ?: throw ElementDoesNotExistException("Plato no encontrado")
         return dish
     }
+
     fun update(dish: Dish){
         platoRepository.update(dish)
     }

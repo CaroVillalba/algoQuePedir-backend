@@ -3,7 +3,7 @@ package ar.edu.unsam.algo3.mapper
 import ar.edu.unsam.algo3.domain.Address
 import ar.edu.unsam.algo3.domain.Local
 import ar.edu.unsam.algo3.domain.PaymentMethod
-import ar.edu.unsam.algo3.dto.DireccionDTO
+import ar.edu.unsam.algo3.dto.AddressDTO
 import ar.edu.unsam.algo3.dto.LocalAccountDTO
 import org.uqbar.geodds.Point
 import ar.edu.unsam.algo3.exceptions.BusinessException
@@ -15,7 +15,7 @@ object LocalMapper {
             local.id,
             local.name,
             local.imgURL,
-            DireccionDTO(
+            AddressDTO(
                 local.address.street,
                 local.address.number,
                 local.address.coordinates.x,

@@ -1,17 +1,14 @@
 package ar.edu.unsam.algo3.controller
 
-import ar.edu.unsam.algo3.domain.Dish
 import ar.edu.unsam.algo3.domain.Local
 import ar.edu.unsam.algo3.domain.LocalRepository
-import ar.edu.unsam.algo3.dto.DishResponseDTO
-import ar.edu.unsam.algo3.dto.LocalAccountDTO
+import ar.edu.unsam.algo3.dto.DishDTO
 import ar.edu.unsam.algo3.service.DishService
 import ar.edu.unsam.algo3.dto.MenuDTO
 import ar.edu.unsam.algo3.dto.PlatoDTO
 import ar.edu.unsam.algo3.exceptions.BusinessException
 import ar.edu.unsam.algo3.exceptions.ElementDoesNotExistException
 import ar.edu.unsam.algo3.mapper.DishMapper
-import ar.edu.unsam.algo3.mapper.LocalMapper
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -43,7 +40,7 @@ class DishController (private val dishService: DishService, private val localRep
         }
     }
     @GetMapping("/{id}")
-    fun getById(@PathVariable id: Int): ResponseEntity<DishResponseDTO> {
+    fun getById(@PathVariable id: Int): ResponseEntity<DishDTO> {
         val dish = dishService.getById(id)
         return ResponseEntity.ok(DishMapper.toDTO(dish))
         /* catch (e: BusinessException) {
