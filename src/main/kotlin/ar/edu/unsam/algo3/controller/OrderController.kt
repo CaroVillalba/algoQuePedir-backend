@@ -43,4 +43,14 @@ class OrderController(private val orderService: OrderService) {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null)
         }
     }
+
+    @DeleteMapping("/order/{orderId}")
+    fun deleteOrder(@PathVariable orderId: Int): ResponseEntity<Void> {
+        return try {
+            orderService.deleteOrder(orderId)
+            ResponseEntity.noContent().build()
+        } catch (e: BusinessException) {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+        }
+    }
 }

@@ -31,4 +31,10 @@ class OrderService(private val pedidoRepository: OrderRepository) {
         return order
     }
 
+    fun deleteOrder(orderId: Int) {
+        val order = pedidoRepository.getById(orderId)
+            ?: throw BusinessException("El pedido que intentás eliminar no existe.")
+
+        pedidoRepository.delete(order)
+    }
 }
