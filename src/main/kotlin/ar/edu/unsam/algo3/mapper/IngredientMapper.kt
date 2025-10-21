@@ -40,7 +40,7 @@ object IngredientMapper {
 
     fun validateDTO(dto: IngredientDTO) {
         if (dto.name.isBlank()) throw BusinessException("El nombre del ingrediente no puede estar vacío")
-        if (dto.price < 0) throw BusinessException("El precio debe ser mayor o igual a cero")
+        if (dto.price <= 0) throw BusinessException("El precio debe ser mayor a cero")
         try {
             FoodGroup.valueOf(dto.group)
         } catch (e: IllegalArgumentException) {

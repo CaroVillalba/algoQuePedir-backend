@@ -16,6 +16,7 @@ object AuthMapper {
     fun toEntity(dto: AuthDTO, existing: Client? = null): Client {
         if (dto.username.isBlank()) throw BusinessException("El usuario no puede estar vacío")
         if (dto.password.length < 6) throw BusinessException("La contraseña debe tener al menos 6 caracteres")
+
         return Client().apply {
             username = dto.username
             password = dto.password

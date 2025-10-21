@@ -75,7 +75,7 @@ object DishMapper {
         if (dto.name.isBlank()) throw BusinessException("El nombre del plato no puede estar vacío")
         if (dto.description.isBlank()) throw BusinessException("La descripción del plato no puede estar vacía")
         if (!dto.imageURL.startsWith("http")) throw BusinessException("La URL de la imagen no es válida")
-        if (dto.baseValue < 0) throw BusinessException("El precio base debe ser mayor o igual a cero")
+        if (dto.baseValue <= 0) throw BusinessException("El precio base debe ser mayor a cero")
         if (dto.authorRoyalties < 0) throw BusinessException("Las regalías de autor deben ser mayores o iguales a cero")
         if (dto.discount < 0) throw BusinessException("El descuento debe ser mayor o igual a cero")
         if (dto.agreedPercentageWithLocal < 0) throw BusinessException("El porcentaje acordado con el local debe ser mayor o igual a cero")
