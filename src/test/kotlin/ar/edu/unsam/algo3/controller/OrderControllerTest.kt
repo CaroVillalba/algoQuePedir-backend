@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
@@ -17,13 +18,16 @@ import java.time.LocalDate
 @DisplayName("Dado un OrderController")
 class OrderControllerTest {
 
+    @Autowired
+    lateinit var mockMvc: MockMvc
+
+    @Autowired
+    lateinit var orderRepository: OrderRepository
+
     private lateinit var client: Client
     private lateinit var local: Local
     private lateinit var dish: Dish
     private lateinit var order: Order
-
-    @Autowired
-    lateinit var mockMvc: MockMvc
 
     @BeforeEach
     fun setup() {
@@ -32,6 +36,9 @@ class OrderControllerTest {
         local = Local("Local Test", "http://img.com/logo.png", address, 10.0, 5.0, mutableSetOf(PaymentMethod.EFECTIVO))
         dish = Dish("http://img.com/pizza.png", "Pizza", "Pizza test", listOf(), local, 10.0, LocalDate.now(), 5.0, 200.0, 0.0)
         order = Order(client, listOf(dish), OrderStatus.PENDIENTE, local, null, PaymentMethod.EFECTIVO)
+
+        // Capturamos el ID asignado por create
+        orderRepository.create(order)
     }
 
     @Test
@@ -49,7 +56,27 @@ class OrderControllerTest {
 
     @Test
     fun `GET v1 order orderDetail debe devolver 200 OK`() {
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/order/orderDetail/1"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/order/orderDetail/${order.id}"))
             .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(order.id))
     }
+
+    @Test
+    fun `PATCH v1 order {orderId} debe avanzar el estado y devolver 200 OK`() {
+        mockMvc.perform(MockMvcRequestBuilders.patch("/v1/order/${order.id}")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.state").value("PREPARADO"))
+    }
+
+    @Test
+    fun `DELETE v1 order {orderId} debe eliminar el pedido y devolver 200 OK`() {
+        mockMvc.perform(MockMvcRequestBuilders.delete("/v1/order/${order.id}"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+
+        // Comprobar que realmente se eliminó
+        val deleted = orderRepository.getById(order.id)
+        assert(deleted == null)
+    }
+
 }

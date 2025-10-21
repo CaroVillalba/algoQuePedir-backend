@@ -25,4 +25,15 @@ class OrderController(private val orderService: OrderService) {
         val order = orderService.getByID(orderId)
         return OrderMapper.toOrderDTO(order)
     }
+
+    @PatchMapping("/{orderId}")
+    fun advanceOrderState(@PathVariable orderId: Int): OrderDTO {
+        val updatedOrder = orderService.updateOrderState(orderId)
+        return OrderMapper.toOrderDTO(updatedOrder)
+    }
+
+    @DeleteMapping("/{orderId}")
+    fun deleteOrder(@PathVariable orderId: Int) {
+        orderService.deleteOrder(orderId)
+    }
 }
