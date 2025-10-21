@@ -17,3 +17,5 @@ class CouponNotApplicableException(override var message: String) : Exception()
 class BusinessException(override var message: String) : Exception()
 
 class ElementDoesNotExistException(override var message: String) : Exception()
+
+class EmptyFieldsException(override var message: String) : Exception()

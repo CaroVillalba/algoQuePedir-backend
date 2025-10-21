@@ -8,16 +8,16 @@ import java.time.LocalTime
 /*También ver el tema del state, que acá es un Enum*/
 
 data class OrderDTO (
-    val comision: Number,
-    val increment: Number,
-    val id: Number,
+    val comission: Double,
+    val increment: Double,
+    val id: Int,
     val user: UserOrderDTO,
-    val hora: LocalTime?,
-    val platos: List<MenuDTO>,
+    val time: LocalTime?,
+    val dishes: List<OrderDetailDTO>,
     val direction: DireccionOrderDTO,
-    val metodoPago: PaymentMethod,
-    val cantidad: Number,
-    val total: Number,
-    val subtotal: Number,
+    val paymentMethod: PaymentMethod,
+    val quantity: Int,
+    val total: Double,
+    val subtotal: Double,
     val state: OrderStatus
 )

@@ -12,7 +12,7 @@ class OrderService(private val pedidoRepository: OrderRepository) {
     fun getAll(): List<Order> = pedidoRepository.getAll()
 
     fun getByState(state: String): List<Order> = pedidoRepository.search(state)
-
+        ?: throw BusinessException("El estado solicitado no existe.")
 
     fun getByID(id: Int): Order = pedidoRepository.getById(id)
         ?: throw BusinessException("El pedido solicitado no existe.")

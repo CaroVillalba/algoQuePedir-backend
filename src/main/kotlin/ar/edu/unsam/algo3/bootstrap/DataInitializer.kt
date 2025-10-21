@@ -1,99 +1,48 @@
 package ar.edu.unsam.algo3.bootstrap
 
 import ar.edu.unsam.algo3.domain.*
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
-import ar.edu.unsam.algo3.dto.PlatoListDTO
 import jakarta.annotation.PostConstruct
 import org.springframework.stereotype.Component
 import org.uqbar.geodds.Point
-import java.io.File
-import java.time.LocalDate
 import org.uqbar.geodds.Polygon
+import java.time.LocalDate
 import java.time.LocalTime
 
 @Component
 class DataInitializer(
     private val localRepository: LocalRepository,
-    private val platoRepository: DishRepository,
-    private val pedidoRepository: OrderRepository,
-    private val ingredienteRepository: IngredientRepository
+    private val dishRepository: DishRepository,
+    private val orderRepository: OrderRepository,
+    private val ingredientRepository: IngredientRepository,
+    private val clientRepository: ClientRepository
 ) {
-    private val mapper = jacksonObjectMapper()
 
     @PostConstruct
     fun init() {
-        val fileMenu = File("src/main/resources/menuData.json")
-        val platoListDTO = mapper.readValue<PlatoListDTO>(fileMenu)
-
-        val fileIngredients = File("src/main/resources/ingredientsData.json")
-        val ingredients = mapper.readValue<List<Ingredient>>(fileIngredients)
-
-        val restaurante = Local(
+        val restaurant = Local(
             "La Buena Mesa",
             "https://www.hilton.com/im/en/BUEPIHH/19783367/mural-2.jpg?impolicy=crop&cw=3857&ch=3000&gravity=NorthWest&xposition=71&yposition=0&rw=684&rh=532",
-            Address(
-                "Av. del Gourmet",
-                 "1250",
-                Point(-31.32, -66.95)
-            ),
+            Address("Av. del Gourmet", "1250", Point(-31.32, -66.95)),
             25.0,
             12.5,
             mutableSetOf(PaymentMethod.EFECTIVO, PaymentMethod.QR, PaymentMethod.TRANSFERENCIA),
             mutableSetOf()
         )
+        localRepository.create(restaurant)
 
-        localRepository.create(restaurante)
+        // Platos de ejemplo adicionales
+        val ingredient1 = Ingredient("Lechuga", 5.0, FoodGroup.FRUTAS_Y_VERDURAS)
+        val ingredient2 = Ingredient("Tomate", 3.0, FoodGroup.FRUTAS_Y_VERDURAS)
 
-        // ------------------------------------------------------------------
-        platoListDTO.platos.forEach { platoDTO ->
+        ingredientRepository.create(ingredient1)
+        ingredientRepository.create(ingredient2)
 
-            val ingredientesEntidad = platoDTO.ingredientes.map { ingDTO ->
-                Ingredient(
-                    name = ingDTO.name,
-                    price = ingDTO.price,
-                    group = FoodGroup.valueOf(ingDTO.group)
-                )
-            }.toMutableList()
-
-
-            val dishEntidad = Dish(
-                platoDTO.imageURL,
-                platoDTO.nombre,
-                platoDTO.descripcion,
-                ingredientesEntidad,
-                restaurante,
-                platoDTO.porcentajeAcordadoConLocal,
-                LocalDate.now(),
-                platoDTO.regaliasAutor,
-                platoDTO.valorBase,
-                platoDTO.descuento,
-            )
-
-            platoRepository.create(dishEntidad)
-        }
-
-        ingredients.forEach { ingrediente -> ingredienteRepository.create(ingrediente) }
-        ///////////////////////////////////////////////////////////////////////////////////////////////////
-
-        // ------------------------------------------------------------------
-        val ingredient1 = Ingredient(
-            name = "lechuga",
-            price = 5.0,
-            group = FoodGroup.FRUTAS_Y_VERDURAS
-        )
-        val ingredient2 = Ingredient(
-            name= "tomate",
-            price = 3.0,
-            group = FoodGroup.FRUTAS_Y_VERDURAS
-        )
-
-        val dish = Dish(
-            "https://picsum.photos/id/237/400/300",
-            "Ensalada de Tomate y lechuga",
-            "Ensalada clasica de tomate y lechuga",
+        val dish1 = Dish(
+            "https://www.cocina-chilena.com/base/stock/Recipe/ensalada-de-lechuga-y-tomate/ensalada-de-lechuga-y-tomate_web.jpg.webp",
+            "Ensalada de Tomate y Lechuga",
+            "Ensalada clásica de tomate y lechuga",
             mutableListOf(ingredient1, ingredient2),
-            restaurante,
+            restaurant,
             1.0,
             LocalDate.now(),
             0.0,
@@ -101,11 +50,11 @@ class DataInitializer(
             1.0,
         )
         val dish2 = Dish(
-            "https://picsum.photos/id/237/400/300",
-            "Ensalada de lechuga",
-            "Ensalada clasica de lechuga",
+            "https://www.robinfoodtv.com/documentos/recetas/694.jpg",
+            "Ensalada de Lechuga",
+            "Ensalada clásica de lechuga",
             mutableListOf(ingredient1),
-            restaurante,
+            restaurant,
             1.0,
             LocalDate.now(),
             0.0,
@@ -113,155 +62,70 @@ class DataInitializer(
             1.0,
         )
         val dish3 = Dish(
-            "https://picsum.photos/id/237/400/300",
+            "https://micocinareal.com/wp-content/uploads/ensalada-tomate-alino-tomillo.jpeg",
             "Ensalada de Tomate",
-            "Ensalada clasica de tomate",
+            "Ensalada clásica de tomate",
             mutableListOf(ingredient2),
-            restaurante,
+            restaurant,
             1.0,
             LocalDate.now(),
             0.0,
             10.0,
             1.0,
         )
+        dishRepository.create(dish1)
+        dishRepository.create(dish2)
+        dishRepository.create(dish3)
 
-        platoRepository.create(dish)
-        platoRepository.create(dish2)
-        platoRepository.create(dish3)
+        // ----------------------- Carga de Clientes ---------------------------
+        val addressW = Address("San Andrés", "334", Point(-5.0, 5.0))
+        val addressH = Address("Hinamizawa", "34", Point(-53.4430, 25.220))
 
-        ///////////////////////////////////////////////////////////////////////////////////////////////////
+        val client1 = Client("Alejandra Pisco", username = "piscosour").apply { address = addressW }
+        val client2 = Client("Pedro Aznar", username = "cigarra").apply { address = addressW }
+        val client3 = Client("Yu Tsun", username = "senderosbifurcados").apply { address = addressH }
+        val client4 = Client("Paul Valery", username = "omniscent").apply { address = addressH }
+        val client5 = Client("Arnold Stallone", username = "termirambo").apply { address = addressW }
 
-        /*la direccion no deberia ser del cliente directamente? */
-        val addressW = Address(
-            "San Andres",
-            "334",
-            Point(-5.0, 5.0)
+        val admin = Client(
+            "Admin",
+            "Admin",
+            "admin",
+            "admin",
+            LocalDate.of(1990,1,1),
+            LocalDate.now().minusDays(17),
+            "ola123@gmail.com",
+            Address("Calle Falsa", "123", Point(-34.6, -58.45))
         )
 
-        val addressH = Address(
-            "Hinamizawa",
-            "34",
-            Point(-53.4430, 25.220)
-        )
+        listOf(client1, client2, client3, client4, client5, admin).forEach { clientRepository.create(it) }
 
-        val user = Client(
-            "Alejandra Pisco",
-            username = "piscosour"
-        )
-
-        val user2 = Client(
-            "Pedro Aznar",
-            username = "cigarra"
-        )
-
-        val user3 = Client(
-            "Yu Tsun",
-            username = "bifurc"
-        )
-
-        val user4 = Client(
-            "Paul Valery",
-            username = "omniscent"
-        )
-
-        val user5 = Client(
-            "Homer Silson",
-            username = "silso"
-        )
-
-        user.address = addressW
-        user2.address = addressW
-        user3.address = addressH
-        user4.address = addressH
-        user5.address = addressH
-
-        val puntos = listOf(
-            Point(0.0, 0.0),
-            Point(0.0, 10.0),
-            Point(10.0, 10.0),
-            Point(10.0, 0.0)
-        )
-
-        val zonaTrabajo = Polygon(puntos)
-
-        val condicion = AnyCondition(
+        // ----------------------- Carga de Pedidos ----------------------------
+        val points = listOf(Point(0.0,0.0), Point(0.0,10.0), Point(10.0,10.0), Point(10.0,0.0))
+        val workZone = Polygon(points)
+        val condition = AnyCondition(
             listOf(
-                MinimumAmountCondition(50.0),  // mínimo $50
-                TimeRangeCondition(LocalTime.of(10,0), LocalTime.of(22,0)) // entre 10:00 y 22:00
+                MinimumAmountCondition(50.0),
+                TimeRangeCondition(LocalTime.of(10,0), LocalTime.of(22,0))
             )
         )
-
-        val deliveri = Delivery(
-            "Deliveri",
-            "pipo",
-            "pipon",
-            "pepin",
-            LocalDate.now(),
-            addressW,
-            zonaTrabajo,
-            condicion
+        val delivery = Delivery(
+            "Delivery", "pipo", "pipon", "pepin", LocalDate.now(), addressW, workZone, condition
         )
 
-        /*ATENCION!!: Realice un cambio en Pedido. Hablar con el profe de esto.
-        DOS CAMBIOS en realidad. */
-        /*el state está como pendiente en default*/
-        val order1 = Order(
-            user2,
-            listOf(dish, dish2, dish3),
-            local = restaurante,
-            delivery = deliveri,
-            paymentMethod = PaymentMethod.TRANSFERENCIA
-        )
-
-        val order2 = Order(
-            user3,
-            listOf(dish, dish2, dish3),
-            local = restaurante,
-            delivery = deliveri,
-            paymentMethod = PaymentMethod.EFECTIVO
-        )
-
-        val order3 = Order(
-            user,
-            listOf(dish, dish2, dish3),
-            local = restaurante,
-            delivery = deliveri,
-            paymentMethod = PaymentMethod.DEBITO
-        )
-
-        val order4 = Order(
-            user4,
-            listOf(dish, dish2, dish3),
-            local = restaurante,
-            delivery = deliveri,
-            paymentMethod = PaymentMethod.TRANSFERENCIA
-        )
-
-        val order5 = Order(
-            user5,
-            listOf(dish, dish2, dish3),
-            local = restaurante,
-            delivery = deliveri,
-            paymentMethod = PaymentMethod.TRANSFERENCIA
-        )
-
+        val order1 = Order(client2, listOf(dish1, dish2, dish3, dish3), OrderStatus.PENDIENTE, restaurant, delivery, PaymentMethod.QR)
+        val order2 = Order(client3, listOf(dish1, dish2, dish3), OrderStatus.PENDIENTE, restaurant, delivery, PaymentMethod.EFECTIVO)
+        val order3 = Order(client1, listOf(dish1, dish2, dish3), OrderStatus.PENDIENTE, restaurant, delivery, PaymentMethod.TRANSFERENCIA)
+        val order4 = Order(client4, listOf(dish1, dish2, dish3), OrderStatus.PENDIENTE, restaurant, delivery, PaymentMethod.TRANSFERENCIA)
+        val order5 = Order(client5, listOf(dish1, dish2, dish3), OrderStatus.PENDIENTE, restaurant, delivery, PaymentMethod.CREDITO)
 
         order4.status = OrderStatus.PREPARADO
         order2.status = OrderStatus.ENTREGADO
         order5.status = OrderStatus.CANCELADO
 
-
-
-        order1.pickupTime = LocalTime.now()
-        order2.pickupTime = LocalTime.now()
-        order3.pickupTime = LocalTime.now()
-        order4.pickupTime = LocalTime.now()
-        order5.pickupTime = LocalTime.now()
-
-        pedidoRepository.create(order1)
-        pedidoRepository.create(order2)
-        pedidoRepository.create(order3)
-        pedidoRepository.create(order4)
-        pedidoRepository.create(order5)
+        listOf(order1, order2, order3, order4, order5).forEach {
+            it.pickupTime = LocalTime.now()
+            orderRepository.create(it)
+        }
     }
 }

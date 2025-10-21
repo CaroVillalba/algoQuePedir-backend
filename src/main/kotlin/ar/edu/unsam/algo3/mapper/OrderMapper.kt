@@ -5,47 +5,48 @@ import ar.edu.unsam.algo3.dto.*
 import java.math.RoundingMode
 
 object OrderMapper {
-
-
-
     fun toOrderDTO(pedido: Order): OrderDTO {
         return OrderDTO(
-            id = pedido.id,
-            user = toUserDTO(pedido.client),
-            hora = pedido.pickupTime,
-            platos = pedido.dishes.map { toPlateDTO(it) },
-            direction = toDirectionDTO(pedido.client.address),
-            metodoPago = pedido.paymentMethod,
-            cantidad = pedido.dishes.size,
-            subtotal = round(pedido.baseTotal()),
-            total = pedido.getOrderTotal(),
-            comision = round(pedido.deliveryCost()),
-            increment = round(pedido.applyTax()),
-            state = pedido.status
+            round(pedido.deliveryCost()),
+            round(pedido.applyTax()),
+            pedido.id,
+            toUserDTO(pedido.client),
+            pedido.pickupTime,
+            pedido.dishes.distinctBy { it.id }
+                .map { toPlateDTO(it, pedido.dishes) },
+            toDirectionDTO(pedido.client.address),
+            pedido.paymentMethod,
+            pedido.dishes.size,
+            round(pedido.baseTotal()),
+            pedido.getOrderTotal(),
+            pedido.status
         )
     }
 
     fun toUserDTO(user: Client): UserOrderDTO {
         return UserOrderDTO(
-            nombre = user.firstName,
-            username = user.username
+            user.firstName,
+             user.username
         )
     }
 
-    fun toPlateDTO(dish: Dish): MenuDTO {
-        return MenuDTO(
-            imageUrl = dish.imageURL,
-            name = dish.name,
-            description = dish.description,
-            price = dish.salePrice().toBigDecimal().setScale(2, RoundingMode.HALF_EVEN).toDouble()
+    fun toPlateDTO(dish: Dish, dishesInOrder: List<Dish>): OrderDetailDTO {
+        val quantity = dishesInOrder.count { it.id == dish.id }
+        return OrderDetailDTO(
+            dish.id,
+            dish.imageURL,
+            dish.name,
+            dish.description,
+            round(dish.salePrice()),
+            quantity
         )
     }
 
     fun toDirectionDTO(address: Address): DireccionOrderDTO {
         return DireccionOrderDTO(
-            calle = address.street,
-            altura = address.number,
-            coordenadas = address.coordinates
+            address.street,
+            address.number,
+            address.coordinates
         )
     }
 

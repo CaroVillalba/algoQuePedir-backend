@@ -1,4 +1,5 @@
 package ar.edu.unsam.algo3.domain
+import java.math.RoundingMode
 import java.time.Duration
 import java.time.LocalDate
 
@@ -29,7 +30,7 @@ class Dish(
         if (conditionalDiscount() > 0.0){
             result -= conditionalDiscount()
         }
-        return result
+        return result.toBigDecimal().setScale(2, RoundingMode.HALF_EVEN).toDouble()
     }
 
     fun salePriceWithoutDiscount(): Double {

@@ -1,11 +1,8 @@
 package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.dto.OrderDTO
-import ar.edu.unsam.algo3.exceptions.BusinessException
 import ar.edu.unsam.algo3.mapper.OrderMapper
 import ar.edu.unsam.algo3.service.OrderService
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -13,44 +10,30 @@ import org.springframework.web.bind.annotation.*
 @CrossOrigin(origins = ["http://localhost:5173"])
 class OrderController(private val orderService: OrderService) {
 
-    @GetMapping("/order")
-    fun getByState(@RequestParam(required = false) state: String?): ResponseEntity<List<OrderDTO>> {
-        return try {
-            val pedidos = if (state.isNullOrBlank() || state == "Todos") {
-                orderService.getAll()
-            } else {
-                orderService.getByState(state)
-            }
-            val dtoList = pedidos.map { OrderMapper.toOrderDTO(it) }
-            ResponseEntity.ok(dtoList)
-        } catch (e: BusinessException) {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+    @GetMapping
+    fun getByState(@RequestParam(required = false) state: String?): List<OrderDTO> {
+        val orders = if (state.isNullOrBlank() || state == "Todos") {
+            orderService.getAll()
+        } else {
+            orderService.getByState(state)
         }
+        return orders.map { OrderMapper.toOrderDTO(it) }
     }
 
     @GetMapping("/orderDetail/{orderId}")
-    fun get(@PathVariable orderId: Int): ResponseEntity<OrderDTO> {
-        val pedido = orderService.getByID(orderId)
-        return ResponseEntity.ok(OrderMapper.toOrderDTO(pedido))
+    fun get(@PathVariable orderId: Int): OrderDTO {
+        val order = orderService.getByID(orderId)
+        return OrderMapper.toOrderDTO(order)
     }
 
-    @PatchMapping("/order/{orderId}")
-    fun advanceOrderState(@PathVariable orderId: Int): ResponseEntity<OrderDTO> {
-        return try {
-            val updatedOrder = orderService.updateOrderState(orderId)
-            ResponseEntity.ok(OrderMapper.toOrderDTO(updatedOrder))
-        } catch (e: BusinessException) {
-            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null)
-        }
+    @PatchMapping("/{orderId}")
+    fun advanceOrderState(@PathVariable orderId: Int): OrderDTO {
+        val updatedOrder = orderService.updateOrderState(orderId)
+        return OrderMapper.toOrderDTO(updatedOrder)
     }
 
-    @DeleteMapping("/order/{orderId}")
-    fun deleteOrder(@PathVariable orderId: Int): ResponseEntity<Void> {
-        return try {
-            orderService.deleteOrder(orderId)
-            ResponseEntity.noContent().build()
-        } catch (e: BusinessException) {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
-        }
+    @DeleteMapping("/{orderId}")
+    fun deleteOrder(@PathVariable orderId: Int) {
+        orderService.deleteOrder(orderId)
     }
 }

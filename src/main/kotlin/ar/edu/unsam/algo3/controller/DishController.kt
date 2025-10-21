@@ -1,9 +1,13 @@
 package ar.edu.unsam.algo3.controller
 
-import ar.edu.unsam.algo3.domain.Dish
-import ar.edu.unsam.algo3.service.PlateService
+import ar.edu.unsam.algo3.domain.Local
+import ar.edu.unsam.algo3.domain.LocalRepository
+import ar.edu.unsam.algo3.dto.DishDTO
+import ar.edu.unsam.algo3.service.DishService
 import ar.edu.unsam.algo3.dto.MenuDTO
 import ar.edu.unsam.algo3.exceptions.BusinessException
+import ar.edu.unsam.algo3.exceptions.ElementDoesNotExistException
+import ar.edu.unsam.algo3.mapper.DishMapper
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -12,23 +16,33 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/v1/dishes")
 @CrossOrigin(origins = ["http://localhost:5173"])
-class DishController (private val plateService: PlateService){
+class DishController (private val dishService: DishService, private val localRepository: LocalRepository){
     // GET
-    @GetMapping("/menu")
-    fun get() :ResponseEntity<List<MenuDTO>> {
-        return try {
-            val dto = plateService.getAll()
-            ResponseEntity.ok(dto)
-        } catch (e: BusinessException) {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
-        }
+    @GetMapping
+    fun get(): List<MenuDTO> {
+        val menu = dishService.getAll()
+        return DishMapper.toMenuDTO(menu)
     }
-    @PostMapping("/edit-plate")
-    fun createPlate(@RequestBody dish: Dish){
-        try{
-            plateService.createPlate(dish)
-        }catch (e: BusinessException){
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.message)
-        }
+
+    @PostMapping
+    fun createDish(@RequestBody dto: DishDTO) {
+        val localObject: Local = localRepository.getById(dto.local)
+            ?: throw ElementDoesNotExistException("Local con ID ${dto.local} no encontrado")
+        val dish = DishMapper.toEntity(dto, localObject)
+        dishService.createDish(dish)
+    }
+
+    @GetMapping("/{id}")
+    fun getById(@PathVariable id: Int): DishDTO {
+        val dish = dishService.getById(id)
+        return DishMapper.toDTO(dish, id)
+    }
+
+    // PUT /local/{id}
+    @PutMapping("/{id}")
+    fun update(@PathVariable id: Int, @RequestBody dto: DishDTO) {
+        val oldDish = dishService.getById(id)
+        val updatedDish = DishMapper.updateEntity(dto, oldDish)
+        dishService.update(updatedDish)
     }
 }

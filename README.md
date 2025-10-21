@@ -1,40 +1,110 @@
-# Ejemplo base para TP Algo3
+[![Coverage Main](https://raw.githubusercontent.com/algo3-unsam/algo-que-pedir-backend-2025-grupo7/main/.github/badges/jacoco-main.svg)](https://github.com/algo3-unsam/algo-que-pedir-backend-2025-grupo7/blob/main/.github/badges/jacoco-main.svg)
+[![Coverage Dev](https://raw.githubusercontent.com/algo3-unsam/algo-que-pedir-backend-2025-grupo7/development/.github/badges/jacoco-dev.svg)](https://github.com/algo3-unsam/algo-que-pedir-backend-2025-grupo7/blob/development/.github/badges/jacoco-dev.svg)
 
-[![Build](https://github.com/algo3-unsam/algo-que-pedir-backend-2025-grupo7/actions/workflows/build.yml/badge.svg)](https://github.com/algo3-unsam/algo-que-pedir-backend-2025-grupo7/actions/workflows/build.yml) ![Coverage](./.github/badges/jacoco.svg)
+# Algoritmos III - Trabajo Práctico 2025 - Backend
 
-- El build de Github Actions funciona de una, no tenés que configurar nada
-- También el coverage se genera solito si respetás las dependencias que están en el `build.gradle.kts`
-- en el archivo [settings.gradle.kts](./settings.gradle.kts) que está en el raíz tenés que cambiarle al nombre de tu proyecto
+## Descripción del proyecto
+Este proyecto es el backend del TP "Algo Que Pedir" de la materia Algoritmos III (2025), desarrollado en **Spring Boot** utilizando Kotlin. Se basa en el backend de Algoritmos II y sirve como API REST para la aplicación frontend desarrollada en Svelte.
 
-```kts
-rootProject.name = "proyecto-base-tp"
-```
+El backend implementa el dominio general del TP y expone endpoints para:
 
-- Para los badges de build y coverage (las imágenes que ves con el build passing y el % en este README), tenés que reemplazar `tp-worldcapp-2023-gr-xx` por el repositorio correspondiente.
+- Gestión de usuarios (registro, login)
+- Gestión de locales
+- Gestión de ingredientes
+- Gestión de platos
+- Gestión de pedidos (orders)
 
-## El proyecto
+Incluye validaciones, manejo de errores y pruebas automatizadas (unitarias e integración).
 
-Antes que nada, la idea de este proyecto es que te sirva como base para poder desarrollar el backend en la materia [Algoritmos 3](https://algo3.uqbar-project.org/). Por eso está basado en _Maven_, y el archivo `build.gradle.kts` tiene dependencias a
+## Estructura del proyecto
 
+- `src/main/kotlin` → Código fuente del backend (controllers, services, domain, dto, mapper)
+- `src/test/kotlin` → Tests unitarios e integraciones
+- `build.gradle.kts` → Dependencias, plugins y configuración de Gradle
+- `.github/workflows/build.yml` → Configuración de CI con GitHub Actions
+- `.github/badges/` → Badges generados por JaCoCo para coverage
+
+## Requisitos
+
+- JDK 21
+- Gradle
 - Spring Boot
-- JUnit
-- JaCoCo (Java Code Coverage), para que agregues el % de cobertura en el README
-- la versión de Kotlin que estaremos usando
-- además de estar basado en la JDK 21
+- Kotlin
 
-### Pasos para adaptar tu proyecto de Algo2 a Algo3
+## Endpoints principales
 
-El proceso más simple para que puedan reutilizar el proyecto de Algo2 en Algo3 es:
+### Autenticación
+- `POST /v1/auth/register` → Crear un usuario
+- `GET /v1/auth/login` → Loguear usuario
 
-- generar una copia de todo el directorio que contiene este proyecto
-- eliminar la carpeta `.git` que está oculta
-- copiar del proyecto de Algo2 las carpetas `src/main/kotlin` y `src/test/kotlin` y la ubican en el mismo lugar en el proyecto de Algo3
-- apuntar al proyecto de github mediante
+### Local
+- `GET /v1/local/{id}` → Obtener info del local
+- `PUT /v1/local/{id}` → Actualizar info del local
+
+### Ingredientes
+- `GET /v1/ingredients` → Listar todos los ingredientes
+- `GET /v1/ingredients/{id}` → Obtener un ingrediente
+- `POST /v1/ingredients` → Crear ingrediente
+- `PUT /v1/ingredients/{id}` → Actualizar ingrediente
+- `DELETE /v1/ingredients/{id}` → Borrar ingrediente
+
+### Platos
+- `GET /v1/dishes` → Listar todos los platos
+- `GET /v1/dishes/{id}` → Obtener un plato
+- `POST /v1/dishes` → Crear plato
+- `PUT /v1/dishes/{id}` → Actualizar plato
+- `DELETE /v1/dishes/{id}` → Borrar plato
+
+### Pedidos (Orders)
+- `GET /v1/order` → Listar pedidos por estado o todos
+- `GET /v1/order/orderDetail/{orderId}` → Obtener detalle de un pedido
+
+## Testing
+
+- Se incluyen tests unitarios de **services** y **controllers**
+- Se incluyen tests de integración para endpoints
+- Cobertura de tests generada automáticamente por JaCoCo y subida como badge
+
+## Integración Continua
+
+- Configurada con **GitHub Actions**
+- Workflow ejecuta tests y genera coverage automáticamente
+- Badges de build y coverage disponibles para **main** y **development**
+
+## Cómo correr el proyecto
+
+1. Clonar el repositorio
+2. Configurar JDK 21
+3. Ejecutar desde terminal:
 
 ```bash
-git remote add origin ...dirección del repo git...
+./gradlew bootRun
 ```
 
-El proyecto tiene un main, en la clase `ProyectoApplication`, que levantará el servidor web en el puerto 9000, tienen que renombrarlo al TP actual. También tenés
+4. Los tests se ejecutan con:
 
-- un test de integración de ejemplo (en `src/test/kotlin`)
+```bash
+./gradlew test
+```
+
+5. Los reports de cobertura se generan en `build/reports/jacoco/`
+
+## Notas adicionales
+
+* Se respeta la lógica de descuento de platos según el TP de maquetado:
+
+    * Plato nuevo → descuento del 30% disminuyendo 1% por día hasta el día 20, luego 10%
+    * Plato en promo → descuento del porcentaje establecido
+    * Los descuentos no se solapan
+
+* Validaciones implementadas en backend para:
+
+    * Platos y sus ingredientes
+    * Medios de pago
+    * Estados de pedidos
+
+* Repositorios usados:
+
+    * Backend: este repositorio
+    * Frontend: repositorio de Maquetado/Svelte del TP
+
