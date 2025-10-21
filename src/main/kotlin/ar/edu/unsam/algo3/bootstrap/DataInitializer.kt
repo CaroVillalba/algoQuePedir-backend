@@ -156,7 +156,7 @@ class DataInitializer(
 
         val user3 = Client(
             "Yu Tsun",
-            username = "senderosbifurcados"
+            username = "bifurc"
         )
 
         val user4 = Client(
