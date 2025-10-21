@@ -1,12 +1,12 @@
 ### Main Branch
 
 [![Build Main](https://github.com/algo3-unsam/algo-que-pedir-backend-2025-grupo7/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/algo3-unsam/algo-que-pedir-backend-2025-grupo7/actions/workflows/build.yml)
-[![Coverage Main](https://raw.githubusercontent.com/algo3-unsam/algo-que-pedir-backend-2025-grupo7/main/.github/badges/jacoco.svg)](https://github.com/algo3-unsam/algo-que-pedir-backend-2025-grupo7/blob/main/.github/badges/jacoco.svg)
+[![Coverage Main](https://raw.githubusercontent.com/algo3-unsam/algo-que-pedir-backend-2025-grupo7/main/.github/badges/jacoco.svg)](https://github.com/algo3-unsam/algo-que-pedir-backend-2025-grupo7/main/.github/badges/jacoco.svg)
 
 ### Development Branch
 
 [![Build Dev](https://github.com/algo3-unsam/algo-que-pedir-backend-2025-grupo7/actions/workflows/build.yml/badge.svg?branch=Development)](https://github.com/algo3-unsam/algo-que-pedir-backend-2025-grupo7/actions/workflows/build.yml)
-[![Coverage Dev](https://raw.githubusercontent.com/algo3-unsam/algo-que-pedir-backend-2025-grupo7/Development/.github/badges/jacoco.svg)](https://github.com/algo3-unsam/algo-que-pedir-backend-2025-grupo7/blob/Development/.github/badges/jacoco.svg)
+[![Coverage Dev](https://raw.githubusercontent.com/algo3-unsam/algo-que-pedir-backend-2025-grupo7/Development/.github/badges/jacoco.svg)](https://github.com/algo3-unsam/algo-que-pedir-backend-2025-grupo7/Development/.github/badges/jacoco.svg)
 
 # Algoritmos III - Trabajo Práctico 2025 - Backend
 
