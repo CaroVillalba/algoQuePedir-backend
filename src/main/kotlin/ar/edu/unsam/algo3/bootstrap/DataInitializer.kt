@@ -164,10 +164,16 @@ class DataInitializer(
             username = "omniscent"
         )
 
+        val user5 = Client(
+            "Homer Silson",
+            username = "silso"
+        )
+
         user.address = addressW
         user2.address = addressW
         user3.address = addressH
         user4.address = addressH
+        user5.address = addressH
 
         val puntos = listOf(
             Point(0.0, 0.0),
@@ -231,8 +237,18 @@ class DataInitializer(
             paymentMethod = PaymentMethod.TRANSFERENCIA
         )
 
+        val order5 = Order(
+            user5,
+            listOf(dish, dish2, dish3),
+            local = restaurante,
+            delivery = deliveri,
+            paymentMethod = PaymentMethod.TRANSFERENCIA
+        )
+
+
         order4.status = OrderStatus.PREPARADO
         order2.status = OrderStatus.ENTREGADO
+        order5.status = OrderStatus.CANCELADO
 
 
 
@@ -240,10 +256,12 @@ class DataInitializer(
         order2.pickupTime = LocalTime.now()
         order3.pickupTime = LocalTime.now()
         order4.pickupTime = LocalTime.now()
+        order5.pickupTime = LocalTime.now()
 
         pedidoRepository.create(order1)
         pedidoRepository.create(order2)
         pedidoRepository.create(order3)
         pedidoRepository.create(order4)
+        pedidoRepository.create(order5)
     }
 }

@@ -33,4 +33,14 @@ class OrderController(private val orderService: OrderService) {
         val pedido = orderService.getByID(orderId)
         return ResponseEntity.ok(OrderMapper.toOrderDTO(pedido))
     }
+
+    @PatchMapping("/order/{orderId}")
+    fun advanceOrderState(@PathVariable orderId: Int): ResponseEntity<OrderDTO> {
+        return try {
+            val updatedOrder = orderService.updateOrderState(orderId)
+            ResponseEntity.ok(OrderMapper.toOrderDTO(updatedOrder))
+        } catch (e: BusinessException) {
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null)
+        }
+    }
 }
