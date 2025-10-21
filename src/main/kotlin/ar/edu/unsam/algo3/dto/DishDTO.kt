@@ -10,6 +10,6 @@ data class DishDTO (
     val authorRoyalties: Double,
     val baseValue: Double,
     val discount: Double,
-    val totalCost: Double
+    val productionCost: Double
 )
 

@@ -46,12 +46,7 @@ class ClientRepository : InMemoryRepository<Client>() {
     fun searchByUsername(value: String): List<Client> = elements.values.filter { it.username.contains(value, ignoreCase = true) }
 
     override fun search(value: String): List<Client> {
-        return (searchByPassword(value) + searchByUsername(value)).distinct()
-    }
-
-    fun searchCredentials(username: String, password: String): Client {
-        val clientsByUsername = searchByUsername(username)
-        return clientsByUsername.filter { it.password == password }.first()
+        return (searchByName(value) + searchByLastName(value) + searchByUsername(value)).distinct()
     }
 }
 

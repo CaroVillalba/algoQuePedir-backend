@@ -21,7 +21,7 @@ object DishMapper {
             dish.authorRoyalties,
             dish.baseValue,
             dish.discount,
-            dish.salePrice()
+            dish.ingredientCost()
         )
     }
 

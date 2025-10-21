@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler
  */
 @ControllerAdvice
 class GlobalExceptionHandler {
+    @ExceptionHandler(EmptyFieldsException::class)
+    fun handleEmptyFieldsException(ex: EmptyFieldsException): ResponseEntity<Map<String, String>> {
+        val body = mapOf("message" to (ex.message ?: "Campos vacíos"))
+        return ResponseEntity(body, HttpStatus.BAD_REQUEST)
+    }
 
     @ExceptionHandler(BusinessException::class)
     fun handleBusinessException(ex: BusinessException): ResponseEntity<Map<String, String>> {

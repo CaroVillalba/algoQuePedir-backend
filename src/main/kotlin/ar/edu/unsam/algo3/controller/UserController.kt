@@ -17,24 +17,16 @@ class UserController(private val userService: UserService) {
     @GetMapping("/login")
     fun getClient(
         @RequestParam username: String,
-        @RequestParam password : String
+        @RequestParam password: String
     ): ResponseEntity<AuthDTO> {
-        return try {
-            val client = userService.getClient(username, password)
-            ResponseEntity.ok(AuthMapper.toDTO(client))
-        } catch (e: BusinessException) {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
-        }
+        val client = userService.getUser(username, password)
+        return ResponseEntity.ok(AuthMapper.toDTO(client))
     }
 
     @PostMapping("/register")
-    fun createClient(@RequestBody dto: AuthDTO){
-        try {
-            val client = AuthMapper.toEntity(dto)
-            userService.createClient(client)
-            ResponseEntity.status(HttpStatus.CREATED).build()
-        } catch (e: BusinessException) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.message)
-        }
+    fun createClient(@RequestBody dto: AuthDTO): ResponseEntity<Void> {
+        val client = AuthMapper.toEntity(dto)
+        userService.createClient(client)
+        return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 }
