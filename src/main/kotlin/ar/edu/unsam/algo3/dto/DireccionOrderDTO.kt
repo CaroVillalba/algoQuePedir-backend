@@ -5,5 +5,5 @@ import org.uqbar.geodds.Point
 data class DireccionOrderDTO (
     val street: String,
     val number: String,
-    val coodinates: Point
+    val coordinates: Point
 )
