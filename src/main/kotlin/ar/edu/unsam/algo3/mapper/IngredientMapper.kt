@@ -2,7 +2,6 @@ package ar.edu.unsam.algo3.mapper
 
 import ar.edu.unsam.algo3.domain.FoodGroup
 import ar.edu.unsam.algo3.domain.Ingredient
-import ar.edu.unsam.algo3.dto.DishDTO
 import ar.edu.unsam.algo3.dto.IngredientDTO
 import ar.edu.unsam.algo3.exceptions.BusinessException
 
@@ -24,7 +23,8 @@ object IngredientMapper {
         return Ingredient(
             dto.name,
             dto.price,
-            FoodGroup.valueOf(dto.group)
+            FoodGroup.valueOf(dto.group),
+            dto.id
         )
     }
 
