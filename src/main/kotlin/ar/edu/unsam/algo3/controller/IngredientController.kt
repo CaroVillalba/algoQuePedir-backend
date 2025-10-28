@@ -2,13 +2,9 @@ package ar.edu.unsam.algo3.controller
 
 
 import ar.edu.unsam.algo3.dto.IngredientDTO
-import ar.edu.unsam.algo3.exceptions.BusinessException
-import ar.edu.unsam.algo3.exceptions.ElementDoesNotExistException
 import ar.edu.unsam.algo3.mapper.IngredientMapper
 import ar.edu.unsam.algo3.service.IngredientService
 
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -45,9 +41,9 @@ class IngredientController(private val ingredientService: IngredientService) {
     }
 
     // PUT /ingredients/{id}
-    @PutMapping("/{id}")
-    fun update(@PathVariable id: Int, @RequestBody dto: IngredientDTO) {
-        val existing = ingredientService.getByIdEntity(id)
+    @PutMapping
+    fun update(@RequestBody dto: IngredientDTO) {
+        val existing = ingredientService.getByIdEntity(dto.id)
         val updated = IngredientMapper.updateEntity(dto, existing)
         ingredientService.update(updated)
     }
