@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 @SpringBootTest
 @AutoConfigureMockMvc
 @DisplayName("Dado un IngredientController")
-class IngredientControllerIntegrationTest {
+class IngredientControllerTest {
 
     @Autowired
     lateinit var mockMvc: MockMvc
@@ -103,4 +103,3 @@ class IngredientControllerIntegrationTest {
         assert(remaining == null)
     }
 }
-

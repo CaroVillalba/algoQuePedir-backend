@@ -14,7 +14,7 @@ object OrderMapper {
             pedido.pickupTime,
             pedido.dishes.distinctBy { it.id }
                 .map { toPlateDTO(it, pedido.dishes) },
-            toDirectionDTO(pedido.client.address),
+            toAddressDTO(pedido.client.address),
             pedido.paymentMethod,
             pedido.dishes.size,
             round(pedido.baseTotal()),
@@ -42,8 +42,8 @@ object OrderMapper {
         )
     }
 
-    fun toDirectionDTO(address: Address): DireccionOrderDTO {
-        return DireccionOrderDTO(
+    fun toAddressDTO(address: Address): AddressDTO {
+        return AddressDTO(
             address.street,
             address.number,
             address.coordinates
