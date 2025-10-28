@@ -18,8 +18,7 @@ object LocalMapper {
             AddressDTO(
                 local.address.street,
                 local.address.number,
-                local.address.coordinates.x,
-                local.address.coordinates.y
+                local.address.coordinates
             ),
             local.appCommission,
             local.authorCommission,
@@ -45,7 +44,7 @@ object LocalMapper {
         existing.address = Address(
             dto.address.street,
             dto.address.number,
-            Point(dto.address.lat, dto.address.lon)
+            dto.address.coordinates
         )
         existing.appCommission = dto.appCommission
         existing.authorCommission = dto.authorCommission
@@ -59,8 +58,8 @@ object LocalMapper {
         if (!dto.imgURL.startsWith("http")) throw BusinessException("URL de la imagen inválida")
         if (dto.address.street.isBlank()) throw BusinessException("Calle inválida")
         if (dto.address.number <= "0") throw BusinessException("Número de calle inválido")
-        if (dto.address.lat !in -90.0..90.0) throw BusinessException("Latitud inválida")
-        if (dto.address.lon !in -180.0..180.0) throw BusinessException("Longitud inválida")
+        if (dto.address.coordinates.x !in -90.0..90.0) throw BusinessException("Latitud inválida")
+        if (dto.address.coordinates.y !in -180.0..180.0) throw BusinessException("Longitud inválida")
         if (dto.appCommission !in 0.0..100.0) throw BusinessException("Comisión App inválida")
         if (dto.authorCommission !in 0.0..100.0) throw BusinessException("Comisión autores inválida")
         if (dto.paymentMethods.isEmpty()) throw BusinessException("Debe seleccionar al menos un método de pago")

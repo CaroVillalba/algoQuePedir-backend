@@ -53,7 +53,11 @@ class LocalControllerTest {
             1,
             local.name,
             local.imgURL,
-            AddressDTO(local.address.street, local.address.number, local.address.coordinates.x, local.address.coordinates.y),
+            AddressDTO(
+                local.address.street,
+                local.address.number,
+                local.address.coordinates
+            ),
             local.appCommission,
             local.authorCommission,
             local.paymentMethods.map { it.name.lowercase() }

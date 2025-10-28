@@ -14,7 +14,7 @@ data class OrderDTO (
     val user: UserOrderDTO,
     val time: LocalTime?,
     val dishes: List<OrderDetailDTO>,
-    val direction: DireccionOrderDTO,
+    val direction: AddressDTO,
     val paymentMethod: PaymentMethod,
     val quantity: Int,
     val total: Double,

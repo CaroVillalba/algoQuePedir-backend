@@ -25,7 +25,7 @@ class LocalController(private val localService: LocalService) {
     @PutMapping("/{id}")
     fun update(@PathVariable id: Int, @RequestBody dto: LocalAccountDTO) {
         val local = localService.getById(id)
-        val updatedLocal = LocalMapper.toEntity(dto, local) // Aquí se valida
+        val updatedLocal = LocalMapper.toEntity(dto, local)
         localService.update(updatedLocal)
     }
 }
