@@ -12,7 +12,7 @@ class IngredientService(private val ingredientRepository: IngredientRepository) 
         return ingredientRepository.getAll()
     }
 
-    fun getByIdEntity(id: Int): Ingredient {
+    fun getByIdEntity(id: Int?): Ingredient {
         return ingredientRepository.getById(id)
             ?: throw ElementDoesNotExistException("El ingrediente $id no existe.")
     }
