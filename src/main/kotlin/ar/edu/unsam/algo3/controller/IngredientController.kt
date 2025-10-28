@@ -42,9 +42,11 @@ class IngredientController(private val ingredientService: IngredientService) {
     fun create(@RequestBody dto: IngredientDTO) {
         val ingredient = IngredientMapper.toEntity(dto)
         ingredientService.create(ingredient)
+        //TODO: Agregar mensaje y status code 201
     }
 
     // PUT /ingredients/{id}
+    // TODO: El id debería venir en el body y no en la URL
     @PutMapping("/{id}")
     fun update(@PathVariable id: Int, @RequestBody dto: IngredientDTO) {
         val existing = ingredientService.getByIdEntity(id)

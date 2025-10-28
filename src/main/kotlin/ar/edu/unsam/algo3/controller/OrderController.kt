@@ -19,13 +19,14 @@ class OrderController(private val orderService: OrderService) {
         }
         return orders.map { OrderMapper.toOrderDTO(it) }
     }
-
+    // TODO: Sacar orderDetail
     @GetMapping("/orderDetail/{orderId}")
     fun get(@PathVariable orderId: Int): OrderDTO {
         val order = orderService.getByID(orderId)
         return OrderMapper.toOrderDTO(order)
     }
 
+    // TODO: El orderID debería venir en el body
     @PatchMapping("/{orderId}")
     fun advanceOrderState(@PathVariable orderId: Int): OrderDTO {
         val updatedOrder = orderService.updateOrderState(orderId)

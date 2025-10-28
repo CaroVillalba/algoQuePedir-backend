@@ -30,12 +30,13 @@ class DishController (private val dishService: DishService, private val localRep
             ?: throw ElementDoesNotExistException("Local con ID ${dto.local} no encontrado")
         val dish = DishMapper.toEntity(dto, localObject)
         dishService.createDish(dish)
+        //TODO: Agregar mensaje y status code 201
     }
 
     @GetMapping("/{id}")
     fun getById(@PathVariable id: Int): DishDTO {
         val dish = dishService.getById(id)
-        return DishMapper.toDTO(dish, id)
+        return DishMapper.toDTO(dish, id) //TODO: Status code 200
     }
 
     // PUT /local/{id}
@@ -43,6 +44,6 @@ class DishController (private val dishService: DishService, private val localRep
     fun update(@PathVariable id: Int, @RequestBody dto: DishDTO) {
         val oldDish = dishService.getById(id)
         val updatedDish = DishMapper.updateEntity(dto, oldDish)
-        dishService.update(updatedDish)
+        dishService.update(updatedDish) //TODO: Status code 200
     }
 }

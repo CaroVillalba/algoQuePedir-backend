@@ -22,6 +22,7 @@ class LocalController(private val localService: LocalService) {
     }
 
     // PUT /local/{id}
+    // TODO: El id debería venir en el body y no en la URL
     @PutMapping("/{id}")
     fun update(@PathVariable id: Int, @RequestBody dto: LocalAccountDTO) {
         val local = localService.getById(id)
