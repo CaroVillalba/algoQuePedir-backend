@@ -10,7 +10,7 @@ import java.time.LocalTime
 data class OrderDTO (
     val comission: Double,
     val increment: Double,
-    val id: Int,
+    val id: Int?,
     val user: UserOrderDTO,
     val time: LocalTime?,
     val dishes: List<OrderDetailDTO>,
