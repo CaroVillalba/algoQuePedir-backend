@@ -5,7 +5,6 @@ import ar.edu.unsam.algo3.domain.Local
 import ar.edu.unsam.algo3.domain.PaymentMethod
 import ar.edu.unsam.algo3.dto.AddressDTO
 import ar.edu.unsam.algo3.dto.LocalAccountDTO
-import org.uqbar.geodds.Point
 import ar.edu.unsam.algo3.exceptions.BusinessException
 
 object LocalMapper {
