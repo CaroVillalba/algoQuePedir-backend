@@ -139,7 +139,7 @@ class ObserverSpec : DescribeSpec({
 
             it("Debe enviar por correo publicidad de platos acordes a las preferencias del cliente") {
                 val client = createClient()
-                val ingredienteNoDeseado = Ingredient("Carne", 10.0, FoodGroup.PROTEINAS)
+                val ingredienteNoDeseado = Ingredient("Carne", 10.0, FoodGroup.PROTEINAS,1)
                 client.ingredientsToAvoid.add(ingredienteNoDeseado)
 
                 val
@@ -271,7 +271,8 @@ private fun createVeganOrder(local: Local, client: Client = createClient()): Ord
     val ingredienteVegano = Ingredient(
         "Lechuga",
         50.0,
-        FoodGroup.FRUTAS_Y_VERDURAS
+        FoodGroup.FRUTAS_Y_VERDURAS,
+        2
     )
 
     val platoVegano = Dish(

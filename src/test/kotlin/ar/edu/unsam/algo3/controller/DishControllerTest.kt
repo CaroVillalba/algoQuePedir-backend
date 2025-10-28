@@ -58,7 +58,7 @@ class DishControllerTest {
         localRepository.create(local)
 
 
-        val ingredient = Ingredient("Tomate", 50.0, FoodGroup.FRUTAS_Y_VERDURAS)
+        val ingredient = Ingredient("Tomate", 50.0, FoodGroup.FRUTAS_Y_VERDURAS, 1)
         existingDish = Dish(
             "https://example.com/pizza.jpg", "Pizza Test", "Pizza de ejemplo",
             listOf(ingredient),

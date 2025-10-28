@@ -48,17 +48,20 @@ class DishCostSpec : DescribeSpec({
                     Ingredient(
                         "Pan",
                         5.0,
-                        FoodGroup.CEREALES_Y_TUBERCULOS
+                        FoodGroup.CEREALES_Y_TUBERCULOS,
+                        1
                     ),
                     Ingredient(
                         "Pan",
                         5.0,
-                        FoodGroup.CEREALES_Y_TUBERCULOS
+                        FoodGroup.CEREALES_Y_TUBERCULOS,
+                        2
                     ),
                     Ingredient(
                         "Queso",
                         30.0,
-                        FoodGroup.LACTEOS
+                        FoodGroup.LACTEOS,
+                        3
                     )
                 ),
                 testLocal,
@@ -135,17 +138,20 @@ class DishCostSpec : DescribeSpec({
                 Ingredient(
                     "Pan",
                     5.0,
-                    FoodGroup.CEREALES_Y_TUBERCULOS
+                    FoodGroup.CEREALES_Y_TUBERCULOS,
+                    1
                 ),
                 Ingredient(
                     "Pan",
                     5.0,
-                    FoodGroup.CEREALES_Y_TUBERCULOS
+                    FoodGroup.CEREALES_Y_TUBERCULOS,
+                    2
                 ),
                 Ingredient(
                     "Queso",
                     30.0,
-                    FoodGroup.LACTEOS
+                    FoodGroup.LACTEOS,
+                    3
                 )
             ),
             Local(

@@ -50,11 +50,11 @@ class CouponSpec : DescribeSpec({
             NormalClient()
         )
 
-        ingredient1 = Ingredient("Carne", 120.0, FoodGroup.PROTEINAS)
-        ingredient2 = Ingredient("Tocino", 80.0, FoodGroup.GRASAS_Y_ACEITES)
-        ingredient3 = Ingredient("Tomate", 100.0, FoodGroup.FRUTAS_Y_VERDURAS)
-        ingredient4 = Ingredient("Papa", 60.0, FoodGroup.CEREALES_Y_TUBERCULOS)
-        ingredient5 = Ingredient("Aceite", 70.0, FoodGroup.GRASAS_Y_ACEITES)
+        ingredient1 = Ingredient("Carne", 120.0, FoodGroup.PROTEINAS, 1)
+        ingredient2 = Ingredient("Tocino", 80.0, FoodGroup.GRASAS_Y_ACEITES, 2)
+        ingredient3 = Ingredient("Tomate", 100.0, FoodGroup.FRUTAS_Y_VERDURAS,3)
+        ingredient4 = Ingredient("Papa", 60.0, FoodGroup.CEREALES_Y_TUBERCULOS,4)
+        ingredient5 = Ingredient("Aceite", 70.0, FoodGroup.GRASAS_Y_ACEITES,5)
 
         local = Local(
             "Comida Rápida",

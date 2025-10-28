@@ -57,11 +57,11 @@ class OrderSpec {
         )
 
         dishRepository = DishRepository()
-        ingredient1 = Ingredient("Tomate", 100.0, FoodGroup.FRUTAS_Y_VERDURAS)
-        ingredient2 = Ingredient("Harina", 500.0, FoodGroup.CEREALES_Y_TUBERCULOS)
-        ingredient3 = Ingredient("Queso", 80.0, FoodGroup.LACTEOS)
-        ingredient4 = Ingredient("Aceite", 120.0, FoodGroup.GRASAS_Y_ACEITES)
-        ingredient5 = Ingredient("Lechuga", 110.0, FoodGroup.FRUTAS_Y_VERDURAS)
+        ingredient1 = Ingredient("Tomate", 100.0, FoodGroup.FRUTAS_Y_VERDURAS,1)
+        ingredient2 = Ingredient("Harina", 500.0, FoodGroup.CEREALES_Y_TUBERCULOS,2)
+        ingredient3 = Ingredient("Queso", 80.0, FoodGroup.LACTEOS,3)
+        ingredient4 = Ingredient("Aceite", 120.0, FoodGroup.GRASAS_Y_ACEITES,4)
+        ingredient5 = Ingredient("Lechuga", 110.0, FoodGroup.FRUTAS_Y_VERDURAS,5)
 
         client = Client(
             "Juan",

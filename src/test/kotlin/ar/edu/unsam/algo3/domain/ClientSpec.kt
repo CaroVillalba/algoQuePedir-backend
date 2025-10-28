@@ -77,12 +77,14 @@ class ClientSpec: DescribeSpec ({
                 Ingredient(
                     "carne",
                     0.0,
-                    FoodGroup.PROTEINAS
+                    FoodGroup.PROTEINAS,
+                    1
                 ),
                 Ingredient(
                     "Papa",
                     0.0,
-                    FoodGroup.FRUTAS_Y_VERDURAS
+                    FoodGroup.FRUTAS_Y_VERDURAS,
+                    2
                 )
             ),
             local,
@@ -159,17 +161,20 @@ class ClientSpec: DescribeSpec ({
         var meatIngredient = Ingredient(
             "Carne",
             0.0,
-            FoodGroup.PROTEINAS
+            FoodGroup.PROTEINAS,
+            1
         )
         var potatoIngredient = Ingredient(
             "Papa",
             0.0,
-            FoodGroup.FRUTAS_Y_VERDURAS
+            FoodGroup.FRUTAS_Y_VERDURAS,
+            2
         )
         var tomatoIngredient = Ingredient(
             "tomate",
             0.0,
-            FoodGroup.FRUTAS_Y_VERDURAS
+            FoodGroup.FRUTAS_Y_VERDURAS,
+            3
         )
 
         var client = Client(

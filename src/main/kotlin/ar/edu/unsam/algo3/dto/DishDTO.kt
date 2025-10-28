@@ -5,7 +5,7 @@ data class DishDTO (
     val name: String,
     val description: String,
     val ingredients: List<IngredientDTO>,
-    val local: Int,
+    val local: Int?,
     val agreedPercentageWithLocal: Double,
     val authorRoyalties: Double,
     val baseValue: Double,

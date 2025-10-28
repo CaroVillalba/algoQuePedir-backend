@@ -37,7 +37,8 @@ class ClientCommandSpec : DescribeSpec({
             ingredient1 = Ingredient(
                 "Tomate",
                 100.0,
-                FoodGroup.FRUTAS_Y_VERDURAS
+                FoodGroup.FRUTAS_Y_VERDURAS,
+                1
             )
             dish = Dish(
                 "https://super-pasta.png",

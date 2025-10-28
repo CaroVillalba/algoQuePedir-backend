@@ -14,9 +14,9 @@ class UserSpec {
     val dateTodayMinus30 = LocalDate.now().minusYears(30)
     @BeforeEach
     fun setUp() {
-        ingredient1 = Ingredient("Tomate", 100.0, group = FoodGroup.FRUTAS_Y_VERDURAS)
-        ingredient2 = Ingredient("Carne", 500.0, group = FoodGroup.PROTEINAS)
-        ingredient3 = Ingredient("Lechuga", 80.0, group = FoodGroup.FRUTAS_Y_VERDURAS)
+        ingredient1 = Ingredient("Tomate", 100.0, group = FoodGroup.FRUTAS_Y_VERDURAS,1)
+        ingredient2 = Ingredient("Carne", 500.0, group = FoodGroup.PROTEINAS,2)
+        ingredient3 = Ingredient("Lechuga", 80.0, group = FoodGroup.FRUTAS_Y_VERDURAS,3)
 
         user = Client(
             "Juan",

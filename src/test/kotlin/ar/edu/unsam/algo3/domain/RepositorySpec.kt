@@ -57,12 +57,14 @@ class IngredientUpdaterSpec : DescribeSpec({
         val ingredient1 = Ingredient(
             "IngredienteAbstracto UUUUhhhhhh",
             200.5,
-            FoodGroup.PROTEINAS
+            FoodGroup.PROTEINAS,
+            1
         )
         val ingredient2 = Ingredient(
             "IngredienteAbstracto UUUUhhhhhh Aaaaaahhahad8awdawu hiahs",
             200.5,
-            FoodGroup.PROTEINAS
+            FoodGroup.PROTEINAS,
+            2
         )
 
         it("Agrega ingrediente al repositorio, lo actualiza y luego lo elimina") {
@@ -87,7 +89,7 @@ class IngredientUpdaterSpec : DescribeSpec({
                 Ingredient(
                     "IngredienteAbstracto UUUUhhhhhh",
                     20050.0,
-                    FoodGroup.PROTEINAS
+                    FoodGroup.PROTEINAS,0
                 )
             )
             compareIngredients(
@@ -156,27 +158,32 @@ class IngredientUpdaterSpec : DescribeSpec({
                 22 to Ingredient(
                     "Leche",
                     200.5,
-                    FoodGroup.LACTEOS
+                    FoodGroup.LACTEOS,
+                    1
                 ),
                 1 to Ingredient(
                     "Arroz",
                     100.5,
-                    FoodGroup.CEREALES_Y_TUBERCULOS
+                    FoodGroup.CEREALES_Y_TUBERCULOS,
+                    2
                 ),
                 3 to Ingredient(
                     "Azúcar",
                     200.0,
-                    FoodGroup.AZUCARES_Y_DULCES
+                    FoodGroup.AZUCARES_Y_DULCES,
+                    3
                 ),
                 2 to Ingredient(
                     "Pollo",
                     400.5,
-                    FoodGroup.PROTEINAS
+                    FoodGroup.PROTEINAS,
+                    4
                 ),
                 57 to Ingredient(
                     "Manzana",
                     100.0,
-                    FoodGroup.FRUTAS_Y_VERDURAS
+                    FoodGroup.FRUTAS_Y_VERDURAS,
+                    5
                 )
             )
 

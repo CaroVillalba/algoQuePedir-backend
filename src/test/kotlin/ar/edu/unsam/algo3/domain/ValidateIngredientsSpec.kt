@@ -13,9 +13,9 @@ class ValidateIngredientsSpec : DescribeSpec({
         lateinit var ingredient3: Ingredient
 
         beforeEach {
-            ingredient1 = Ingredient("Tomate", 100.0, FoodGroup.FRUTAS_Y_VERDURAS)
-            ingredient2 = Ingredient("Carne", 500.0, FoodGroup.PROTEINAS)
-            ingredient3 = Ingredient("Lechuga", 80.0, FoodGroup.FRUTAS_Y_VERDURAS)
+            ingredient1 = Ingredient("Tomate", 100.0, FoodGroup.FRUTAS_Y_VERDURAS,1)
+            ingredient2 = Ingredient("Carne", 500.0, FoodGroup.PROTEINAS,2)
+            ingredient3 = Ingredient("Lechuga", 80.0, FoodGroup.FRUTAS_Y_VERDURAS,3)
             client = Client(
                 "Juan",
                 "Perez",

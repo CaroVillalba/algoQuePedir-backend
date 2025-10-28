@@ -34,7 +34,7 @@ class DishMapperTest {
 
     @BeforeEach
     fun setup() {
-        realIngredient = Ingredient("Tomate", 50.0, FoodGroup.FRUTAS_Y_VERDURAS)
+        realIngredient = Ingredient("Tomate", 50.0, FoodGroup.FRUTAS_Y_VERDURAS,1)
         realIngredient.id = 1
 
         realIngredientDTO = IngredientDTO(
