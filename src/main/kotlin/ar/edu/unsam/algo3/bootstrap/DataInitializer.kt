@@ -31,8 +31,8 @@ class DataInitializer(
         localRepository.create(restaurant)
 
         // Platos de ejemplo adicionales
-        val ingredient1 = Ingredient("Lechuga", 5.0, FoodGroup.FRUTAS_Y_VERDURAS)
-        val ingredient2 = Ingredient("Tomate", 3.0, FoodGroup.FRUTAS_Y_VERDURAS)
+        val ingredient1 = Ingredient("Lechuga", 5.0, FoodGroup.FRUTAS_Y_VERDURAS, 0)
+        val ingredient2 = Ingredient("Tomate", 3.0, FoodGroup.FRUTAS_Y_VERDURAS, 1)
 
         ingredientRepository.create(ingredient1)
         ingredientRepository.create(ingredient2)
