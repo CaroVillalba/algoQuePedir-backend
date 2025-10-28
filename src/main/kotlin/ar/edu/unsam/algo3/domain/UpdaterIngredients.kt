@@ -34,7 +34,8 @@ class IngredientsUpdater(
                     Ingredient(
                         it.name,
                         it.cost,
-                        FoodGroup.valueOf(it.group)
+                        FoodGroup.valueOf(it.group),
+                        it.id
                     )
                 )
             } else {
@@ -43,6 +44,7 @@ class IngredientsUpdater(
                         it.name,
                         it.cost,
                         FoodGroup.valueOf(it.group),
+                        it.id
                     )
                 )
             }
