@@ -24,44 +24,34 @@ import java.time.LocalDate
 @DisplayName("Tests para DishMapper")
 class DishMapperTest {
 
-    // 1. Dummys y Mocks
     private lateinit var realIngredient: Ingredient
     private lateinit var realIngredientDTO: IngredientDTO
-    private lateinit var dummyLocal: Local // Mockear Local está bien, es una 'class'
+    private lateinit var dummyLocal: Local
 
-    // DTO base válido para copiar y crear casos inválidos
     private lateinit var validDTO: DishDTO
 
-    // Entidad base para probar actualizaciones
     private lateinit var existingDish: Dish
 
     @BeforeEach
     fun setup() {
-        // --- ESTA ES LA PARTE IMPORTANTE ---
-        // 1. NO mockeamos IngredientMapper
-        // 2. Creamos objetos REALES para el mapper
-
-        // (Asumo FoodType es un enum como en los tests anteriores)
         realIngredient = Ingredient("Tomate", 50.0, FoodGroup.FRUTAS_Y_VERDURAS)
-        realIngredient.id = 1 // Asignamos ID para el test
+        realIngredient.id = 1
 
         realIngredientDTO = IngredientDTO(
             id = 1,
             name = "Tomate",
             price = 50.0,
-            group = "FRUTAS_Y_VERDURAS", // Debe coincidir con el enum
+            group = "FRUTAS_Y_VERDURAS",
             animalOrigin = false
         )
 
-        // Mockeamos Local porque no nos interesa su lógica aquí
         dummyLocal = mock()
 
-        // 3. Crear objetos de prueba
         validDTO = DishDTO(
             imageURL = "https://example.com/image.png",
             name = "Plato de Prueba",
             description = "Descripción válida",
-            ingredients = listOf(realIngredientDTO), // Lista real
+            ingredients = listOf(realIngredientDTO),
             local = 1,
             agreedPercentageWithLocal = 10.0,
             authorRoyalties = 5.0,
@@ -74,7 +64,7 @@ class DishMapperTest {
             imageURL = "http://original.url/img.jpg",
             name = "Plato Original",
             description = "Descripción original",
-            ingredients = listOf(realIngredient), // Lista real
+            ingredients = listOf(realIngredient),
             local = dummyLocal,
             agreedPercentageWithLocal = 5.0,
             releaseDate = LocalDate.now().minusDays(10),
@@ -84,35 +74,25 @@ class DishMapperTest {
         )
     }
 
-    // --- Tests de Mapeo (Caminos Felices) ---
-
     @Test
     fun `toDTO deberia mapear un Dish a un DishDTO correctamente`() {
-        // Arrange
-        // Creamos un 'spy' para simular solo la función ingredientCost()
-        // 'spy' usa el objeto real PERO nos deja mockear algunos métodos
         existingDish = spy(existingDish)
         whenever(existingDish.ingredientCost()).thenReturn(50.0)
 
-        // Act
-        // Usamos el IngredientMapper REAL
         val dto = DishMapper.toDTO(existingDish, 99)
 
-        // Assert
         Assertions.assertEquals(existingDish.name, dto.name)
         Assertions.assertEquals(existingDish.description, dto.description)
         Assertions.assertEquals(50.0, dto.productionCost, "Debe usar el valor de ingredientCost()")
         Assertions.assertEquals(99, dto.local, "Debe usar el ID de local pasado por parámetro")
         Assertions.assertEquals(1, dto.ingredients.size)
 
-        // Comprobamos los valores del DTO de ingrediente real
         Assertions.assertEquals(realIngredient.id, dto.ingredients[0].id)
         Assertions.assertEquals(realIngredient.name, dto.ingredients[0].name)
     }
 
     @Test
     fun `toMenuDTO deberia mapear una lista de Dish a MenuDTO`() {
-        // (Este test no depende de IngredientMapper, funcionará igual)
         val dish1: Dish = mock {
             on { id } doReturn 1
             on { imageURL } doReturn "url1"
@@ -137,39 +117,28 @@ class DishMapperTest {
 
     @Test
     fun `toEntity deberia mapear un DishDTO a una nueva entidad Dish`() {
-        // Act
-        // Usamos el IngredientMapper REAL
         val entity = DishMapper.toEntity(validDTO, dummyLocal)
 
-        // Assert
         Assertions.assertEquals(validDTO.name, entity.name)
         Assertions.assertEquals(dummyLocal, entity.local, "Debe usar el objeto Local pasado")
         Assertions.assertEquals(LocalDate.now(), entity.releaseDate, "Debe setear la fecha de alta a hoy")
         Assertions.assertEquals(1, entity.ingredients.size)
 
-        // Comprobamos los valores de la entidad Ingrediente real
         Assertions.assertEquals(realIngredientDTO.name, entity.ingredients[0].name)
         Assertions.assertEquals(realIngredientDTO.price, entity.ingredients[0].price)
     }
 
     @Test
     fun `updateEntity deberia actualizar una entidad Dish existente`() {
-        // Act
-        // Usamos el IngredientMapper REAL
         val updatedEntity = DishMapper.updateEntity(validDTO, existingDish)
 
-        // Assert
         Assertions.assertSame(existingDish, updatedEntity, "Debe modificar la instancia existente")
         Assertions.assertEquals(validDTO.name, updatedEntity.name)
         Assertions.assertNotEquals(LocalDate.now(), updatedEntity.releaseDate, "NO debe cambiar la fecha de alta")
         Assertions.assertEquals(1, updatedEntity.ingredients.size)
 
-        // Comprobamos los valores de la entidad Ingrediente real
         Assertions.assertEquals(realIngredientDTO.name, updatedEntity.ingredients[0].name)
     }
-
-    // --- Tests de Validación (Caminos Tristes) ---
-    // (Estos tests no dependen de IngredientMapper, deberían funcionar igual)
 
     @Test
     fun `validateDTO deberia lanzar excepcion si el nombre esta vacio`() {
