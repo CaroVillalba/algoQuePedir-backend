@@ -19,10 +19,10 @@ abstract class InMemoryRepository<T: Entity> {
     }
 
     fun update(item: T) {
-        elements[item.id] = item
+        elements[item.id as Int] = item
     }
 
-    fun getById(id: Int): T? = elements[id]
+    fun getById(id: Int?): T? = elements[id]
 
     fun getIds(): List<Int> = elements.keys.toList()
 
@@ -33,8 +33,8 @@ abstract class InMemoryRepository<T: Entity> {
     abstract fun search(value: String): List<T>
 }
 
-open class Entity(
-    var id: Int = 0
+abstract class Entity(
+    open var id: Int? =0
 )
 
 @Repository
