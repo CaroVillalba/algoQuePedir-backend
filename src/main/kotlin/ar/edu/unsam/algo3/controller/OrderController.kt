@@ -34,6 +34,9 @@ class OrderController(private val orderService: OrderService,  private val local
 
     @PostMapping
     fun createOrder(@RequestBody dto: CheckoutOrderDTO) {
+        //mock para poder crear un pedido
+        //TODO: incorporar con usuarios
+        //TODO: Incorporar bien el pedido al hacer el post (que todos los campos sean correctos, ahora algunos los pone como null)
         val fakeClient = Client(
             firstName = "Usuario",
             lastName = "Demo",
