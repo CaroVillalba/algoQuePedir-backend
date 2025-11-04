@@ -7,18 +7,22 @@ import ar.edu.unsam.algo3.exceptions.BusinessException
 import org.springframework.stereotype.Service
 
 @Service
-class OrderService(private val pedidoRepository: OrderRepository) {
+class OrderService(private val orderRepository: OrderRepository) {
 
-    fun getAll(): List<Order> = pedidoRepository.getAll()
+    fun getAll(): List<Order> = orderRepository.getAll()
 
-    fun getByState(state: String): List<Order> = pedidoRepository.search(state)
+    fun getByState(state: String): List<Order> = orderRepository.search(state)
         ?: throw BusinessException("El estado solicitado no existe.")
 
-    fun getByID(id: Int): Order = pedidoRepository.getById(id)
+    fun getByID(id: Int): Order = orderRepository.getById(id)
         ?: throw BusinessException("El pedido solicitado no existe.")
 
+    fun create(order: Order) {
+        orderRepository.create(order)
+    }
+
     fun updateOrderState(orderId: Int): Order {
-        val order = pedidoRepository.getById(orderId)
+        val order = orderRepository.getById(orderId)
             ?: throw BusinessException("Pedido no encontrado")
 
         order.status = when (order.status) {
@@ -27,14 +31,14 @@ class OrderService(private val pedidoRepository: OrderRepository) {
             else -> throw BusinessException("No se puede actualizar el estado de este pedido")
         }
 
-        pedidoRepository.update(order) // persiste el cambio en memoria
+        orderRepository.update(order)
         return order
     }
 
     fun deleteOrder(orderId: Int) {
-        val order = pedidoRepository.getById(orderId)
+        val order = orderRepository.getById(orderId)
             ?: throw BusinessException("El pedido que intentás eliminar no existe.")
 
-        pedidoRepository.delete(order)
+        orderRepository.delete(order)
     }
 }

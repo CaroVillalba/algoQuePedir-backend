@@ -2,6 +2,7 @@ package ar.edu.unsam.algo3.mapper
 
 import ar.edu.unsam.algo3.domain.*
 import ar.edu.unsam.algo3.dto.*
+import ar.edu.unsam.algo3.exceptions.BusinessException
 import java.math.RoundingMode
 
 object OrderMapper {
@@ -39,6 +40,24 @@ object OrderMapper {
             dish.description,
             round(dish.salePrice()),
             quantity
+        )
+    }
+
+    fun toEntity(dto: CheckoutOrderDTO, client: Client, localRepo: LocalRepository, dishRepo: DishRepository): Order {
+        val local = localRepo.getById(dto.restaurantId)
+            ?: throw BusinessException("El restaurante no existe.")
+
+        val dishes = dto.items.flatMap { item ->
+            val dish = dishRepo.getById(item.dishId)
+                ?: throw BusinessException("El plato con id ${item.dishId} no existe.")
+            List(item.quantity) { dish }
+        }
+
+        return Order.createOrder(
+            client,
+            dishes,
+            local,
+            dto.paymentMethod
         )
     }
 
