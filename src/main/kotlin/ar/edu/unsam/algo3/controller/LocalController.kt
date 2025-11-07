@@ -28,4 +28,13 @@ class LocalController(private val localService: LocalService) {
         val updatedLocal = LocalMapper.toEntity(dto, local)
         localService.update(updatedLocal)
     }
+
+    // GET /local
+    @GetMapping()
+    fun getAll(): List<LocalAccountDTO> {
+        return localService.getAll().map { LocalMapper.toDTO(it) }
+    }
+
+
+
 }

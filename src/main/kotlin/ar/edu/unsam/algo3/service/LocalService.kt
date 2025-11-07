@@ -16,4 +16,10 @@ class LocalService(private val localRepository: LocalRepository) {
     fun update(updatedLocal: Local){
         localRepository.update(updatedLocal)
     }
+
+    fun getAll(): List<Local> {
+        return localRepository.getAll()
+    }
+
+
 }

@@ -26,7 +26,7 @@ class DataInitializer(
             25.0,
             12.5,
             mutableSetOf(PaymentMethod.EFECTIVO, PaymentMethod.QR, PaymentMethod.TRANSFERENCIA),
-            mutableSetOf()
+            mutableSetOf(),
         )
         localRepository.create(restaurant)
 
