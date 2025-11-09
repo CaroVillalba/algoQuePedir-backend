@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/v1/local")
-@CrossOrigin(origins = ["http://localhost:5173"])
+@CrossOrigin(origins = ["http://localhost:5175"])
 class LocalController(private val localService: LocalService) {
 
     // GET /local/{id}
