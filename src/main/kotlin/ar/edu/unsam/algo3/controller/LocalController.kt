@@ -27,10 +27,21 @@ class LocalController(private val localService: LocalService) {
     }
 
     // GET /local
-    @GetMapping()
+    /*@GetMapping()
     fun getAll(): List<LocalAccountDTO> {
         return localService.getAll().map { LocalMapper.toLocalAccountDTO(it) }
+    }*/
+
+    @GetMapping
+    fun getAll(@RequestParam(required = false) query: String?): List<LocalDTO> {
+        val locales = if (query.isNullOrBlank()) {
+            localService.getAll()
+        } else {
+            localService.search(query)
+        }
+        return locales.map { LocalMapper.toLocalDTO(it) }
     }
+
 
     @GetMapping("/{id}")
     fun getPublicById(@PathVariable id: Int): LocalDTO {

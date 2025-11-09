@@ -21,4 +21,8 @@ class LocalService(private val localRepository: LocalRepository) {
         return localRepository.getAll()
     }
 
+    fun search(query: String): List<Local> {
+        return localRepository.search(query)
+    }
+
 }
