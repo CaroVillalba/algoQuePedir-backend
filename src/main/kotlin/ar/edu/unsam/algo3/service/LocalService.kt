@@ -21,5 +21,4 @@ class LocalService(private val localRepository: LocalRepository) {
         return localRepository.getAll()
     }
 
-
 }

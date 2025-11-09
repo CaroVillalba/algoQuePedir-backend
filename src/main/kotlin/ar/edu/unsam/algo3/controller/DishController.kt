@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.*
 @CrossOrigin(origins = ["http://localhost:5173"])
 class DishController (private val dishService: DishService, private val localRepository: LocalRepository){
     // GET
-    @GetMapping
-    fun get(): List<MenuDTO> {
-        val menu = dishService.getAll()
-        return DishMapper.toMenuDTO(menu)
+    @GetMapping("/local/{localId}")
+    fun getByLocal(@PathVariable localId: Int): List<MenuDTO> {
+        val dishes = dishService.getByLocal(localId)
+        return DishMapper.toMenuDTO(dishes)
     }
 
     @PostMapping

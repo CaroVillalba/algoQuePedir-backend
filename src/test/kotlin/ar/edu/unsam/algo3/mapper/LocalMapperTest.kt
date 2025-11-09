@@ -53,7 +53,7 @@ class LocalMapperTest {
     @Test
     @DisplayName("Mapeo de Entidad a DTO es exitoso")
     fun `mapeo de Entidad a DTO exitoso`() {
-        val mappedDTO = LocalMapper.toDTO(local)
+        val mappedDTO = LocalMapper.toLocalAccountDTO(local)
 
         assert(mappedDTO.id == 1)
         assert(mappedDTO.name == "Local Test")
@@ -76,7 +76,7 @@ class LocalMapperTest {
             mutableSetOf(PaymentMethod.EFECTIVO, PaymentMethod.QR, PaymentMethod.DEBITO)
         ).apply { id = 1 }
 
-        val mappedDTO = LocalMapper.toDTO(localConDebito)
+        val mappedDTO = LocalMapper.toLocalAccountDTO(localConDebito)
 
         assert(mappedDTO.paymentMethods.size == 2)
         assert(!mappedDTO.paymentMethods.contains("debito"))

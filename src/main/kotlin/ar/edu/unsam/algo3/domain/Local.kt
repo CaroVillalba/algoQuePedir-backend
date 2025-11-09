@@ -8,6 +8,7 @@ class Local(
     var authorCommission: Double = 0.0,
     var paymentMethods: MutableSet<PaymentMethod>,
     var ratings: MutableSet<Rating> = mutableSetOf(),
+    var orders: MutableSet<Order> = mutableSetOf(),
     val inbox: Inbox = Inbox()
 ) : Entity() {
 
