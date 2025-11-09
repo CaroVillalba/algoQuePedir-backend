@@ -3,13 +3,17 @@ package ar.edu.unsam.algo3.mapper
 import ar.edu.unsam.algo3.domain.Address
 import ar.edu.unsam.algo3.domain.Local
 import ar.edu.unsam.algo3.domain.PaymentMethod
+import ar.edu.unsam.algo3.domain.Rating
 import ar.edu.unsam.algo3.dto.AddressDTO
 import ar.edu.unsam.algo3.dto.LocalAccountDTO
+import ar.edu.unsam.algo3.dto.LocalDTO
+import ar.edu.unsam.algo3.dto.OrderDTO
 import ar.edu.unsam.algo3.exceptions.BusinessException
+import kotlin.collections.MutableSet
 
 object LocalMapper {
     // Convierte entidad a DTO
-    fun toDTO(local: Local): LocalAccountDTO {
+    fun toLocalAccountDTO(local: Local): LocalAccountDTO {
         return LocalAccountDTO(
             local.id,
             local.name,
@@ -24,6 +28,17 @@ object LocalMapper {
             local.paymentMethods
                 .filter { it in setOf(PaymentMethod.EFECTIVO, PaymentMethod.QR, PaymentMethod.TRANSFERENCIA) }
                 .map { it.name.lowercase() }
+        )
+    }
+
+    fun toLocalDTO(local: Local): LocalDTO {
+        return LocalDTO(
+            local.id,
+            local.name,
+            local.imgURL,
+            local.getScore(),
+            local.ratings.size,
+            local.orders.size
         )
     }
 

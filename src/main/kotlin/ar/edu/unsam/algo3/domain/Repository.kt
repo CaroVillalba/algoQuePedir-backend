@@ -97,6 +97,9 @@ open class DishRepository : InMemoryRepository<Dish>() {
     override fun search(value: String): List<Dish> {
         return (descriptionContains(value) + searchByLocalName(value) + searchByLocalAddress(value)).distinct()
     }
+
+    fun findByLocal(localId: Int): List<Dish> =
+        elements.values.filter { it.local.id == localId }
 }
 
 @Repository
