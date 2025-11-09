@@ -7,21 +7,25 @@ import org.springframework.stereotype.Service
 
 @Service
 class DishService(
-    private val platoRepository: DishRepository,
+    private val dishRepository: DishRepository,
 ) {
     fun getAll(): List<Dish> {
-        return platoRepository.getAll()
+        return dishRepository.getAll()
     }
 
     fun createDish(dish: Dish) {
-        platoRepository.create(dish)
+        dishRepository.create(dish)
     }
 
     fun getById(id: Int): Dish {
-        return platoRepository.getById(id) ?: throw ElementDoesNotExistException("Plato no encontrado")
+        return dishRepository.getById(id) ?: throw ElementDoesNotExistException("Plato no encontrado")
+    }
+
+    fun getByLocal(localId: Int): List<Dish> {
+        return dishRepository.findByLocal(localId) ?: throw ElementDoesNotExistException("No se encontraron platos para el local con ID $localId")
     }
 
     fun update(dish: Dish) {
-        platoRepository.update(dish)
+        dishRepository.update(dish)
     }
 }
