@@ -19,6 +19,7 @@ class ObserverSpec : DescribeSpec({
                 0.0,
                 mutableSetOf(PaymentMethod.EFECTIVO),
                 mutableSetOf(),
+                mutableSetOf(),
                 Inbox()
             )
 

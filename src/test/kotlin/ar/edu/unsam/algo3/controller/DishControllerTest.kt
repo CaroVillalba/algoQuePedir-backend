@@ -86,9 +86,11 @@ class DishControllerTest {
     }
 
     @Test
-    fun `GET v1 dishes debe devolver 200 OK`() {
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/dishes"))
-            .andExpect(MockMvcResultMatchers.status().isOk)
+    fun `GET v1 dishes by ID debe devolver 200 OK`() {
+        val dishId = existingDish.id
+        mockMvc.perform(get("/v1/dishes/$dishId"))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.name", `is`(existingDish.name)))
     }
 
     @Test
@@ -103,11 +105,12 @@ class DishControllerTest {
     }
 
     @Test
-    fun `GET v1 dishes debe devolver 200 OK y la lista con el plato creado`() {
-        mockMvc.perform(get("/v1/dishes"))
+    fun `GET v1 dishes local debe devolver 200 OK y la lista con el plato creado`() {
+        val localId = local.id
+        mockMvc.perform(get("/v1/dishes/local/$localId"))
             .andExpect(status().isOk)
-            .andExpect(jsonPath("$.length()", `is`(4)))
-            .andExpect(jsonPath("$[3].name", `is`(existingDish.name)))
+            .andExpect(jsonPath("$.length()", `is`(1)))
+            .andExpect(jsonPath("$[0].name", `is`(existingDish.name)))
     }
 
     @Test
