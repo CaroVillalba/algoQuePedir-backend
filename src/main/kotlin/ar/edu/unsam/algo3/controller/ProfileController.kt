@@ -8,13 +8,11 @@ import ar.edu.unsam.algo3.dto.UserDTO
 import ar.edu.unsam.algo3.mapper.UserMapper
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/v1/user")
+@CrossOrigin(origins = ["http://localhost:5173"])
 class ProfileController( private val userService: UserService ) {
 
     @PostMapping

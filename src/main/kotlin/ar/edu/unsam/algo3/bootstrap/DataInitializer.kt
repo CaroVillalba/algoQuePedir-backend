@@ -134,10 +134,9 @@ class DataInitializer(
             "Admin",
             "admin",
             "admin",
-            LocalDate.of(1990,1,1),
             LocalDate.now().minusDays(17),
             "ola123@gmail.com",
-            Address("Calle Falsa", "123", Point(-34.6, -58.45))
+            Address("Calle Falsa", "123", Point(-34.6, -58.45)),
         )
 
         listOf(client1, client2, client3, client4, client5, admin).forEach { clientRepository.create(it) }

@@ -8,10 +8,11 @@ abstract class User(
     var lastName: String = "",
     var username: String = "",
     var password: String = "",
-    var birthDate: LocalDate? = null,
     var registrationDate: LocalDate = LocalDate.now(),
     var email: String = ""
 ) : Entity() {
+
+    lateinit var birthDate: LocalDate
 
     fun calculateAge(): Int {
         val today = LocalDate.now()

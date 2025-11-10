@@ -12,18 +12,16 @@ object UserMapper {
         if( dto.surname.isEmpty() ) throw BusinessException("El apellido no puede estar vacio")
         if (dto.address.street.isBlank()) throw BusinessException("Calle inválida")
         if (dto.address.number <= "0") throw BusinessException("Número de calle inválido")
-        if (dto.address.coordinates.x !in -90.0..90.0) throw BusinessException("Latitud inválida")
-        if (dto.address.coordinates.y !in -180.0..180.0) throw BusinessException("Longitud inválida")
+        if (dto.address.coordinates.y !in -90.0..90.0) throw BusinessException("Latitud inválida")
+        if (dto.address.coordinates.x !in -180.0..180.0) throw BusinessException("Longitud inválida")
 
         return Client().apply {
             firstName = dto.name
             lastName = dto.surname
-            username = dto.username
-            email = dto.email
             address = Address(
                 dto.address.street,
                 dto.address.number,
-                dto.address.coordinates
+                dto.address.coordinates,
             )
         }
     }

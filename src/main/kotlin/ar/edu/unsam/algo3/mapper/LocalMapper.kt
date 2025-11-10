@@ -35,6 +35,7 @@ object LocalMapper {
         return LocalDTO(
             local.id,
             local.name,
+            local.address.fullAddress(),
             local.imgURL,
             local.getScore(),
             local.ratings.size,
