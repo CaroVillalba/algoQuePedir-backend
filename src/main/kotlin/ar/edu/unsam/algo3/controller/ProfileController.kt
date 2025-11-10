@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/v1/user")
-@CrossOrigin(origins = ["http://localhost:5175"])
+@CrossOrigin(origins = ["http://localhost:5173"])
 class ProfileController( private val userService: UserService ) {
 
     @PostMapping

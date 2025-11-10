@@ -9,16 +9,16 @@ class Client(
     lastName: String = "",
     username: String = "",
     password: String = "",
-    birthDate: LocalDate = LocalDate.now(),
     registrationDate: LocalDate = LocalDate.now(),
     email: String = "",
     var address: Address = Address("", "", Point(0, 0)),
+    val location : String = "",
     val favoriteIngredients: MutableSet<Ingredient> = mutableSetOf(),
     val ingredientsToAvoid: MutableSet<Ingredient> = mutableSetOf(),
     var nearbyDistance: Double = 5.0,
     var clientType: ClientType = NormalClient(),
     val pendingRatings: MutableSet<PendingRating> = mutableSetOf()
-) : User(firstName, lastName, username, password, birthDate, registrationDate, email) {
+) : User(firstName, lastName, username, password, registrationDate, email) {
 
     var commands = mutableListOf<ClientCommand>()
 
