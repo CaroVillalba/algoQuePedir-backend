@@ -2,6 +2,7 @@ package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.dto.LocalAccountDTO
 import ar.edu.unsam.algo3.dto.LocalDTO
+import ar.edu.unsam.algo3.dto.LocalCheckoutDTO
 import ar.edu.unsam.algo3.mapper.LocalMapper
 import ar.edu.unsam.algo3.service.LocalService
 import org.springframework.web.bind.annotation.*
@@ -36,5 +37,11 @@ class LocalController(private val localService: LocalService) {
     fun getPublicById(@PathVariable id: Int): LocalDTO {
         val local = localService.getById(id)
         return LocalMapper.toLocalDTO(local)
+    }
+
+    @GetMapping("/order-checkout/{id}")
+    fun getCheckoutInfo(@PathVariable id: Int): LocalCheckoutDTO {
+        val local = localService.getById(id)
+        return LocalMapper.toCheckoutDTO(local)
     }
 }
