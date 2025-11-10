@@ -10,10 +10,14 @@ import ar.edu.unsam.algo3.mapper.OrderMapper
 import ar.edu.unsam.algo3.service.OrderService
 import org.springframework.web.bind.annotation.*
 import org.uqbar.geodds.Point
+import java.time.LocalTime
 
 @RestController
 @RequestMapping("/v1/order")
-@CrossOrigin(origins = ["http://localhost:5173"])
+@CrossOrigin(origins = [
+    "http://localhost:5173",
+    "http://localhost:5174"
+])
 class OrderController(private val orderService: OrderService,  private val localRepository: LocalRepository,  private val dishRepository: DishRepository) {
 
     @GetMapping
@@ -46,6 +50,7 @@ class OrderController(private val orderService: OrderService,  private val local
         )
 
         val order = OrderMapper.toEntity(dto, fakeClient, localRepository, dishRepository)
+        order.pickupTime = LocalTime.now()
         orderService.create(order)
     }
 

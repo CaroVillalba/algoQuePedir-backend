@@ -18,8 +18,8 @@ object OrderMapper {
             toAddressDTO(pedido.client.address),
             pedido.paymentMethod,
             pedido.dishes.size,
-            round(pedido.baseTotal()),
             pedido.getOrderTotal(),
+            round(pedido.dishesCost()),
             pedido.status
         )
     }
