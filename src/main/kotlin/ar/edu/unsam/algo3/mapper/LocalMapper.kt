@@ -47,14 +47,12 @@ object LocalMapper {
 
         // TODO: agregar lógica real cuando exista
         val freeDelivery = true
-        val deliveryFee = 12.5
 
         return LocalCheckoutDTO(
             local.id,
             local.name,
             local.imgURL,
             freeDelivery,
-            deliveryFee,
             local.paymentMethods.map {
                 PaymentMethodTaxDTO(
                     it.name.lowercase(),

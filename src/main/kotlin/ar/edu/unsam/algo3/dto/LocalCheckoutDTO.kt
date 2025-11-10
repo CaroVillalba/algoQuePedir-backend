@@ -5,6 +5,5 @@ data class LocalCheckoutDTO (
     val name: String,
     val imgURL: String,
     val freeDelivery: Boolean,
-    val deliveryFee: Double,
     val paymentMethods: List<PaymentMethodTaxDTO>
 )
