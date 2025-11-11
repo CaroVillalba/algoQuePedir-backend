@@ -187,7 +187,7 @@ class DataInitializer(
 
         val order3 = Order(
             client3,
-            listOf(dish4),
+            listOf(dish4, dish4),
             OrderStatus.PENDIENTE,
             local2,
             delivery,

@@ -114,11 +114,7 @@ class Order(
     }
 
     fun getOrderTotal(): Double {
-        val dishCost = dishes.sumOf { it.salePrice() }
-        val dishCostWithoutDiscounts = dishes.sumOf { it.salePriceWithoutDiscount() }
-        val deliveryCost = dishCostWithoutDiscounts * 0.1
-        val baseTotal = dishCost + deliveryCost
-        return (baseTotal * paymentMethod.tax()).toBigDecimal().setScale(2, RoundingMode.HALF_EVEN).toDouble()
+        return (baseTotal() + applyTax()).toBigDecimal().setScale(2, RoundingMode.HALF_EVEN).toDouble()
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -135,9 +131,7 @@ class Order(
         dishesCost() + deliveryCost()
 
     fun applyTax(): Double =
-        this.baseTotal() * paymentMethod.tax()
-
-    fun totalDishes(): Int = dishes.count()
+        baseTotal() * (paymentMethod.tax() - 1.0)
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     fun getOrderTotalWithCoupon(coupon: Coupon): Double {

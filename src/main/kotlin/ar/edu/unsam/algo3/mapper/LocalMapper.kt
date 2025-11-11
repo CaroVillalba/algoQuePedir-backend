@@ -1,15 +1,15 @@
 package ar.edu.unsam.algo3.mapper
 
 import ar.edu.unsam.algo3.domain.Address
+import ar.edu.unsam.algo3.domain.Client
 import ar.edu.unsam.algo3.domain.Local
 import ar.edu.unsam.algo3.domain.PaymentMethod
-import ar.edu.unsam.algo3.domain.Rating
 import ar.edu.unsam.algo3.dto.AddressDTO
+import ar.edu.unsam.algo3.dto.PaymentMethodTaxDTO
 import ar.edu.unsam.algo3.dto.LocalAccountDTO
 import ar.edu.unsam.algo3.dto.LocalDTO
-import ar.edu.unsam.algo3.dto.OrderDTO
+import ar.edu.unsam.algo3.dto.LocalCheckoutDTO
 import ar.edu.unsam.algo3.exceptions.BusinessException
-import kotlin.collections.MutableSet
 
 object LocalMapper {
     // Convierte entidad a DTO
@@ -41,6 +41,25 @@ object LocalMapper {
             local.ratings.size,
             local.orders.size,
             local.appCommission,
+        )
+    }
+
+    fun toCheckoutDTO(local: Local): LocalCheckoutDTO {
+
+        // TODO: agregar lógica real cuando exista
+        val freeDelivery = true
+
+        return LocalCheckoutDTO(
+            local.id,
+            local.name,
+            local.imgURL,
+            freeDelivery,
+            local.paymentMethods.map {
+                PaymentMethodTaxDTO(
+                    it.name.lowercase(),
+                    it.tax()
+                )
+            }
         )
     }
 
