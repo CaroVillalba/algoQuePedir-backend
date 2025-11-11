@@ -39,7 +39,8 @@ object LocalMapper {
             local.imgURL,
             local.getScore(),
             local.ratings.size,
-            local.orders.size
+            local.orders.size,
+            local.appCommission,
         )
     }
 

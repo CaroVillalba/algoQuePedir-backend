@@ -9,5 +9,6 @@ data class LocalDTO (
     val imgURL: String,
     var rating: Double,
     val reviews: Int,
-    val orders: Int
+    val orders: Int,
+    val appCommission: Double,
 )
