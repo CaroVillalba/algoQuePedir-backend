@@ -24,7 +24,7 @@ class DataInitializer(
         val local1 = Local(
             "El Ferroviario",
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx-7q7poRQlBrhkPHcDqdFvts9QJDKX1-HwQ&s",
-            Address("Av. San Martín", "1234", Point(-31.32, -66.95)),
+            Address("Av. San Martín", "1234", Point(-31.32, -86.95)),
             25.0,
             12.5,
             mutableSetOf(PaymentMethod.EFECTIVO, PaymentMethod.QR)
@@ -34,7 +34,7 @@ class DataInitializer(
         val local2 = Local(
             "Restorán La Canchita",
             "https://cdn0.casamientos.com.ar/vendor/2289/3_2/640/png/1005-1.jpeg",
-            Address("Belgrano", "456", Point(-31.30, -66.90)),
+            Address("Belgrano", "456", Point(-34.6, -58.45)),
             20.0,
             10.0,
             mutableSetOf(PaymentMethod.EFECTIVO, PaymentMethod.TRANSFERENCIA)
@@ -44,7 +44,7 @@ class DataInitializer(
         val local3 = Local(
             "Maribel",
             "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/f1/bb/5b/cornelio.jpg",
-            Address("Artigas", "6950", Point(-31.33, -66.92)),
+            Address("Artigas", "6950", Point(-50.33, -96.92)),
             30.0,
             15.0,
             mutableSetOf(PaymentMethod.QR, PaymentMethod.TRANSFERENCIA)

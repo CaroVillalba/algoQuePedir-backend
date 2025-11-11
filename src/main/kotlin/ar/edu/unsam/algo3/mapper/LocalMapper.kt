@@ -36,6 +36,7 @@ object LocalMapper {
             local.id,
             local.name,
             local.address.fullAddress(),
+            local.address.coordinates,
             local.imgURL,
             local.getScore(),
             local.ratings.size,

@@ -5,6 +5,7 @@ import ar.edu.unsam.algo3.domain.Client
 import ar.edu.unsam.algo3.domain.ClientRepository
 import ar.edu.unsam.algo3.exceptions.EmptyFieldsException
 import ar.edu.unsam.algo3.exceptions.BusinessException
+import ar.edu.unsam.algo3.exceptions.ElementDoesNotExistException
 
 @Service
 class UserService(private val clientRepository: ClientRepository) {
@@ -23,5 +24,10 @@ class UserService(private val clientRepository: ClientRepository) {
             ?: throw BusinessException("Usuario o contraseña incorrectos")
 
         return foundUser
+    }
+
+    fun getById(id: Int): Client {
+        return clientRepository.getById(id)
+            ?: throw ElementDoesNotExistException("Usuario no encontrado")
     }
 }
