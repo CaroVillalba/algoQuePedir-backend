@@ -31,6 +31,7 @@ class LocalService(private val localRepository: LocalRepository, private val use
         val user = userService.getById(userId)
         return locales.map { local ->
             val esCercano = user.isLocalNearby(local)
+            //esto lo tendría que hacer el controller
             LocalMapper.toLocalDTO(local).copy(esCercano = esCercano)
         }
     }

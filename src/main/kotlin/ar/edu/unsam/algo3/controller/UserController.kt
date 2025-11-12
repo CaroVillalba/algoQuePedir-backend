@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/v1/auth")
-@CrossOrigin(origins = ["http://localhost:5173"])
+@CrossOrigin(origins = [
+    "http://localhost:5173",
+    "http://localhost:5174"
+])
 class UserController(private val userService: UserService) {
 
     @GetMapping("/login")
