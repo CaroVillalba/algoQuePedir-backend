@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/v1/ingredients")
-@CrossOrigin(origins = ["http://localhost:5173"])
+@CrossOrigin(origins = [
+    "http://localhost:5173",
+    "http://localhost:5174"
+])
 class IngredientController(private val ingredientService: IngredientService) {
 
     // GET /ingredients

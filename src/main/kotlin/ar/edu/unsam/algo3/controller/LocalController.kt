@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/v1/local")
-@CrossOrigin(origins = ["http://localhost:5173"])
+@CrossOrigin(origins = [
+    "http://localhost:5173",
+    "http://localhost:5174"
+])
 class LocalController(private val localService: LocalService) {
 
     // GET /local/{id}
@@ -34,14 +37,22 @@ class LocalController(private val localService: LocalService) {
     }*/
 
     @GetMapping
-    fun getAll(@RequestParam(required = false) query: String?): List<LocalDTO> {
+    fun getAll(@RequestParam(required = false) query: String?, @RequestParam(required = false) userId: Int?): List<LocalDTO> {
+
+        //manejar esta logica en el repo
         val locales = if (query.isNullOrBlank()) {
             localService.getAll()
         } else {
             localService.search(query)
         }
-        return locales.map { LocalMapper.toLocalDTO(it) }
+        return if (userId != null) {
+            localService.addDistanceInfo(locales, userId)
+        } else {
+            locales.map { LocalMapper.toLocalDTO(it) }
+        }
     }
+
+
 
 
     @GetMapping("/{id}")

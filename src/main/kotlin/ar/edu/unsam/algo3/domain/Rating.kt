@@ -16,4 +16,5 @@ class Rating(
     val client: Client,
     val local: Local,
     var score: Double
+    //agregar string, descripcion
 ) : Entity() {}
