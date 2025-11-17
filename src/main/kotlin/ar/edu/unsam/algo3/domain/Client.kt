@@ -5,8 +5,8 @@ import org.uqbar.geodds.Point
 import java.time.LocalDate
 
 class Client(
-    firstName: String = "",
-    lastName: String = "",
+    firstname: String = "",
+    lastname: String = "",
     username: String = "",
     password: String = "",
     registrationDate: LocalDate = LocalDate.now(),
@@ -18,7 +18,7 @@ class Client(
     var nearbyDistance: Double = 5.0,
     var clientType: ClientType = NormalClient(),
     val pendingRatings: MutableSet<PendingRating> = mutableSetOf()
-) : User(firstName, lastName, username, password, registrationDate, email) {
+) : User(firstname, lastname, username, password, registrationDate, email) {
 
     var commands = mutableListOf<ClientCommand>()
 

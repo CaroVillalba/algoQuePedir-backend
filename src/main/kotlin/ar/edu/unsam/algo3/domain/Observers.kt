@@ -69,7 +69,7 @@ class CertifiedOrderObserver(): OrderObserver {
                 "¡Pedido Certificado! - Cliente Premium",
                 """
                     Se ha recibido un pedido certificado que requiere atención prioritaria.
-                    Cliente: ${order.client.firstName}
+                    Cliente: ${order.client.firstname}
                     Antigüedad: ${ChronoUnit.YEARS.between(order.client.registrationDate, LocalDate.now())} años
                     Cantidad de platos: ${order.dishes.size}
                 """.trimIndent()

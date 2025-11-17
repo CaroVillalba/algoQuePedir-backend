@@ -1,5 +1,6 @@
 package ar.edu.unsam.algo3.controller
 
+import ar.edu.unsam.algo3.domain.Client
 import org.springframework.stereotype.Service
 import ar.edu.unsam.algo3.exceptions.EmptyFieldsException
 import ar.edu.unsam.algo3.exceptions.BusinessException
@@ -20,6 +21,12 @@ class ProfileController( private val userService: UserService ) {
         val user = UserMapper.toEntity(dto)
         userService.createClient(user)
         return ResponseEntity.status(HttpStatus.CREATED).build()
+    }
+
+    @GetMapping
+    fun getUserProfile(username : String ) : Client {
+        val client = userService.getUserByUsername(username)
+        return client
     }
 
 }

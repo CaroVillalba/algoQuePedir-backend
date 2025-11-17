@@ -24,4 +24,12 @@ class UserService(private val clientRepository: ClientRepository) {
 
         return foundUser
     }
+
+    fun getUserByUsername(username : String) : Client {
+        val foundUser = clientRepository.searchByUsername(username).firstOrNull()
+        ?: throw BusinessException("Usuario no encontrado")
+        return foundUser
+    }
+
+
 }

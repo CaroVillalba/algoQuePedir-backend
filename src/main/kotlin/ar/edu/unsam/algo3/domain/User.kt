@@ -4,15 +4,16 @@ import java.time.LocalDate
 import java.time.Period
 
 abstract class User(
-    var firstName: String = "",
-    var lastName: String = "",
+    var firstname: String = "",
+    var lastname: String = "",
     var username: String = "",
     var password: String = "",
     var registrationDate: LocalDate = LocalDate.now(),
-    var email: String = ""
+    var email: String = "",
+    var birthDate: LocalDate = LocalDate.now(),
 ) : Entity() {
 
-    lateinit var birthDate: LocalDate
+
 
     fun calculateAge(): Int {
         val today = LocalDate.now()

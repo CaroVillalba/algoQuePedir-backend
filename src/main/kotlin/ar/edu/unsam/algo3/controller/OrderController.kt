@@ -42,8 +42,8 @@ class OrderController(private val orderService: OrderService,  private val local
         //TODO: incorporar con usuarios
         //TODO: Incorporar bien el pedido al hacer el post (que todos los campos sean correctos, ahora algunos los pone como null)
         val fakeClient = Client(
-            firstName = "Usuario",
-            lastName = "Demo",
+            firstname = "Usuario",
+            lastname = "Demo",
             username = "demoUser",
             password = "1234",
             address = Address("Calle Falsa", "123", Point(-34.6, -58.4))

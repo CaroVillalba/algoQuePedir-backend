@@ -1,6 +1,7 @@
 package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.dto.AuthDTO
+import ar.edu.unsam.algo3.dto.UserDTO
 import ar.edu.unsam.algo3.exceptions.BusinessException
 import ar.edu.unsam.algo3.mapper.AuthMapper
 import ar.edu.unsam.algo3.service.UserService
@@ -24,7 +25,7 @@ class UserController(private val userService: UserService) {
     }
 
     @PostMapping("/register")
-    fun createClient(@RequestBody dto: AuthDTO): ResponseEntity<Void> {
+    fun createClient(@RequestBody dto: UserDTO): ResponseEntity<Void> {
         val client = AuthMapper.toEntity(dto)
         userService.createClient(client)
         return ResponseEntity.status(HttpStatus.CREATED).build()
