@@ -19,17 +19,19 @@ import org.springframework.web.bind.annotation.*
 ])
 class ProfileController( private val userService: UserService ) {
 
-    @PostMapping
-    fun createProfile(@RequestBody dto : UserDTO): ResponseEntity<Void> {
-        val user = UserMapper.toEntity(dto)
-        userService.createClient(user)
-        return ResponseEntity.status(HttpStatus.CREATED).build()
-    }
-
     @GetMapping
     fun getUserProfile(username : String ) : Client {
         val client = userService.getUserByUsername(username)
         return client
     }
+
+    @PatchMapping
+    fun updateProfile(@RequestBody dto : UserDTO) {
+        val existingClient = userService.getUserByUsername(dto.username)
+        val updatedClient = UserMapper.toEntity(dto, existingClient)
+        userService.updateProfile(updatedClient)
+    }
+
+
 
 }

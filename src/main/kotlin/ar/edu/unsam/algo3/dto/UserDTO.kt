@@ -8,4 +8,5 @@ data class UserDTO (
     val username: String,
     val password: String,
     val email: String,
+    val location: String? = null,
 )

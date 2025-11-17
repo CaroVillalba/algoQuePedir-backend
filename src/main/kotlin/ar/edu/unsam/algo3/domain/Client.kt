@@ -12,7 +12,7 @@ class Client(
     registrationDate: LocalDate = LocalDate.now(),
     email: String = "",
     var address: Address = Address("", "", Point(0, 0)),
-    val location : String = "",
+    var location : String? = null,
     val favoriteIngredients: MutableSet<Ingredient> = mutableSetOf(),
     val ingredientsToAvoid: MutableSet<Ingredient> = mutableSetOf(),
     var nearbyDistance: Double = 5.0,

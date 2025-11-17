@@ -26,6 +26,10 @@ class UserService(private val clientRepository: ClientRepository) {
         return foundUser
     }
 
+    fun updateProfile(updatedClient: Client) {
+        clientRepository.update(updatedClient)
+    }
+
     fun getUserByUsername(username : String) : Client {
         val foundUser = clientRepository.searchByUsername(username).firstOrNull()
         ?: throw BusinessException("Usuario no encontrado")
