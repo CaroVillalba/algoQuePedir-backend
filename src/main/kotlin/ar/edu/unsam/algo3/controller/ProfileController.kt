@@ -21,7 +21,7 @@ class ProfileController( private val userService: UserService ) {
     @PostMapping
     fun createProfile(@RequestBody dto : UserDTO): ResponseEntity<Void> {
         val user = UserMapper.toEntity(dto)
-        userService.createClient(user)
+        userService.createUser(user)
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 
