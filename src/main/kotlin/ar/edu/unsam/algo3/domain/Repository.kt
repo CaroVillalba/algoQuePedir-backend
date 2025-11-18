@@ -40,8 +40,8 @@ abstract class Entity(
 @Repository
 class ClientRepository : InMemoryRepository<Client>() {
 
-    fun searchByName(value: String): List<Client> = elements.values.filter { it.firstName.contains(value, ignoreCase = true) }
-    fun searchByLastName(value: String): List<Client> = elements.values.filter { it.lastName.contains(value, ignoreCase = true) }
+    fun searchByName(value: String): List<Client> = elements.values.filter { it.firstname.contains(value, ignoreCase = true) }
+    fun searchByLastName(value: String): List<Client> = elements.values.filter { it.lastname.contains(value, ignoreCase = true) }
     fun searchByPassword(value: String): List<Client> = elements.values.filter { it.password.equals(value, ignoreCase = true) }
     fun searchByUsername(value: String): List<Client> = elements.values.filter { it.username.contains(value, ignoreCase = true) }
 
