@@ -51,6 +51,17 @@ class ClientRepository : InMemoryRepository<Client>() {
 }
 
 @Repository
+class LocalAdminRepository : InMemoryRepository<LocalAdmin>() {
+
+    fun searchByPassword(value: String): List<LocalAdmin> = elements.values.filter { it.password.equals(value, ignoreCase = true) }
+    fun searchByUsername(value: String): List<LocalAdmin> = elements.values.filter { it.username.contains(value, ignoreCase = true) }
+
+    override fun search(value: String): List<LocalAdmin> {
+        return elements.values.filter { it.username.contains(value, ignoreCase = true) }
+    }
+}
+
+@Repository
 class LocalRepository : InMemoryRepository<Local>() {
     fun searchByName(value: String): List<Local> = elements.values.filter { it.name.contains(value, ignoreCase = true) }
     fun searchByAddress(value: String): List<Local> = elements.values.filter { it.address.fullAddress().contains(value, ignoreCase = true) }
