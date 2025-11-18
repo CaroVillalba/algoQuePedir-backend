@@ -1,9 +1,5 @@
 package ar.edu.unsam.algo3.controller
-
 import ar.edu.unsam.algo3.domain.Client
-import org.springframework.stereotype.Service
-import ar.edu.unsam.algo3.exceptions.EmptyFieldsException
-import ar.edu.unsam.algo3.exceptions.BusinessException
 import ar.edu.unsam.algo3.service.UserService
 import ar.edu.unsam.algo3.dto.UserDTO
 import ar.edu.unsam.algo3.mapper.UserMapper
@@ -25,13 +21,17 @@ class ProfileController( private val userService: UserService ) {
         return client
     }
 
+    @PostMapping
+    fun createProfile(@RequestBody dto : UserDTO): ResponseEntity<Void> {
+        val user = UserMapper.toEntity(dto)
+        userService.createUser(user)
+        return ResponseEntity.status(HttpStatus.CREATED).build()
+    }
+
     @PatchMapping
     fun updateProfile(@RequestBody dto : UserDTO) {
         val existingClient = userService.getUserByUsername(dto.username)
-        val updatedClient = UserMapper.toEntity(dto, existingClient)
+        val updatedClient = UserMapper.toUpdateEntity(dto, existingClient)
         userService.updateProfile(updatedClient)
     }
-
-
-
 }

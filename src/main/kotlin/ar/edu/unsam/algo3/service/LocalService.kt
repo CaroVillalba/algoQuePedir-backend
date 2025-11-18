@@ -1,9 +1,11 @@
 package ar.edu.unsam.algo3.service
 
+import ar.edu.unsam.algo3.domain.Client
 import ar.edu.unsam.algo3.domain.Local
 import ar.edu.unsam.algo3.domain.LocalRepository
 import ar.edu.unsam.algo3.dto.LocalDTO
 import ar.edu.unsam.algo3.exceptions.ElementDoesNotExistException
+import ar.edu.unsam.algo3.exceptions.BusinessException
 import ar.edu.unsam.algo3.mapper.LocalMapper
 import org.springframework.stereotype.Service
 
@@ -15,7 +17,15 @@ class LocalService(private val localRepository: LocalRepository, private val use
            ?: throw ElementDoesNotExistException("Local no encontrado")
     }
 
-    fun update(updatedLocal: Local){
+    fun create(local: Local): Local {
+        localRepository.create(local)  // esto asigna un id internamente
+        // recuperamos la entidad recién creada desde el repo usando alguna forma de buscarla
+        // por ejemplo por nombre (si es único) o tomando el último agregado
+        val created = localRepository.elements.values.last() // último agregado
+        return created
+    }
+
+    fun update(updatedLocal: Local) {
         localRepository.update(updatedLocal)
     }
 
@@ -29,6 +39,10 @@ class LocalService(private val localRepository: LocalRepository, private val use
 
     fun addDistanceInfo(locales: List<Local>, userId: Int): List<LocalDTO> {
         val user = userService.getById(userId)
+
+        val client = user as? Client
+            ?: throw BusinessException("Solo los clientes pueden calcular distancia a los locales")
+
         return locales.map { local ->
             val esCercano = user.isLocalNearby(local)
             //esto lo tendría que hacer el controller
@@ -36,4 +50,12 @@ class LocalService(private val localRepository: LocalRepository, private val use
         }
     }
 
+    fun getDistanceToClient(local: Local, userId: Int): Double {
+        val user = userService.getById(userId)
+
+        val client = user as? Client
+            ?: throw BusinessException("Solo los clientes tienen dirección para calcular distancia")
+
+        return client.distanceTo(local)
+    }
 }

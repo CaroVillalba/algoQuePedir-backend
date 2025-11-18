@@ -14,7 +14,8 @@ class DataInitializer(
     private val dishRepository: DishRepository,
     private val orderRepository: OrderRepository,
     private val ingredientRepository: IngredientRepository,
-    private val clientRepository: ClientRepository
+    private val clientRepository: ClientRepository,
+    private val localAdminRepository: LocalAdminRepository
 ) {
 
     @PostConstruct
@@ -129,7 +130,7 @@ class DataInitializer(
         val client4 = Client("Paul Valery", username = "omniscent").apply { address = addressH }
         val client5 = Client("Arnold Stallone", username = "termirambo").apply { address = addressW }
 
-        val admin = Client(
+        val admin1 = Client(
             "Admin",
             "Admin",
             "admin",
@@ -139,7 +140,18 @@ class DataInitializer(
             Address("Calle Falsa", "123", Point(-34.6, -58.45)),
         )
 
-        listOf(client1, client2, client3, client4, client5, admin).forEach { clientRepository.create(it) }
+        val admin2 = LocalAdmin(
+            "Admin",
+            "Admin",
+            "admin2",
+            "admin2",
+            LocalDate.now().minusDays(17),
+            "ola123@gmail.com",
+            local1.id
+        )
+        localAdminRepository.create(admin2)
+
+        listOf(client1, client2, client3, client4, client5, admin1).forEach { clientRepository.create(it) }
 
         // ----------------------- PEDIDOS -----------------------------
         val points = listOf(Point(0.0,0.0), Point(0.0,10.0), Point(10.0,10.0), Point(10.0,0.0))

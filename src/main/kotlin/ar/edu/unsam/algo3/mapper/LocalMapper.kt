@@ -1,7 +1,6 @@
 package ar.edu.unsam.algo3.mapper
 
 import ar.edu.unsam.algo3.domain.Address
-import ar.edu.unsam.algo3.domain.Client
 import ar.edu.unsam.algo3.domain.Local
 import ar.edu.unsam.algo3.domain.PaymentMethod
 import ar.edu.unsam.algo3.dto.AddressDTO
@@ -45,7 +44,7 @@ object LocalMapper {
         )
     }
 
-    fun toCheckoutDTO(local: Local): LocalCheckoutDTO {
+    fun toCheckoutDTO(local: Local, distanceKm: Double?): LocalCheckoutDTO {
 
         // TODO: agregar lógica real cuando exista
         val freeDelivery = true
@@ -60,7 +59,33 @@ object LocalMapper {
                     it.name.lowercase(),
                     it.tax()
                 )
+            },
+            distanceKm
+        )
+    }
+
+    fun toNewEntity(dto: LocalAccountDTO): Local {
+        validateDTO(dto)
+
+        val paymentMethods = dto.paymentMethods.map { name ->
+            try {
+                PaymentMethod.valueOf(name.uppercase())
+            } catch (e: Exception) {
+                throw BusinessException("Método de pago inválido: $name")
             }
+        }.toMutableSet()
+
+        return Local(
+            name = dto.name,
+            imgURL = dto.imgURL,
+            address = Address(
+                dto.address.street,
+                dto.address.number,
+                dto.address.coordinates
+            ),
+            appCommission = dto.appCommission,
+            authorCommission = dto.authorCommission,
+            paymentMethods = paymentMethods
         )
     }
 
