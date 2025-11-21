@@ -110,3 +110,13 @@ class CouponRepository : InMemoryRepository<Coupon>() {
         return elements.values.filter { it.baseDiscountRate == searchedPercentage }.toList()
     }
 }
+
+/*
+@Repository
+class RatingRepository : InMemoryRepository<Rating>() {
+    override fun search(value: String): List<Rating> {
+
+    }
+}
+
+ */

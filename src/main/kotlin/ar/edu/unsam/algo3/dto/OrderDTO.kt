@@ -19,5 +19,6 @@ data class OrderDTO (
     val quantity: Int,
     val total: Double,
     val subtotal: Double,
-    val state: OrderStatus
+    val state: OrderStatus,
+    val localName: String
 )

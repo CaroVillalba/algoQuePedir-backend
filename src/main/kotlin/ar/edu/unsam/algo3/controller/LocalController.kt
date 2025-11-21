@@ -38,7 +38,6 @@ class LocalController(private val localService: LocalService) {
 
     @GetMapping
     fun getAll(@RequestParam(required = false) query: String?, @RequestParam(required = false) userId: Int?): List<LocalDTO> {
-
         //manejar esta logica en el repo
         val locales = if (query.isNullOrBlank()) {
             localService.getAll()
@@ -51,9 +50,6 @@ class LocalController(private val localService: LocalService) {
             locales.map { LocalMapper.toLocalDTO(it) }
         }
     }
-
-
-
 
     @GetMapping("/{id}")
     fun getPublicById(@PathVariable id: Int): LocalDTO {

@@ -30,7 +30,7 @@ class OrderController(private val orderService: OrderService,  private val local
         return orders.map { OrderMapper.toOrderDTO(it) }
     }
 
-    @GetMapping("/orderDetail/{orderId}")
+    @GetMapping("/{orderId}")
     fun get(@PathVariable orderId: Int): OrderDTO {
         val order = orderService.getByID(orderId)
         return OrderMapper.toOrderDTO(order)

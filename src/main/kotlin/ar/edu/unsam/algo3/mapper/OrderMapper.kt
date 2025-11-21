@@ -20,7 +20,8 @@ object OrderMapper {
             pedido.dishes.size,
             pedido.getOrderTotal(),
             round(pedido.dishesCost()),
-            pedido.status
+            pedido.status,
+            pedido.local.name
         )
     }
 
