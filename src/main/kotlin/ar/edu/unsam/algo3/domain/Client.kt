@@ -5,20 +5,20 @@ import org.uqbar.geodds.Point
 import java.time.LocalDate
 
 class Client(
-    firstName: String = "",
-    lastName: String = "",
+    firstname: String = "",
+    lastname: String = "",
     username: String = "",
     password: String = "",
     registrationDate: LocalDate = LocalDate.now(),
     email: String = "",
     var address: Address = Address("", "", Point(0, 0)),
-    val location : String = "",
+    var location : String? = null,
     val favoriteIngredients: MutableSet<Ingredient> = mutableSetOf(),
     val ingredientsToAvoid: MutableSet<Ingredient> = mutableSetOf(),
     var nearbyDistance: Double = 5.0,
     var clientType: ClientType = NormalClient(),
     val pendingRatings: MutableSet<PendingRating> = mutableSetOf()
-) : User(firstName, lastName, username, password, registrationDate, email) {
+) : User(firstname, lastname, username, password, registrationDate, email) {
 
     var commands = mutableListOf<ClientCommand>()
 
@@ -88,10 +88,11 @@ class Client(
         }
     }
 
-    fun isLocalNearby(local: Local): Boolean {
-        val distance = this.address.coordinates.distance(local.address.coordinates)
-        return distance <= nearbyDistance
+    fun distanceTo(local: Local): Double {
+        return this.address.coordinates.distance(local.address.coordinates)
     }
+
+    fun isLocalNearby(local: Local): Boolean = distanceTo(local) <= nearbyDistance
 
     fun validateIngredients(dish: Dish): Boolean {
         return dish.ingredients.none { it in ingredientsToAvoid }

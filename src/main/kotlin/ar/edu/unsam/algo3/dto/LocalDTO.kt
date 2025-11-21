@@ -1,8 +1,6 @@
 package ar.edu.unsam.algo3.dto
 import org.uqbar.geodds.Point
 
-import ar.edu.unsam.algo3.domain.Rating
-
 data class LocalDTO (
     val id: Int?,
     val name: String,

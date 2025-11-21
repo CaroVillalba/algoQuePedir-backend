@@ -27,7 +27,7 @@ object OrderMapper {
 
     fun toUserDTO(user: Client): UserOrderDTO {
         return UserOrderDTO(
-            user.firstName,
+            user.firstname,
              user.username
         )
     }

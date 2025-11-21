@@ -40,13 +40,24 @@ abstract class Entity(
 @Repository
 class ClientRepository : InMemoryRepository<Client>() {
 
-    fun searchByName(value: String): List<Client> = elements.values.filter { it.firstName.contains(value, ignoreCase = true) }
-    fun searchByLastName(value: String): List<Client> = elements.values.filter { it.lastName.contains(value, ignoreCase = true) }
+    fun searchByName(value: String): List<Client> = elements.values.filter { it.firstname.contains(value, ignoreCase = true) }
+    fun searchByLastName(value: String): List<Client> = elements.values.filter { it.lastname.contains(value, ignoreCase = true) }
     fun searchByPassword(value: String): List<Client> = elements.values.filter { it.password.equals(value, ignoreCase = true) }
     fun searchByUsername(value: String): List<Client> = elements.values.filter { it.username.contains(value, ignoreCase = true) }
 
     override fun search(value: String): List<Client> {
         return (searchByName(value) + searchByLastName(value) + searchByUsername(value)).distinct()
+    }
+}
+
+@Repository
+class LocalAdminRepository : InMemoryRepository<LocalAdmin>() {
+
+    fun searchByPassword(value: String): List<LocalAdmin> = elements.values.filter { it.password.equals(value, ignoreCase = true) }
+    fun searchByUsername(value: String): List<LocalAdmin> = elements.values.filter { it.username.contains(value, ignoreCase = true) }
+
+    override fun search(value: String): List<LocalAdmin> {
+        return elements.values.filter { it.username.contains(value, ignoreCase = true) }
     }
 }
 
