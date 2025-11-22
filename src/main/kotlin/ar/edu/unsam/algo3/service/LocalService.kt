@@ -37,19 +37,6 @@ class LocalService(private val localRepository: LocalRepository, private val use
         return localRepository.search(query)
     }
 
-    fun addDistanceInfo(locales: List<Local>, userId: Int): List<LocalDTO> {
-        val user = userService.getById(userId)
-
-        val client = user as? Client
-            ?: throw BusinessException("Solo los clientes pueden calcular distancia a los locales")
-
-        return locales.map { local ->
-            val esCercano = user.isLocalNearby(local)
-            //esto lo tendría que hacer el controller
-            LocalMapper.toLocalDTO(local).copy(esCercano = esCercano)
-        }
-    }
-
     fun getDistanceToClient(local: Local, userId: Int): Double {
         val user = userService.getById(userId)
 

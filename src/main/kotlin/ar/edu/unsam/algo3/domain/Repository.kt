@@ -67,9 +67,18 @@ class LocalRepository : InMemoryRepository<Local>() {
     fun searchByAddress(value: String): List<Local> = elements.values.filter { it.address.fullAddress().contains(value, ignoreCase = true) }
 
     //que devuelva todo si está vacío ' get all
+
     override fun search(value: String): List<Local> {
-        return (searchByName(value) + searchByAddress(value)).distinct()
+        return if(value.isBlank()) {
+            this.getAll()
+        }else{
+            (searchByName(value) + searchByAddress(value)).distinct()
+        }
     }
+
+   /* override fun search(value: String): List<Local> {
+        return (searchByName(value) + searchByAddress(value)).distinct()
+    }*/
 }
 
 @Repository
