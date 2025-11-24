@@ -13,8 +13,8 @@ class Client(
     email: String = "",
     var address: Address = Address("", "", Point(0, 0)),
     var location : String? = null,
-    val favoriteIngredients: MutableSet<Ingredient> = mutableSetOf(),
-    val ingredientsToAvoid: MutableSet<Ingredient> = mutableSetOf(),
+    var preferredIngredients: MutableSet<Ingredient> = mutableSetOf(),
+    var ingredientsToAvoid: MutableSet<Ingredient> = mutableSetOf(),
     var nearbyDistance: Double = 5.0,
     var clientType: ClientType = NormalClient(),
     val pendingRatings: MutableSet<PendingRating> = mutableSetOf()
@@ -38,11 +38,11 @@ class Client(
     fun addFavoriteIngredient(ingredient: Ingredient) {
         if (ingredientsToAvoid.contains(ingredient)) {
             println("Error: El ingrediente ${ingredient.name} está en la lista de ingredientes a evitar.")
-        } else favoriteIngredients.add(ingredient)
+        } else preferredIngredients.add(ingredient)
     }
 
     fun addIngredientToAvoid(ingredient: Ingredient) {
-        if (favoriteIngredients.contains(ingredient)) {
+        if (preferredIngredients.contains(ingredient)) {
             println("Error: El ingrediente ${ingredient.name} está en la lista de ingredientes favoritos.")
         } else ingredientsToAvoid.add(ingredient)
     }
@@ -140,7 +140,7 @@ class PickyClient : ClientType {
 
 class ConservativeClient : ClientType {
     override fun isDishSuitable(dish: Dish, client: Client): Boolean =
-        dish.ingredients.all { it in client.favoriteIngredients }
+        dish.ingredients.all { it in client.preferredIngredients }
 }
 
 class LoyalClient(private val preferredLocals: Set<Local>) : ClientType {

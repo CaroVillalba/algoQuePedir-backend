@@ -37,8 +37,8 @@ class ValidateIngredientsSpec : DescribeSpec({
         }
 
         it("Un ingrediente válido es aceptado") {
-            client.favoriteIngredients.add(ingredient3)  // Agregar directamente al set
-            client.favoriteIngredients.contains(ingredient3) shouldBe true
+            client.preferredIngredients.add(ingredient3)  // Agregar directamente al set
+            client.preferredIngredients.contains(ingredient3) shouldBe true
         }
 
         it("Un ingrediente a evitar es rechazado") {
@@ -47,8 +47,8 @@ class ValidateIngredientsSpec : DescribeSpec({
         }
 
         it("Un ingrediente favorito es rechazado") {
-            client.favoriteIngredients.add(ingredient2)  // Intentar agregar un ingrediente a favoritos
-            client.favoriteIngredients.contains(ingredient2) shouldBe true
+            client.preferredIngredients.add(ingredient2)  // Intentar agregar un ingrediente a favoritos
+            client.preferredIngredients.contains(ingredient2) shouldBe true
         }
 
 

@@ -37,6 +37,8 @@ object UserMapper {
         )
         exitingClient.email = dto.email
         exitingClient.location = dto.location
+        exitingClient.preferredIngredients = dto.preferredIngredients
+        exitingClient.ingredientsToAvoid = dto.ingredientsToAvoid
         return exitingClient
         }
 
