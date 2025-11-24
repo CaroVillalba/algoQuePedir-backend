@@ -42,13 +42,13 @@ class ClientSpec: DescribeSpec ({
             "a",
             "a",
             LocalDate.now(),
-            LocalDate.now(),
             "cliente@gmail.com",
             Address(
                 "Calle Siempre Viva",
                 "742",
                 Point(0, 0)
             ),
+            "a",
             mutableSetOf(),
             mutableSetOf(),
             500.0,
@@ -183,13 +183,13 @@ class ClientSpec: DescribeSpec ({
             "a",
             "a",
             LocalDate.now(),
-            LocalDate.now(),
             "cliente@gmail.com",
             Address(
                 "Calle Siempre Viva",
                 "742",
                 Point(0.0, 0.0)
             ),
+            "a",
             mutableSetOf(tomatoIngredient),
             mutableSetOf(),
             5.0,

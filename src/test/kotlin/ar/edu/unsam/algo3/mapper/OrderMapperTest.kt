@@ -25,7 +25,7 @@ class OrderMapperTest {
     @BeforeEach
     fun setup() {
         client = mock()
-        whenever(client.firstName).thenReturn("Juan")
+        whenever(client.firstname).thenReturn("Juan")
         whenever(client.username).thenReturn("juan123")
         whenever(client.address).thenReturn(Address("Calle Falsa", "123", Point(10.0, 20.0)))
 
@@ -73,7 +73,7 @@ class OrderMapperTest {
         assertEquals(order.id, dto.id)
         assertEquals(order.status, dto.state)
         assertEquals(order.pickupTime, dto.time)
-        assertEquals(order.client.firstName, dto.user.name)
+        assertEquals(order.client.firstname, dto.user.name)
         assertEquals(order.client.username, dto.user.username)
         assertEquals(order.paymentMethod, dto.paymentMethod)
         assertEquals(order.dishes.size, dto.quantity)

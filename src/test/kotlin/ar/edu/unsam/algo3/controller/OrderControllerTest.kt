@@ -1,6 +1,7 @@
 package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.domain.*
+import ar.edu.unsam.algo3.service.OrderService
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -23,6 +24,18 @@ class OrderControllerTest {
 
     @Autowired
     lateinit var orderRepository: OrderRepository
+
+    @Autowired
+    lateinit var clientRepository: ClientRepository
+
+    @Autowired
+    lateinit var localRepository: LocalRepository
+
+    @Autowired
+    lateinit var dishRepository: DishRepository
+
+    @Autowired
+    lateinit var orderService: OrderService
 
     private lateinit var client: Client
     private lateinit var local: Local
@@ -78,5 +91,55 @@ class OrderControllerTest {
         val deleted = orderRepository.getById(order.id)
         assert(deleted == null)
     }
+
+    @Test
+    fun `GET v1 order {orderId} debe devolver 200 OK y el pedido correcto`() {
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/v1/order/${order.id}")
+        )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(order.id!!))
+    }
+
+    @Test
+    fun `GET v1 order con state Todos debe devolver 200 OK`() {
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/v1/order")
+                .param("state", "Todos")
+        )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+    }
+
+    @Test
+    fun `POST v1 order debe crear un pedido y devolver 200 OK`() {
+        clientRepository.create(client)
+        localRepository.create(local)
+        dishRepository.create(dish)
+
+        val dtoJson = """
+        {
+          "restaurantId": ${local.id},
+          "items": [
+            {
+              "dishId": ${dish.id},
+              "quantity": 1
+            }
+          ],
+          "paymentMethod": "EFECTIVO"
+        }
+    """.trimIndent()
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.post("/v1/order")
+                .param("clientId", client.id!!.toString())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(dtoJson)
+        )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+
+    }
+
+
+
 
 }

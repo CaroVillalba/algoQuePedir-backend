@@ -22,13 +22,14 @@ class ValidateIngredientsSpec : DescribeSpec({
                 "juan123",
                 "seguro123",
                 LocalDate.of(1995, 5, 10),
-                LocalDate.now(),
+
                 "cliente@gmail.com",
                 Address(
                     "Calle Siempre Viva ",
                     "742",
                     Point(8, 6)
                 ),
+                "a",
                 mutableSetOf(ingredient1),
                 mutableSetOf(ingredient2),
                 10.0,

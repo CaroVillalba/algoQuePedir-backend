@@ -24,13 +24,13 @@ class UserSpec {
             "juan123",
             "seguro123",
             dateTodayMinus30,
-            LocalDate.now(),
             "usuario@gmail.com",
             Address(
                 "Calle random en kirguistan",
                 "123",
                 Point(40.92963, 73.00132)
             ),
+            "a",
             mutableSetOf(),
             mutableSetOf(),
             5.0,

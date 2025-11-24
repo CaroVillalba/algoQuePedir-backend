@@ -28,7 +28,7 @@ class UserControllerTest {
 
     @BeforeEach
     fun setup() {
-        authDTO = AuthDTO(1, "juan123", "password123")
+        authDTO = AuthDTO(1, "juan123", "password123", localId = null)
     }
 
     @Test
