@@ -131,12 +131,11 @@ class CouponRepository : InMemoryRepository<Coupon>() {
     }
 }
 
-/*
+
 @Repository
 class RatingRepository : InMemoryRepository<Rating>() {
     override fun search(value: String): List<Rating> {
-
+        //return elements.values.filter { it.baseDiscountRate == searchedPercentage }.toList()
+        return elements.values.toList()
     }
 }
-
- */

@@ -18,8 +18,8 @@ class Local(
         return if (ratings.isNotEmpty()) ratings.map { it.score }.average() else 0.0
     }
 
-    fun createRating(client: Client, score: Double) {
-        val rating = Rating(client, this, score)
+    fun createRating(client: Client, score: Double, description: String) {
+        val rating = Rating(client, this, score, description)
         ratings.add(rating)
     }
 }

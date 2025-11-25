@@ -243,18 +243,18 @@ class DataInitializer(
 
         // ----------------------- RATINGS -----------------------------
         val ratingLocal1 = listOf(
-            Rating(client1, local1, 4.5),
-            Rating(client2, local1, 4.0),
-            Rating(client3, local1, 3.5),
+            Rating(client1, local1, 4.5, "Description 1"),
+            Rating(client2, local1, 4.0, "Description 1"),
+            Rating(client3, local1, 3.5, "Description 1"),
         )
 
         val ratingLocal2 = listOf(
-            Rating(client3, local2, 5.0),
-            Rating(client4, local2, 4.3)
+            Rating(client3, local2, 5.0, "Description 1"),
+            Rating(client4, local2, 4.3, "Description 1")
         )
 
         val ratingLocal3 = listOf(
-            Rating(client5, local3, 4.8)
+            Rating(client5, local3, 4.8, "Description 1")
         )
 
         local1.ratings.addAll(ratingLocal1)

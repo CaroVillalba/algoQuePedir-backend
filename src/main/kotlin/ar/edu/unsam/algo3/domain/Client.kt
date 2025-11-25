@@ -51,22 +51,22 @@ class Client(
         return clientType.isDishSuitable(dish, this) && validateIngredients(dish)
     }
 
-    fun createRating(pendingRating: PendingRating, value: Double) {
+    fun createRating(pendingRating: PendingRating, value: Double, description: String) {
         if (!pendingRating.canRate()) {
             throw RatingException("No se puede puntuar este local. La fecha límite ha expirado.")
         }
-        pendingRating.local.createRating(this, value)
+        pendingRating.local.createRating(this, value, description)
         println("Se calificó el local exitosamente.")
     }
 
-    fun rate(local: Local, rating: Double) {
+    fun rate(local: Local, rating: Double, description: String) {
         val pendingRating = pendingRatings.find { it.local == local }
 
         if (pendingRating == null) {
             throw RatingException("No se encontró ninguna valoración pendiente.")
         }
 
-        createRating(pendingRating, rating)
+        createRating(pendingRating, rating, description)
         removePendingRating(pendingRating)
     }
 

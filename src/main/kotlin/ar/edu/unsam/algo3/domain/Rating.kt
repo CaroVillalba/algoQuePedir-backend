@@ -13,6 +13,6 @@ class PendingRating(
 class Rating(
     val client: Client,
     val local: Local,
-    var score: Double
-    //agregar string, descripcion
+    var score: Double,
+    var description: String
 ) : Entity() {}

@@ -12,7 +12,7 @@ class RateLocalsClientCommand(var scoreStrategy: ScoreCalculationStrategy) : Cli
     override fun execute(client: Client) {
         val validRatings = client.pendingRatings.filter { it.canRate() }.toList()
         validRatings.forEach { rating ->
-            client.rate(rating.local, scoreStrategy.calculateScore(rating.local))
+            client.rate(rating.local, scoreStrategy.calculateScore(rating.local), "Automated Rating")
         }
     }
 }

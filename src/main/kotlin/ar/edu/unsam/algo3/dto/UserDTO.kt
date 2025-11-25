@@ -17,6 +17,7 @@ data class UserDTO (
     val location: String? = null,
     val preferredIngredients: MutableSet<Ingredient> = mutableSetOf(),
     val ingredientsToAvoid: MutableSet<Ingredient> = mutableSetOf(),
+    val pendingRatings: MutableSet<PendingRatingDTO>
 )
 
 
@@ -24,6 +25,5 @@ data class PendingRatingDTO (
     val localId: Int?,
     val localName: String,
     val localRating: Double,
-    val date: LocalDate,
-    val pendingRatings: MutableSet<PendingRatingDTO>
+    val date: LocalDate
 )

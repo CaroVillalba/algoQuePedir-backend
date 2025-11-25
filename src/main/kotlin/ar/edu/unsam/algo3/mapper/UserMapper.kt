@@ -59,6 +59,8 @@ object UserMapper {
             client.password,
             client.email,
             client.location,
+            client.preferredIngredients,
+            client.ingredientsToAvoid,
             client.pendingRatings.map {
                 pendingRating: PendingRating -> PendingRatingDTO(
                 pendingRating.local.id,
