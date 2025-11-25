@@ -24,6 +24,8 @@ class LocalServiceTest {
 
     @Mock
     lateinit var localRepository: LocalRepository
+    @Mock
+    lateinit var userService: UserService
 
     @InjectMocks
     lateinit var localService: LocalService

@@ -137,6 +137,7 @@ class DataInitializer(
             "admin",
             LocalDate.now().minusDays(17),
             "ola123@gmail.com",
+            LocalDate.now().minusYears(30),
             Address("Calle Falsa", "123", Point(-34.6, -58.45)),
             )
 

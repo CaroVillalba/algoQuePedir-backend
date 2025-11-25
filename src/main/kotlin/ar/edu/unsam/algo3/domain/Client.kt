@@ -11,6 +11,7 @@ class Client(
     password: String = "",
     registrationDate: LocalDate = LocalDate.now(),
     email: String = "",
+    birthdate: LocalDate = LocalDate.now(),
     var address: Address = Address("", "", Point(0, 0)),
     var location : String? = null,
     var preferredIngredients: MutableSet<Ingredient> = mutableSetOf(),
@@ -18,7 +19,7 @@ class Client(
     var nearbyDistance: Double = 5.0,
     var clientType: ClientType = NormalClient(),
     val pendingRatings: MutableSet<PendingRating> = mutableSetOf()
-) : User(firstname, lastname, username, password, registrationDate, email) {
+) : User(firstname, lastname, username, password, registrationDate, email, birthdate) {
 
     var commands = mutableListOf<ClientCommand>()
 

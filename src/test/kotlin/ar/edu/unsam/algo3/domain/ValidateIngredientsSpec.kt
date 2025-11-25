@@ -24,6 +24,7 @@ class ValidateIngredientsSpec : DescribeSpec({
                 LocalDate.of(1995, 5, 10),
 
                 "cliente@gmail.com",
+                LocalDate.now().minusYears(30),
                 Address(
                     "Calle Siempre Viva ",
                     "742",

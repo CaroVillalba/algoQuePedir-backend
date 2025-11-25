@@ -13,8 +13,6 @@ abstract class User(
     var birthDate: LocalDate = LocalDate.now(),
 ) : Entity() {
 
-
-
     fun calculateAge(): Int {
         val today = LocalDate.now()
         return Period.between(birthDate, today).years

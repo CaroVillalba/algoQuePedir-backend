@@ -43,6 +43,7 @@ class ClientSpec: DescribeSpec ({
             "a",
             LocalDate.now(),
             "cliente@gmail.com",
+            LocalDate.now().minusYears(30),
             Address(
                 "Calle Siempre Viva",
                 "742",
@@ -184,6 +185,7 @@ class ClientSpec: DescribeSpec ({
             "a",
             LocalDate.now(),
             "cliente@gmail.com",
+            LocalDate.now().minusYears(30),
             Address(
                 "Calle Siempre Viva",
                 "742",
