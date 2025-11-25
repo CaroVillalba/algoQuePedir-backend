@@ -324,7 +324,7 @@ private fun createLongTermClient(): Client {
 }
 
 private fun createCertifiedOrder(local: Local, client: Client): Order {
-    val valoracionBuena = Rating(client, local, 4.5)
+    val valoracionBuena = Rating(client, local, 4.5, "dasdsa")
     local.ratings.add(valoracionBuena)
 
     return Order(

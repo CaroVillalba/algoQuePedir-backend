@@ -75,17 +75,20 @@ class CouponSpec : DescribeSpec({
             Rating(
                 client,
                 local,
-                4.5
+                4.5,
+                "Excelente atención y comida deliciosa"
             ),
             Rating(
                 client,
                 local,
-                5.0
+                5.0,
+                "La mejor hamburguesa que he probado"
             ),
             Rating(
                 client,
                 local,
-                4.8
+                4.8,
+                "Ambiente agradable y precios razonables"
             )
         )
 

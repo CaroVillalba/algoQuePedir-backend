@@ -68,9 +68,9 @@ class DeliverySpec : DescribeSpec({
         )
 
         local.ratings = mutableSetOf(
-            Rating(client, local, 4.5),
-            Rating(client, local, 5.0),
-            Rating(client, local, 4.8)
+            Rating(client, local, 4.5, "Excelente comida y servicio"),
+            Rating(client, local, 5.0, "Muy buena experiencia"),
+            Rating(client, local, 4.8, "Recomendado para todos")
         )
 
         local2 = Local(
@@ -85,9 +85,9 @@ class DeliverySpec : DescribeSpec({
             0.0,
             mutableSetOf(PaymentMethod.EFECTIVO, PaymentMethod.CREDITO, PaymentMethod.QR),
             mutableSetOf(
-                Rating(client, local, 1.0),
-                Rating(client, local, 1.0),
-                Rating(client, local, 1.0)
+                Rating(client, local, 1.0, "Mala experiencia"),
+                Rating(client, local, 1.0, "Comida fría"),
+                Rating(client, local, 1.0, "No lo recomiendo")
             )
         )
 

@@ -89,17 +89,18 @@ class OrderSpec {
             Rating(
                 client,
                 restaurant,
-                4.5
+                4.5,
+                "dasdasd"
             ),
             Rating(
                 client,
                 restaurant,
-                5.0
+                5.0,"dasdasd"
             ),
             Rating(
                 client = client,
                 restaurant,
-                4.8
+                4.8, "'dasdasd"
             )
         )
 
@@ -280,17 +281,17 @@ class OrderSpec {
                 Rating(
                     client,
                     restaurant,
-                    3.0
+                    3.0,"dasdasd"
                 ),
                 Rating(
                     client,
                     restaurant,
-                    3.5
+                    3.5,"dasdda"
                 ),
                 Rating(
                     client,
                     restaurant,
-                    2.5
+                    2.5,"dasdasd"
                 ),
             ),
         )
