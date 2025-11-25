@@ -254,13 +254,14 @@ private fun createClient(): Client {
         "usuario_prueba",
         "clave123",
         LocalDate.now().minusYears(20),
-        LocalDate.now(),
+
         "usuario@prueba.com",
         Address(
             "Calle Prueba",
             "123",
             Point(0, 0)
         ),
+        "a",
         mutableSetOf(),
         mutableSetOf(),
         10.0,
@@ -306,13 +307,13 @@ private fun createLongTermClient(): Client {
         "cliente_antiguo",
         "clave123",
         LocalDate.now().minusYears(30),
-        LocalDate.now().minusYears(2),
         "cliente.antiguo@prueba.com",
         Address(
             "Calle Cliente",
             "123",
             Point(0, 0)
         ),
+        "a",
         mutableSetOf(),
         mutableSetOf(),
         10.0,

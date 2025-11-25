@@ -37,13 +37,13 @@ class CouponSpec : DescribeSpec({
             "juanperez",
             "1234",
             LocalDate.of(1990, 1, 1),
-            LocalDate.of(2020, 1, 1),
             "cliente@gmail.com",
             Address(
                 "Calle Falsa",
                 "123",
                 Point(2, 2)
             ),
+            "a",
             mutableSetOf(),
             mutableSetOf(),
             10.0,

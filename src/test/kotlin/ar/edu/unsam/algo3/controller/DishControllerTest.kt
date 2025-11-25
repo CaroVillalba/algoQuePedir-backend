@@ -119,9 +119,11 @@ class DishControllerTest {
         val dtoConLocalInvalido = dishDTO.copy(local = idLocalQueNoExiste)
         val json = objectMapper.writeValueAsString(dtoConLocalInvalido)
 
-        mockMvc.perform(post("/v1/dishes")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(json))
+        mockMvc.perform(
+            post("/v1/dishes")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json)
+        )
             .andExpect(status().isNotFound)
             .andExpect(jsonPath("$.message", `is`("Local con ID 999 no encontrado")))
     }
@@ -132,10 +134,57 @@ class DishControllerTest {
         val dtoInvalido = dishDTO.copy(description = "")
         val json = objectMapper.writeValueAsString(dtoInvalido)
 
-        mockMvc.perform(put("/v1/dishes/$dishId")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(json))
+        mockMvc.perform(
+            put("/v1/dishes/$dishId")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json)
+        )
             .andExpect(status().isBadRequest)
             .andExpect(jsonPath("$.message", `is`("La descripción del plato no puede estar vacía")))
     }
+
+    @Test
+    fun `GET v1 dishes by ID debe devolver 404 Not Found si el ID no existe`() {
+        val dishIdQueNoExiste = 999
+        mockMvc.perform(get("/v1/dishes/$dishIdQueNoExiste"))
+            .andExpect(status().isNotFound)
+            .andExpect(jsonPath("$.message", `is`("Plato no encontrado")))
+    }
+
+    @Test
+    fun `PUT v1 dishes by ID debe actualizar el plato y devolver 200 OK`() {
+        val dishId = existingDish.id
+        val nuevoNombre = "Nueva Pizza Actualizada"
+        val dtoActualizado = dishDTO.copy(name = nuevoNombre)
+        val json = objectMapper.writeValueAsString(dtoActualizado)
+
+        mockMvc.perform(
+            put("/v1/dishes/$dishId")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json)
+        )
+            .andExpect(status().isOk)
+
+        mockMvc.perform(get("/v1/dishes/$dishId"))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.name", `is`(nuevoNombre)))
+    }
+
+
+    @Test
+    fun `PUT v1 dishes by ID debe devolver 404 Not Found si el Dish ID a actualizar no existe`() {
+        val dishIdQueNoExiste = 999
+        val nuevoNombre = "Nueva Pizza Actualizada"
+        val dtoActualizado = dishDTO.copy(name = nuevoNombre)
+        val json = objectMapper.writeValueAsString(dtoActualizado)
+
+        mockMvc.perform(
+            put("/v1/dishes/$dishIdQueNoExiste")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json)
+        )
+            .andExpect(status().isNotFound)
+            .andExpect(jsonPath("$.message", `is`("Plato no encontrado")))
+    }
 }
+

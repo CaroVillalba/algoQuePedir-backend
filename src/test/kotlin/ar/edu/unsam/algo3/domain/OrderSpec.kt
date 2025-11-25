@@ -69,13 +69,13 @@ class OrderSpec {
             "juan456",
             "1234",
             LocalDate.of(2002, 5, 24),
-            LocalDate.now().minusYears(2),
             "cliente@gmail.com",
             Address(
                 "Calle Verde",
                 "420",
                 Point(-1, 6)
             ),
+            "a",
             mutableSetOf(ingredient1!!, ingredient3!!),
             mutableSetOf(ingredient1!!, ingredient3!!),
             10.0,
@@ -234,13 +234,13 @@ class OrderSpec {
             "pedro123",
             "password123",
             LocalDate.of(1990, 1, 1),
-            LocalDate.now().minusMonths(6),
             "clientenuevo@gmail.com",
             Address(
                 "Calle Verde",
                 "420",
                 Point(-1, 6)
             ),
+            "a",
             mutableSetOf(),
             mutableSetOf(),
             0.0,
