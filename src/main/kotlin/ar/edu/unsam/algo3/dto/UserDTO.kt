@@ -1,5 +1,8 @@
 package ar.edu.unsam.algo3.dto
 
+import ar.edu.unsam.algo3.domain.PendingRating
+import java.time.LocalDate
+
 data class UserDTO (
     val id: Int?,
     val firstname: String,
@@ -9,4 +12,12 @@ data class UserDTO (
     val password: String,
     val email: String,
     val location: String? = null,
+    val pendingRatings: MutableSet<PendingRatingDTO>
+)
+
+data class PendingRatingDTO (
+    val localId: Int?,
+    val localName: String,
+    val localRating: Double,
+    val date: LocalDate
 )

@@ -2,7 +2,9 @@ package ar.edu.unsam.algo3.mapper
 
 import ar.edu.unsam.algo3.domain.Address
 import ar.edu.unsam.algo3.domain.Client
+import ar.edu.unsam.algo3.domain.PendingRating
 import ar.edu.unsam.algo3.dto.AddressDTO
+import ar.edu.unsam.algo3.dto.PendingRatingDTO
 import ar.edu.unsam.algo3.dto.UserDTO
 import ar.edu.unsam.algo3.exceptions.BusinessException
 
@@ -55,7 +57,13 @@ object UserMapper {
             client.password,
             client.email,
             client.location,
-
+            client.pendingRatings.map {
+                pendingRating: PendingRating -> PendingRatingDTO(
+                pendingRating.local.id,
+                pendingRating.local.name,
+                pendingRating.local.getScore(),
+                pendingRating.lastOrderDate)
+            }.toMutableSet()
         )
     }
 

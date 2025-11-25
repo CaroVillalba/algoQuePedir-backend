@@ -2,6 +2,7 @@ package ar.edu.unsam.algo3.controller
 import ar.edu.unsam.algo3.domain.Client
 import ar.edu.unsam.algo3.service.UserService
 import ar.edu.unsam.algo3.dto.UserDTO
+import ar.edu.unsam.algo3.mapper.AuthMapper
 import ar.edu.unsam.algo3.mapper.UserMapper
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -16,9 +17,9 @@ import org.springframework.web.bind.annotation.*
 class ProfileController( private val userService: UserService ) {
 
     @GetMapping
-    fun getUserProfile(username : String ) : Client {
+    fun getUserProfile(username : String ) : ResponseEntity<UserDTO> {
         val client = userService.getUserByUsername(username)
-        return client
+        return ResponseEntity.ok(UserMapper.toDTO(client))
     }
 
     @PostMapping

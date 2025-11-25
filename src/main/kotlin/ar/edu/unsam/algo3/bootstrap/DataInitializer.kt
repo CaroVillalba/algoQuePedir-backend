@@ -187,11 +187,11 @@ class DataInitializer(
 
         val order2 = Order(
             client1,
-            listOf(dish2, dish4),
-            OrderStatus.ENTREGADO,
+            listOf(dish1, dish2),
+            OrderStatus.PREPARADO,
             local1,
             delivery,
-            PaymentMethod.TRANSFERENCIA
+            PaymentMethod.QR
         )
 
         val ordersLocal1 = listOf(order1, order2)
@@ -260,5 +260,9 @@ class DataInitializer(
         local1.ratings.addAll(ratingLocal1)
         local2.ratings.addAll(ratingLocal2)
         local3.ratings.addAll(ratingLocal3)
+
+        // -------------------- RESEÑAS PENDIENTES -------------------
+        delivery.deliverOrder(order2)
+        admin1.confirmOrder(order2)
     }
 }
