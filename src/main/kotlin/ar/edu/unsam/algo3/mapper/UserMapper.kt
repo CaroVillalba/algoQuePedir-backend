@@ -66,7 +66,8 @@ object UserMapper {
                 pendingRating.local.id,
                 pendingRating.local.name,
                 pendingRating.local.getScore(),
-                pendingRating.lastOrderDate)
+                pendingRating.lastOrderDate,
+                    pendingRating.local.imgURL)
             }.toMutableSet()
         )
     }

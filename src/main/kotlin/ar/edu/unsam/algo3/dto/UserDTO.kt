@@ -25,5 +25,6 @@ data class PendingRatingDTO (
     val localId: Int?,
     val localName: String,
     val localRating: Double,
-    val date: LocalDate
+    val date: LocalDate,
+    val localImage: String = ""
 )
