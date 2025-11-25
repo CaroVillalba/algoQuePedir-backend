@@ -134,7 +134,7 @@ class ClientSpec: DescribeSpec ({
 
         it("El cliente no puede puntuar si no tiene valoraciones pendientes") {
             shouldThrow<RatingException> {
-                client.rate(local, 5.0)
+                client.rate(local, 5.0,"asdasd" )
             }
         }
 
@@ -145,7 +145,7 @@ class ClientSpec: DescribeSpec ({
 
         it("cuando un cliente puntua un local se le elimina la valoracion pendiente") {
             client.confirmOrder(order)
-            client.rate(local, 5.0)
+            client.rate(local, 5.0, "asdasd")
             client.pendingRatings.isEmpty() shouldBe true
         }
 
@@ -153,7 +153,7 @@ class ClientSpec: DescribeSpec ({
             var rating = PendingRating(local, LocalDate.now().minusDays(8))
             client.pendingRatings.add(rating)
             shouldThrow<RatingException> {
-                client.rate(local, 5.0)
+                client.rate(local, 5.0, "dasdasd")
             }
         }
     }

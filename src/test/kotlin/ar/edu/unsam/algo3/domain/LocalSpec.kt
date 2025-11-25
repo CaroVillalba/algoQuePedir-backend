@@ -51,17 +51,20 @@ class LocalSpec : DescribeSpec({
                 Rating(
                     client,
                     reliableLocal,
-                    4.5
+                    4.5,
+                    "dasdasd"
                 ),
                 Rating(
                     client,
                     reliableLocal,
-                    5.0
+                    5.0,
+                    "dasdasd"
                 ),
                 Rating(
                     client,
                     reliableLocal,
-                    4.8
+                    4.8,
+                    "dasdasd"
                 )
             )
 
@@ -83,17 +86,20 @@ class LocalSpec : DescribeSpec({
                 Rating(
                     client,
                     unreliableLocal,
-                    2.0
+                    2.0,
+                    "dasda"
                 ),
                 Rating(
                     client,
                     unreliableLocal,
-                    3.5
+                    3.5,
+                    "dsadas"
                 ),
                 Rating(
                     client,
                     unreliableLocal,
-                    3.0
+                    3.0,
+                    "dasdasd"
                 )
             )
         }

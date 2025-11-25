@@ -57,7 +57,8 @@ class ClientCommandSpec : DescribeSpec({
                     local1,
                     LocalDate.now()
                 ),
-                5.0
+                5.0,
+                "dasdasd"
             )
 
             local2 = Local(
@@ -78,7 +79,8 @@ class ClientCommandSpec : DescribeSpec({
                     local2,
                     LocalDate.now()
                 ),
-                3.0
+                3.0,
+                "sadasda"
             )
 
             local3 = Local(
@@ -99,7 +101,8 @@ class ClientCommandSpec : DescribeSpec({
                     local3,
                     LocalDate.now()
                 ),
-                1.0
+                1.0,
+                "dasdasd"
             )
 
             client.pendingRatings.add(PendingRating(local1))
