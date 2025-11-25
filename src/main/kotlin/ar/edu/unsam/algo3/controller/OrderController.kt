@@ -62,6 +62,12 @@ class OrderController(
         return OrderMapper.toOrderDTO(updatedOrder)
     }
 
+    @PatchMapping("/cancel/{orderId}")
+    fun cancelOrder(@PathVariable orderId: Int): OrderDTO {
+        val updated = orderService.cancelOrder(orderId)
+        return OrderMapper.toOrderDTO(updated)
+    }
+
     @DeleteMapping("/{orderId}")
     fun deleteOrder(@PathVariable orderId: Int) {
         orderService.deleteOrder(orderId)

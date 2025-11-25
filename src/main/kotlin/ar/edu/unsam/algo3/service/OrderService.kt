@@ -41,4 +41,17 @@ class OrderService(private val orderRepository: OrderRepository) {
 
         orderRepository.delete(order)
     }
+
+    fun cancelOrder(orderId: Int): Order {
+        val order = orderRepository.getById(orderId)
+            ?: throw BusinessException("Pedido no encontrado")
+
+        if (order.status != OrderStatus.PENDIENTE && order.status != OrderStatus.PREPARADO) {
+            throw BusinessException("Solo se pueden cancelar pedidos pendientes")
+        }
+
+        order.status = OrderStatus.CANCELADO
+        orderRepository.update(order)
+        return order
+    }
 }
