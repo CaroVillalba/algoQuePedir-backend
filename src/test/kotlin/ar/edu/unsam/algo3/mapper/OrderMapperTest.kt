@@ -78,7 +78,7 @@ class OrderMapperTest {
         assertEquals(order.paymentMethod, dto.paymentMethod)
         assertEquals(order.dishes.size, dto.quantity)
         assertEquals(3, dto.dishes.sumOf { it.quantity }, "Debe sumar cantidades correctamente")
-        assertEquals(order.baseTotal(), dto.subtotal)
+        assertEquals(order.dishesCost(), dto.subtotal)
         assertEquals(order.getOrderTotal(), dto.total)
         assertEquals(order.deliveryCost(), dto.comission)
         assertEquals(order.applyTax(), dto.increment)

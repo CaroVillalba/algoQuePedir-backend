@@ -20,6 +20,7 @@ class LocalSpec : DescribeSpec({
                 LocalDate.of(1990, 1, 1),
 
                 "cliente@gmail.com",
+                LocalDate.now().minusYears(30),
                 Address(
                     "Calle Falsa",
                     "123",

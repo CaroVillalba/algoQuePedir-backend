@@ -256,6 +256,7 @@ private fun createClient(): Client {
         LocalDate.now().minusYears(20),
 
         "usuario@prueba.com",
+        LocalDate.now().minusYears(30),
         Address(
             "Calle Prueba",
             "123",
@@ -308,6 +309,7 @@ private fun createLongTermClient(): Client {
         "clave123",
         LocalDate.now().minusYears(30),
         "cliente.antiguo@prueba.com",
+        LocalDate.now().minusYears(30),
         Address(
             "Calle Cliente",
             "123",

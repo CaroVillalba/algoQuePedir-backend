@@ -70,6 +70,7 @@ class OrderSpec {
             "1234",
             LocalDate.of(2002, 5, 24),
             "cliente@gmail.com",
+            LocalDate.now().minusYears(30),
             Address(
                 "Calle Verde",
                 "420",
@@ -233,8 +234,9 @@ class OrderSpec {
             "Gomez",
             "pedro123",
             "password123",
-            LocalDate.of(1990, 1, 1),
+            LocalDate.now().minusMonths(6),
             "clientenuevo@gmail.com",
+            LocalDate.now().minusYears(30),
             Address(
                 "Calle Verde",
                 "420",

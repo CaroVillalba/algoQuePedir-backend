@@ -69,7 +69,7 @@ class OrderControllerTest {
 
     @Test
     fun `GET v1 order orderDetail debe devolver 200 OK`() {
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/order/orderDetail/${order.id}"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/order/${order.id}"))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(order.id))
     }

@@ -25,6 +25,7 @@ class UserSpec {
             "seguro123",
             dateTodayMinus30,
             "usuario@gmail.com",
+            LocalDate.now().minusYears(30),
             Address(
                 "Calle random en kirguistan",
                 "123",
