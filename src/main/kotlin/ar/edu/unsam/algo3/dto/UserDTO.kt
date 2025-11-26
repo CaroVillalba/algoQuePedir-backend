@@ -40,5 +40,6 @@ data class CriteriaDTO(
     val exquisite: Boolean,
     val conservative: Boolean,
     val impatient: Boolean,
+    val preferredRestaurants: List<LocalAccountDTO>? = null,
     val distance: Int? = null      // si querés incluirlo
 )

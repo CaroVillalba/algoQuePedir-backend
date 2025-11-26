@@ -1,21 +1,7 @@
 package ar.edu.unsam.algo3.mapper
 
-import ar.edu.unsam.algo3.domain.Address
-import ar.edu.unsam.algo3.domain.Client
-import ar.edu.unsam.algo3.domain.ClientAllTypes
-import ar.edu.unsam.algo3.domain.ClientType
-import ar.edu.unsam.algo3.domain.ConservativeClient
-import ar.edu.unsam.algo3.domain.ImpatientClient
-import ar.edu.unsam.algo3.domain.LoyalClient
-import ar.edu.unsam.algo3.domain.MarketingClient
-import ar.edu.unsam.algo3.domain.NormalClient
-import ar.edu.unsam.algo3.domain.PendingRating
-import ar.edu.unsam.algo3.domain.PickyClient
-import ar.edu.unsam.algo3.domain.VeganClient
-import ar.edu.unsam.algo3.dto.AddressDTO
-import ar.edu.unsam.algo3.dto.CriteriaDTO
-import ar.edu.unsam.algo3.dto.PendingRatingDTO
-import ar.edu.unsam.algo3.dto.UserDTO
+import ar.edu.unsam.algo3.domain.*
+import ar.edu.unsam.algo3.dto.*
 import ar.edu.unsam.algo3.exceptions.BusinessException
 
 object UserMapper {
@@ -32,7 +18,8 @@ object UserMapper {
             username = dto.username,
             password = dto.password,
             email = dto.email,
-            location = dto.location
+            location = dto.location,
+
         )
     }
 
@@ -51,7 +38,17 @@ object UserMapper {
         exitingClient.location = dto.location
         exitingClient.preferredIngredients = dto.preferredIngredients
         exitingClient.ingredientsToAvoid = dto.ingredientsToAvoid
+
         exitingClient.clientType = buildClientTypes(dto.criteria, exitingClient)
+
+        val preferred = dto.preferredRestaurants
+            ?: dto.criteria?.preferredRestaurants
+            ?: emptyList()
+
+        exitingClient.preferredRestaurants = preferred
+            .map { LocalMapper.toNewEntity(it) }
+            .toMutableSet()
+        println(">>> DTO trae preferredRestaurants: ${dto.preferredRestaurants?.map { it.id }}")
         return exitingClient
         }
 
@@ -80,6 +77,25 @@ object UserMapper {
                 pendingRating.lastOrderDate,
                     pendingRating.local.imgURL)
             }.toMutableSet(),
+            null,
+            preferredRestaurants = client.preferredRestaurants
+                .map { local ->
+                    LocalAccountDTO(
+                        local.id,
+                        local.name,
+                        local.imgURL,
+                        AddressDTO(
+                            local.address.street,
+                            local.address.number,
+                            local.address.coordinates
+                        ),
+                        local.appCommission,
+                        local.authorCommission,
+                        local.paymentMethods
+                            .filter { it in setOf(PaymentMethod.EFECTIVO, PaymentMethod.QR, PaymentMethod.TRANSFERENCIA) }
+                            .map { it.name.lowercase() }
+                    )
+                }.toMutableSet(),
 
         )
     }

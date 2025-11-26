@@ -17,6 +17,7 @@ class Client(
     var preferredIngredients: MutableSet<Ingredient> = mutableSetOf(),
     var ingredientsToAvoid: MutableSet<Ingredient> = mutableSetOf(),
     var nearbyDistance: Double = 5.0,
+    var preferredRestaurants: MutableSet<Local> = mutableSetOf(),
     var clientType: ClientType = NormalClient(),
     val pendingRatings: MutableSet<PendingRating> = mutableSetOf()
 ) : User(firstname, lastname, username, password, registrationDate, email, birthdate) {

@@ -35,7 +35,6 @@ class ProfileController( private val userService: UserService ) {
         println(dto)
         val existingClient = userService.getUserByUsername(dto.username)
         val updatedClient = UserMapper.toUpdateEntity(dto, existingClient)
-        println(updatedClient)
         userService.updateProfile(updatedClient)
     }
 }
