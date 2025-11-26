@@ -54,6 +54,15 @@ object UserMapper {
         return exitingClient
         }
 
+    fun ClientType.containsLoyalClient(): Boolean {
+        return when (this) {
+            is LoyalClient -> true
+            is ClientAllTypes -> types.any { it.containsLoyalClient() }
+            else -> false
+        }
+    }
+
+
 
     fun toDTO(client: Client) : UserDTO {
         return UserDTO(
@@ -80,7 +89,7 @@ object UserMapper {
                     pendingRating.local.imgURL)
             }.toMutableSet(),
             CriteriaMapper.toDTO(client.clientType, client),
-            preferredRestaurants = if (client.clientType is LoyalClient){
+            preferredRestaurants = if (client.clientType.containsLoyalClient()) {
                 client.preferredRestaurants
                     .map { local ->
                         LocalAccountDTO(
