@@ -1,6 +1,7 @@
 package ar.edu.unsam.algo3.service
 
 import ar.edu.unsam.algo3.domain.Client
+import ar.edu.unsam.algo3.domain.Local
 import ar.edu.unsam.algo3.domain.Rating
 import ar.edu.unsam.algo3.domain.RatingRepository
 import ar.edu.unsam.algo3.domain.User

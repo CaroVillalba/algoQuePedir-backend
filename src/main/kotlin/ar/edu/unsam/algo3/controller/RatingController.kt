@@ -2,7 +2,9 @@ package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.dto.PostRatingDTO
 import ar.edu.unsam.algo3.dto.UserDTO
+import ar.edu.unsam.algo3.mapper.RatingMapper
 import ar.edu.unsam.algo3.mapper.UserMapper
+import ar.edu.unsam.algo3.service.LocalService
 import ar.edu.unsam.algo3.service.RatingService
 import ar.edu.unsam.algo3.service.UserService
 import org.springframework.http.HttpStatus
@@ -23,12 +25,13 @@ import org.springframework.web.bind.annotation.RestController
     "http://localhost:5173",
     "http://localhost:5174"
 ])
-class RatingController(private val ratingService: RatingService, private val userService: UserService ) {
+class RatingController(private val ratingService: RatingService, private val userService: UserService, private val localService: LocalService) {
 
-    @GetMapping
-    fun getUserProfile(username : String ) : ResponseEntity<UserDTO> {
-        val client = userService.getUserByUsername(username)
-        return ResponseEntity.ok(UserMapper.toDTO(client))
+    @GetMapping("/local/{localId}")
+    fun getLocalRatings(@PathVariable localId: Int) : ResponseEntity<List<PostRatingDTO>> {
+        val local = localService.getById(localId)
+        val ratings = local.ratings
+        return ResponseEntity.ok(ratings.map { RatingMapper.toDTO(it)})
     }
 
     @PostMapping
@@ -36,13 +39,5 @@ class RatingController(private val ratingService: RatingService, private val use
         val client = userService.getUserByUsername(dto.username)
         ratingService.createRating(client, dto)
         return ResponseEntity.status(HttpStatus.CREATED).build()
-    }
-
-
-    @PatchMapping
-    fun updateProfile(@RequestBody dto : UserDTO) {
-        val existingClient = userService.getUserByUsername(dto.username)
-        val updatedClient = UserMapper.toUpdateEntity(dto, existingClient)
-        userService.updateProfile(updatedClient)
     }
 }
