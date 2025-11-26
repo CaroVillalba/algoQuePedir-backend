@@ -24,7 +24,7 @@ object UserMapper {
     }
 
 
-    fun toUpdateEntity(dto: UserDTO, exitingClient: Client ): Client {
+    fun toUpdateEntity(dto: UserDTO, exitingClient: Client, existingLocal: MutableSet<Local?> = mutableSetOf() ): Client {
         validate(dto)
 
         exitingClient.firstname = dto.firstname
@@ -38,19 +38,23 @@ object UserMapper {
         exitingClient.location = dto.location
         exitingClient.preferredIngredients = dto.preferredIngredients
         exitingClient.ingredientsToAvoid = dto.ingredientsToAvoid
-
+        exitingClient.nearbyDistance = dto.criteria?.distance?.toDouble() ?: 0.0
         exitingClient.clientType = buildClientTypes(dto.criteria, exitingClient)
+        exitingClient.preferredRestaurants = (existingLocal ?: mutableSetOf()) as MutableSet<Local>
+        exitingClient.words = dto.criteria?.marketingWords ?: listOf()
 
-        val preferred = dto.preferredRestaurants
-            ?: dto.criteria?.preferredRestaurants
-            ?: emptyList()
-
-        exitingClient.preferredRestaurants = preferred
-            .map { LocalMapper.toNewEntity(it) }
-            .toMutableSet()
-        println(">>> DTO trae preferredRestaurants: ${dto.preferredRestaurants?.map { it.id }}")
         return exitingClient
         }
+
+
+    fun ClientType.containsLoyalClient(): Boolean {
+        return when (this) {
+            is LoyalClient -> true
+            is ClientAllTypes -> types.any { it.containsLoyalClient() }
+            else -> false
+        }
+    }
+
 
 
     fun toDTO(client: Client) : UserDTO {
@@ -77,25 +81,30 @@ object UserMapper {
                 pendingRating.lastOrderDate,
                     pendingRating.local.imgURL)
             }.toMutableSet(),
-            null,
-            preferredRestaurants = client.preferredRestaurants
-                .map { local ->
-                    LocalAccountDTO(
-                        local.id,
-                        local.name,
-                        local.imgURL,
-                        AddressDTO(
-                            local.address.street,
-                            local.address.number,
-                            local.address.coordinates
-                        ),
-                        local.appCommission,
-                        local.authorCommission,
-                        local.paymentMethods
-                            .filter { it in setOf(PaymentMethod.EFECTIVO, PaymentMethod.QR, PaymentMethod.TRANSFERENCIA) }
-                            .map { it.name.lowercase() }
-                    )
-                }.toMutableSet(),
+            CriteriaMapper.toDTO(client.clientType, client),
+            preferredRestaurants = if (client.clientType.containsLoyalClient()) {
+                client.preferredRestaurants
+                    .map { local ->
+                        LocalAccountDTO(
+                            local.id,
+                            local.name,
+                            local.imgURL,
+                            AddressDTO(
+                                local.address.street,
+                                local.address.number,
+                                local.address.coordinates
+                            ),
+                            local.appCommission,
+                            local.authorCommission,
+                            local.paymentMethods
+                                .filter { it in setOf(PaymentMethod.EFECTIVO, PaymentMethod.QR, PaymentMethod.TRANSFERENCIA) }
+                                .map { it.name.lowercase() }
+                        )
+                    }.toMutableSet()
+            }else{
+                mutableSetOf()
+            },
+
 
         )
     }
@@ -114,7 +123,7 @@ object UserMapper {
         if (criteria!!.vegan) types += VeganClient()
         if (criteria!!.exquisite) types += PickyClient()
         if (criteria!!.conservative) types += ConservativeClient()
-        //if (criteria.faithful) types += LoyalClient(criteria.preferredLocals.toSet()) // si lo implementás
+        if (criteria.faithful) types += LoyalClient(preferredLocals= client.preferredRestaurants)
         if (criteria!!.marketing) types += MarketingClient(criteria!!.marketingWords.toSet())
         if (criteria!!.impatient) types += ImpatientClient()
 
@@ -124,6 +133,5 @@ object UserMapper {
             else -> ClientAllTypes(types)
         }
     }
-
 
 }

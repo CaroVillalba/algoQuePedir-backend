@@ -44,6 +44,7 @@ object LocalMapper {
         )
     }
 
+
     fun toCheckoutDTO(local: Local, distanceKm: Double?): LocalCheckoutDTO {
 
         // TODO: agregar lógica real cuando exista
