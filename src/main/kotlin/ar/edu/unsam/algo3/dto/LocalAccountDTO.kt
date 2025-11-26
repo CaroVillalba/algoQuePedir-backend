@@ -7,5 +7,6 @@ data class LocalAccountDTO(
     val address: AddressDTO,
     val appCommission: Double,
     val authorCommission: Double,
-    val paymentMethods: List<String>
+    val paymentMethods: List<String>,
+    val rating : Double? = null,
 )
