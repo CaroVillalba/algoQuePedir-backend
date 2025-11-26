@@ -3,10 +3,12 @@ package ar.edu.unsam.algo3.mapper
 import ar.edu.unsam.algo3.domain.*
 import ar.edu.unsam.algo3.dto.*
 import ar.edu.unsam.algo3.exceptions.BusinessException
+import ar.edu.unsam.algo3.service.LocalService
 import java.math.RoundingMode
 
 object OrderMapper {
     fun toOrderDTO(pedido: Order): OrderDTO {
+
         return OrderDTO(
             round(pedido.deliveryCost()),
             round(pedido.applyTax()),
@@ -24,6 +26,32 @@ object OrderMapper {
             pedido.local.name
         )
     }
+
+    fun toOrderDetailDTO(pedido: Order, distance: Double?): OrderDetailReactDTO {
+
+        val freeDelivery = true
+
+        return OrderDetailReactDTO(
+            round(pedido.deliveryCost()),
+            round(pedido.applyTax()),
+            pedido.id,
+            toUserDTO(pedido.client),
+            pedido.pickupTime,
+            pedido.dishes.distinctBy { it.id }
+                .map { toPlateDTO(it, pedido.dishes) },
+            toAddressDTO(pedido.client.address),
+            pedido.paymentMethod,
+            pedido.dishes.size,
+            pedido.getOrderTotal(),
+            round(pedido.dishesCost()),
+            pedido.status,
+            pedido.local.name,
+            distance,
+            freeDelivery,
+        )
+    }
+
+
 
     fun toUserDTO(user: Client): UserOrderDTO {
         return UserOrderDTO(
