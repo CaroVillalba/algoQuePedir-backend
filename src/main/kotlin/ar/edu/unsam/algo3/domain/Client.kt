@@ -19,7 +19,8 @@ class Client(
     var nearbyDistance: Double = 5.0,
     var preferredRestaurants: MutableSet<Local> = mutableSetOf(),
     var clientType: ClientType = NormalClient(),
-    val pendingRatings: MutableSet<PendingRating> = mutableSetOf()
+    val pendingRatings: MutableSet<PendingRating> = mutableSetOf(),
+    var words: List<String> = listOf()
 ) : User(firstname, lastname, username, password, registrationDate, email, birthdate) {
 
     var commands = mutableListOf<ClientCommand>()

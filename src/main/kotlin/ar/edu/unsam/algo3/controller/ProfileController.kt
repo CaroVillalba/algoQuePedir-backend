@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.*
 class ProfileController( private val userService: UserService ) {
 
     @GetMapping
-    fun getUserProfile(username : String ) : ResponseEntity<UserDTO> {
+    fun getUserProfile(username: String): ResponseEntity<UserDTO> {
         val client = userService.getUserByUsername(username)
         return ResponseEntity.ok(UserMapper.toDTO(client))
     }
 
     @PostMapping
-    fun createProfile(@RequestBody dto : UserDTO): ResponseEntity<Void> {
+    fun createProfile(@RequestBody dto: UserDTO): ResponseEntity<Void> {
         val user = UserMapper.toEntity(dto)
         userService.createUser(user)
         return ResponseEntity.status(HttpStatus.CREATED).build()
@@ -31,10 +31,11 @@ class ProfileController( private val userService: UserService ) {
 
 
     @PatchMapping
-    fun updateProfile(@RequestBody dto : UserDTO) {
+    fun updateProfile(@RequestBody dto: UserDTO) {
         println(dto)
         val existingClient = userService.getUserByUsername(dto.username)
         val updatedClient = UserMapper.toUpdateEntity(dto, existingClient)
+        println(updatedClient)
         userService.updateProfile(updatedClient)
     }
 }
