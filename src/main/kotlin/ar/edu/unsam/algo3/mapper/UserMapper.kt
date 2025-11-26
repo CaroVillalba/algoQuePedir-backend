@@ -2,8 +2,18 @@ package ar.edu.unsam.algo3.mapper
 
 import ar.edu.unsam.algo3.domain.Address
 import ar.edu.unsam.algo3.domain.Client
+import ar.edu.unsam.algo3.domain.ClientAllTypes
+import ar.edu.unsam.algo3.domain.ClientType
+import ar.edu.unsam.algo3.domain.ConservativeClient
+import ar.edu.unsam.algo3.domain.ImpatientClient
+import ar.edu.unsam.algo3.domain.LoyalClient
+import ar.edu.unsam.algo3.domain.MarketingClient
+import ar.edu.unsam.algo3.domain.NormalClient
 import ar.edu.unsam.algo3.domain.PendingRating
+import ar.edu.unsam.algo3.domain.PickyClient
+import ar.edu.unsam.algo3.domain.VeganClient
 import ar.edu.unsam.algo3.dto.AddressDTO
+import ar.edu.unsam.algo3.dto.CriteriaDTO
 import ar.edu.unsam.algo3.dto.PendingRatingDTO
 import ar.edu.unsam.algo3.dto.UserDTO
 import ar.edu.unsam.algo3.exceptions.BusinessException
@@ -41,6 +51,7 @@ object UserMapper {
         exitingClient.location = dto.location
         exitingClient.preferredIngredients = dto.preferredIngredients
         exitingClient.ingredientsToAvoid = dto.ingredientsToAvoid
+        exitingClient.clientType = buildClientTypes(dto.criteria, exitingClient)
         return exitingClient
         }
 
@@ -68,7 +79,8 @@ object UserMapper {
                 pendingRating.local.getScore(),
                 pendingRating.lastOrderDate,
                     pendingRating.local.imgURL)
-            }.toMutableSet()
+            }.toMutableSet(),
+
         )
     }
 
@@ -80,4 +92,22 @@ object UserMapper {
         if (dto.address.coordinates.y !in -90.0..90.0) throw BusinessException("Latitud inválida")
         if (dto.address.coordinates.x !in -180.0..180.0) throw BusinessException("Longitud inválida")
     }
+    private fun buildClientTypes(criteria: CriteriaDTO?, client: Client): ClientType {
+        val types = mutableListOf<ClientType>()
+
+        if (criteria!!.vegan) types += VeganClient()
+        if (criteria!!.exquisite) types += PickyClient()
+        if (criteria!!.conservative) types += ConservativeClient()
+        //if (criteria.faithful) types += LoyalClient(criteria.preferredLocals.toSet()) // si lo implementás
+        if (criteria!!.marketing) types += MarketingClient(criteria!!.marketingWords.toSet())
+        if (criteria!!.impatient) types += ImpatientClient()
+
+        return when {
+            types.isEmpty() -> NormalClient()
+            types.size == 1 -> types.first()
+            else -> ClientAllTypes(types)
+        }
+    }
+
+
 }

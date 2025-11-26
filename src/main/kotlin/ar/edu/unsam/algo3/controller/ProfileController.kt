@@ -32,8 +32,10 @@ class ProfileController( private val userService: UserService ) {
 
     @PatchMapping
     fun updateProfile(@RequestBody dto : UserDTO) {
+        println(dto)
         val existingClient = userService.getUserByUsername(dto.username)
         val updatedClient = UserMapper.toUpdateEntity(dto, existingClient)
+        println(updatedClient)
         userService.updateProfile(updatedClient)
     }
 }
