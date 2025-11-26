@@ -3,9 +3,12 @@ package ar.edu.unsam.algo3.controller
 import ar.edu.unsam.algo3.domain.ClientRepository
 import ar.edu.unsam.algo3.domain.DishRepository
 import ar.edu.unsam.algo3.dto.OrderDTO
+import ar.edu.unsam.algo3.dto.OrderDetailReactDTO
 import ar.edu.unsam.algo3.domain.LocalRepository
 import ar.edu.unsam.algo3.dto.CheckoutOrderDTO
+import ar.edu.unsam.algo3.exceptions.BusinessException
 import ar.edu.unsam.algo3.mapper.OrderMapper
+import ar.edu.unsam.algo3.service.LocalService
 import ar.edu.unsam.algo3.service.OrderService
 import ar.edu.unsam.algo3.service.UserService
 import org.springframework.web.bind.annotation.*
@@ -20,6 +23,7 @@ import java.time.LocalTime
 class OrderController(
     private val orderService: OrderService,
     private val clientService: UserService,
+    private val localService: LocalService,
     private val localRepository: LocalRepository,
     private val dishRepository: DishRepository,
 ) {
@@ -35,9 +39,19 @@ class OrderController(
     }
 
     @GetMapping("/{orderId}")
-    fun get(@PathVariable orderId: Int): OrderDTO {
+    fun get(@PathVariable orderId: Int): OrderDetailReactDTO {
         val order = orderService.getByID(orderId)
-        return OrderMapper.toOrderDTO(order)
+
+        val local = order.local
+        /*val distanceKm = order.client.let { localService.getDistanceToClient(local, order.client.id!!) }*/
+
+        val distanceKm = try {
+            localService.getDistanceToClient(local, order.client.id!!)
+        } catch (e: BusinessException) {
+            null    // No hay dirección → distancia no disponible
+        }
+
+        return OrderMapper.toOrderDetailDTO(order, distanceKm)
     }
 
     @PostMapping
@@ -72,4 +86,6 @@ class OrderController(
     fun deleteOrder(@PathVariable orderId: Int) {
         orderService.deleteOrder(orderId)
     }
+
+
 }

@@ -22,3 +22,21 @@ data class OrderDTO (
     val state: OrderStatus,
     val localName: String
 )
+
+data class OrderDetailReactDTO (
+    val comission: Double,
+    val increment: Double,
+    val id: Int?,
+    val user: UserOrderDTO,
+    val time: LocalTime?,
+    val dishes: List<OrderDetailDTO>,
+    val direction: AddressDTO,
+    val paymentMethod: PaymentMethod,
+    val quantity: Int,
+    val total: Double,
+    val subtotal: Double,
+    val state: OrderStatus,
+    val localName: String,
+    val distanceKm: Double?,
+    val freeDelivery: Boolean
+)

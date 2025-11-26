@@ -1,7 +1,6 @@
 package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.domain.Client
-import ar.edu.unsam.algo3.domain.Local
 import ar.edu.unsam.algo3.dto.LocalAccountDTO
 import ar.edu.unsam.algo3.dto.LocalDTO
 import ar.edu.unsam.algo3.dto.LocalCheckoutDTO
