@@ -26,7 +26,8 @@ object LocalMapper {
             local.authorCommission,
             local.paymentMethods
                 .filter { it in setOf(PaymentMethod.EFECTIVO, PaymentMethod.QR, PaymentMethod.TRANSFERENCIA) }
-                .map { it.name.lowercase() }
+                .map { it.name.lowercase() },
+            local.getScore()
         )
     }
 
