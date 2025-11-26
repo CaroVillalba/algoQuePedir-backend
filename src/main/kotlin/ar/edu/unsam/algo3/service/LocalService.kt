@@ -3,6 +3,7 @@ package ar.edu.unsam.algo3.service
 import ar.edu.unsam.algo3.domain.Client
 import ar.edu.unsam.algo3.domain.Local
 import ar.edu.unsam.algo3.domain.LocalRepository
+import ar.edu.unsam.algo3.dto.LocalAccountDTO
 import ar.edu.unsam.algo3.dto.LocalDTO
 import ar.edu.unsam.algo3.exceptions.ElementDoesNotExistException
 import ar.edu.unsam.algo3.exceptions.BusinessException
@@ -23,6 +24,15 @@ class LocalService(private val localRepository: LocalRepository, private val use
         // por ejemplo por nombre (si es único) o tomando el último agregado
         val created = localRepository.elements.values.last() // último agregado
         return created
+    }
+
+    fun getPreferredLocals(dtos: MutableSet<LocalAccountDTO>?): MutableSet<Local?> {
+        if (dtos != null) {
+            return dtos.map { dto ->
+                dto.id?.let { getById(it) }
+            }.toMutableSet()
+        }
+        return mutableSetOf()
     }
 
     fun update(updatedLocal: Local) {

@@ -10,14 +10,14 @@ object CriteriaMapper {
             val resolved = if (client.age % 2 == 0) PickyClient() else ConservativeClient()
             return toDTO(resolved, client)
         }
-        // Primero detectamos si es un composite real
+
         val types: List<ClientType> = when (clientType) {
             is ClientAllTypes -> clientType.types
             else -> listOf(clientType)
         }
 
 
-        // Flags según aparición de tipos
+
         val isVegan = types.any { it is VeganClient }
         val isExquisite = types.any { it is PickyClient }
         val isConservative = types.any { it is ConservativeClient }
@@ -27,7 +27,6 @@ object CriteriaMapper {
         val clientDistance = client.nearbyDistance.toInt()
 
         val marketingWords = if (isMarketing) {
-            // Suponiendo que tu Cliente tenga una propiedad con las palabras, ej: client.marketingWords
             client.words
         } else {
             listOf()

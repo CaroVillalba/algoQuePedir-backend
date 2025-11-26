@@ -24,7 +24,7 @@ object UserMapper {
     }
 
 
-    fun toUpdateEntity(dto: UserDTO, exitingClient: Client ): Client {
+    fun toUpdateEntity(dto: UserDTO, exitingClient: Client, existingLocal: MutableSet<Local?> = mutableSetOf() ): Client {
         validate(dto)
 
         exitingClient.firstname = dto.firstname
@@ -40,19 +40,12 @@ object UserMapper {
         exitingClient.ingredientsToAvoid = dto.ingredientsToAvoid
         exitingClient.nearbyDistance = dto.criteria?.distance?.toDouble() ?: 0.0
         exitingClient.clientType = buildClientTypes(dto.criteria, exitingClient)
+        exitingClient.preferredRestaurants = (existingLocal ?: mutableSetOf()) as MutableSet<Local>
         exitingClient.words = dto.criteria?.marketingWords ?: listOf()
 
-        val preferred = dto.preferredRestaurants
-            ?: dto.criteria?.preferredRestaurants
-            ?: emptyList()
-
-        exitingClient.preferredRestaurants = preferred
-            .map { LocalMapper.toNewEntity(it) }
-            .toMutableSet()
-        println(">>> DTO trae preferredRestaurants: ${dto.preferredRestaurants?.map { it.id }}")
-        println("El usuario ahora tiene la siguiente distancia: ${exitingClient.nearbyDistance}")
         return exitingClient
         }
+
 
     fun ClientType.containsLoyalClient(): Boolean {
         return when (this) {
