@@ -22,6 +22,7 @@ repositories {
 
 dependencies {
     val kotestVersion = "5.8.0"
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.1")
 
     // básicos de cualquier proyecto Spring Boot
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -38,6 +39,8 @@ dependencies {
     // testing
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.mockk:mockk:1.13.9")
+    testImplementation("org.mockito:mockito-core")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
